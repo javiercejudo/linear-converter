@@ -1,0 +1,5 @@
+{
+  "temperature": {
+    "celsiusToFahrenheit": [[0, 100], [32, 212]]
+  }
+}
