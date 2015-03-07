@@ -1,5 +1,6 @@
 {
   "temperature": {
-    "celsiusToFahrenheit": [[0, 100], [32, 212]]
+    "celsiusToFahrenheit": [[0, 100], [32, 212]],
+    "celsiusToKelvin": [[0, 100], [273.15, 373.15]]
   }
 }

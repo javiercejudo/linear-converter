@@ -1,6 +1,6 @@
 {
   "name": "linear-converter",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Linear converter",
   "main": "src/convert.js",
   "scripts": {
