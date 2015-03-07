@@ -34,3 +34,5 @@ converter.convert(293.15, kelvinToFahrenheit); // => 68;
 ```
 
 See [spec](test/spec.js).
+
+See [all presets](src/presets.json).
