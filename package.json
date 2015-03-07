@@ -30,6 +30,7 @@
     "sinon": "^1.13.0"
   },
   "dependencies": {
-    "rescale": "~2.0.0"
+    "rescale": "~2.0.0",
+    "rescale-util": "~1.2.1"
   }
 }
