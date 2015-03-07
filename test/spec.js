@@ -9,11 +9,11 @@ var converter = require('../src/convert.js');
 
 describe('converter', function() {
   var celsiusToFahrenheit = converter.PRESETS.temperature.celsiusToFahrenheit;
-  var fahrenheitToCelsius = converter.invert(celsiusToFahrenheit);
+  var fahrenheitToCelsius = converter.invertPreset(celsiusToFahrenheit);
 
   var celsiusToKelvin = converter.PRESETS.temperature.celsiusToKelvin;
-  var kelvinToCelcius = converter.invert(celsiusToKelvin);
-  var kelvinToFahrenheit = converter.compose([kelvinToCelcius, celsiusToFahrenheit]);
+  var kelvinToCelcius = converter.invertPreset(celsiusToKelvin);
+  var kelvinToFahrenheit = converter.composePresets([kelvinToCelcius, celsiusToFahrenheit]);
 
   it.skip('should delegate to rescale', function () {
   });
