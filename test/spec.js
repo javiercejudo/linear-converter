@@ -208,3 +208,53 @@ describe('composing', function() {
     });
   });
 });
+
+describe('the built-in presets', function() {
+  it.skip('should include length', function() {
+    should(converter.PRESETS.length).be.an.Object.and.not.eql({});
+  });
+
+  it.skip('should include mass', function() {
+    should(converter.PRESETS.mass).be.an.Object.and.not.eql({});
+  });
+
+  it.skip('should include time', function() {
+    should(converter.PRESETS.time).be.an.Object.and.not.eql({});
+  });
+
+  it.skip('should include electric current', function() {
+    should(converter.PRESETS.electricCurrent).be.an.Object.and.not.eql({});
+  });
+
+  it('should include temperature', function() {
+    should(converter.PRESETS.temperature).be.an.Object.and.not.eql({});
+  });
+
+  it.skip('should include amount of substance', function() {
+    should(converter.PRESETS.amountOfSubstance).be.an.Object.and.not.eql({});
+  });
+
+  it.skip('should include luminous intensity', function() {
+    should(converter.PRESETS.luminousIntensity).be.an.Object.and.not.eql({});
+  });
+
+  it.skip('should include speed', function() {
+    should(converter.PRESETS.speed).be.an.Object.and.not.eql({});
+  });
+
+  it.skip('should include volume', function() {
+    should(converter.PRESETS.volume).be.an.Object.and.not.eql({});
+  });
+
+  it.skip('should include area', function() {
+    should(converter.PRESETS.area).be.an.Object.and.not.eql({});
+  });
+
+  it.skip('should include fuel consumption', function() {
+    should(converter.PRESETS.fuelConsumption).be.an.Object.and.not.eql({});
+  });
+
+  it.skip('should include digital storage', function() {
+    should(converter.PRESETS.digitalStorage).be.an.Object.and.not.eql({});
+  });
+});
