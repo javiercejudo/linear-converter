@@ -1,6 +1,11 @@
 {
   "temperature": {
     "celsiusToFahrenheit": [[0, 100], [32, 212]],
-    "celsiusToKelvin": [[0, 100], [273.15, 373.15]]
+    "celsiusToKelvin": [[0, 100], [273.15, 373.15]],
+    "celsiusToRankine": [[0, 100], [491.67, 671.67]],
+    "celsiusToDelisle": [[0, 100], [150, 0]],
+    "celsiusToNewton": [[0, 100], [0, 33]],
+    "celsiusToReaumur": [[0, 100], [0, 80]],
+    "celsiusToRomer": [[0, 100], [7.5, 60]]
   }
 }

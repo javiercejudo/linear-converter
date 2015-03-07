@@ -210,6 +210,11 @@ describe('composing', function() {
 });
 
 describe('the built-in presets', function() {
+  var presets = converter.PRESETS;
+  var convert = converter.convert;
+  var invert = converter.invertPreset;
+  var compose = converter.composePresets;
+
   it.skip('should include length', function() {
     should(converter.PRESETS.length).be.an.Object.and.not.eql({});
   });
@@ -227,7 +232,37 @@ describe('the built-in presets', function() {
   });
 
   it('should include temperature', function() {
-    should(converter.PRESETS.temperature).be.an.Object.and.not.eql({});
+    var temperaturePresets = presets.temperature;
+
+    should(temperaturePresets).be.an.Object.and.not.eql({});
+
+    var celsiusToFahrenheit = temperaturePresets.celsiusToFahrenheit;
+    var celsiusToKelvin = temperaturePresets.celsiusToKelvin;
+    var celsiusToRankine = temperaturePresets.celsiusToRankine;
+    var celsiusToDelisle = temperaturePresets.celsiusToDelisle;
+    var celsiusToNewton = temperaturePresets.celsiusToNewton;
+    var celsiusToReaumur = temperaturePresets.celsiusToReaumur;
+    var celsiusToRomer = temperaturePresets.celsiusToRomer;
+
+    convert(40, celsiusToKelvin).should.be.exactly(313.15);
+
+    var kelvinToFahrenheit = compose([invert(celsiusToKelvin), celsiusToFahrenheit]);
+    convert(313.15, kelvinToFahrenheit).should.be.exactly(104);
+
+    var fahrenheitToRankine = compose([invert(celsiusToFahrenheit), celsiusToRankine]);
+    convert(104, fahrenheitToRankine).should.be.exactly(563.67);
+
+    var rankineToRomer = compose([invert(celsiusToRankine), celsiusToRomer]);
+    convert(563.67, rankineToRomer).toFixed(13).should.be.exactly((28.5).toFixed(13));
+
+    var romerToNewton = compose([invert(celsiusToRomer), celsiusToNewton]);
+    convert(28.5, romerToNewton).toFixed(13).should.be.exactly((13.2).toFixed(13));
+
+    var newtonToDelisle = compose([invert(celsiusToNewton), celsiusToDelisle]);
+    convert(13.2, newtonToDelisle).should.be.exactly(90);
+
+    var delisleToReaumur = compose([invert(celsiusToDelisle), celsiusToReaumur]);
+    convert(90, delisleToReaumur).should.be.exactly(32);
   });
 
   it.skip('should include amount of substance', function() {
