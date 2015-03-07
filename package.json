@@ -31,6 +31,6 @@
   },
   "dependencies": {
     "rescale": "~2.0.0",
-    "rescale-util": "~1.2.1"
+    "rescale-util": "~1.3.1"
   }
 }

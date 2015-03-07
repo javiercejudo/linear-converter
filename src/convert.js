@@ -29,13 +29,9 @@ exports.invertPreset = function invertPreset(preset) {
 };
 
 exports.composePresets = function composePresets(presets) {
-  if (!util.isArray(presets)) {
-    throw new Error('expected an Array of presets');
+  if (!rescaleUtil.areValidPresets(presets)) {
+    throw new Error(rescaleUtil.getLastError());
   }
-
-  presets.forEach(function (preset) {
-    return rescaleUtil.isValidPreset(preset);
-  });
 
   return presets.reduce(function (previousPreset, currentPreset) {
     return [

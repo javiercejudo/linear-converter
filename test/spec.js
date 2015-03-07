@@ -137,10 +137,21 @@ describe('inverting', function() {
 
 describe('composing', function() {
   describe('with invalid input', function() {
+    var getLastErrorStub;
+
+    beforeEach(function() {
+      getLastErrorStub = sinon.stub(rescaleUtil, 'getLastError');
+      getLastErrorStub.returns('some other error');
+    });
+
+    afterEach(function() {
+      getLastErrorStub.restore();
+    });
+
     it('should throw an error', function() {
       (function() {
         converter.composePresets(2, 2);
-      }).should.throw('expected an Array of presets');
+      }).should.throw('some other error');
     });
   });
 
@@ -154,17 +165,37 @@ describe('composing', function() {
     it('should delegate their validation to rescale-util', function() {
       rescaleUtilMock = sinon.mock(rescaleUtil);
 
-      rescaleUtilMock.expects('isValidPreset')
-        .withExactArgs([[0, 5], [0, 10]]).returns(true);
-
-      rescaleUtilMock.expects('isValidPreset')
-        .withExactArgs([[-5, 1], [Math.E, 10.2]]).returns(true);
+      rescaleUtilMock.expects('areValidPresets')
+        .withExactArgs([[[0, 5], [0, 10]], [[-5, 1], [Math.E, 10.2]]]).returns(true);
 
       converter.composePresets([[[0, 5], [0, 10]], [[-5, 1], [Math.E, 10.2]]]);
     });
   });
 
-  describe('with valid input', function() {
+  describe('with invalid presets', function() {
+    var areValidPresetsStub, getLastErrorStub;
+
+    beforeEach(function() {
+      areValidPresetsStub = sinon.stub(rescaleUtil, 'areValidPresets');
+      getLastErrorStub = sinon.stub(rescaleUtil, 'getLastError');
+
+      areValidPresetsStub.returns(false);
+      getLastErrorStub.returns('yet another error');
+    });
+
+    afterEach(function() {
+      areValidPresetsStub.restore();
+      getLastErrorStub.restore();
+    });
+
+    it('should throw an error', function() {
+      (function() {
+        converter.composePresets([[[0, 10], [10, Infinity]], [[10, 20], [50, 60]]]);
+      }).should.throw('yet another error');
+    });
+  });
+
+  describe('with valid presets', function() {
     it('should compose the presets', function() {
       converter.composePresets([[[0, 10], [10, 20]], [[10, 20], [50, 60]]])
         .should.eql([[0, 10], [50, 60]]);
