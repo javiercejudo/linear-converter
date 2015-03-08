@@ -223,8 +223,8 @@ describe('built-in presets', function() {
       .and.exactly(convert(42195000, invert(lengthPresets.metreToMillimetre)), 'metreToMillimetre')
       .and.approximately(convert(26.218757, invert(lengthPresets.metreToMile)), 10e-4, 'metreToMile')
       .and.approximately(convert(46145.013, invert(lengthPresets.metreToYard)), 10e-4, 'metreToYard')
-      .and.approximately(convert(138435.04, invert(lengthPresets.metreToFoot)), 10e-3, 'metreToFoot')
-      .and.approximately(convert(1661220.5, invert(lengthPresets.metreToInch)), 10e-2, 'metreToInch')
+      .and.approximately(convert(138435.04, invert(lengthPresets.metreToFoot)), 10e-4, 'metreToFoot')
+      .and.approximately(convert(1661220.5, invert(lengthPresets.metreToInch)), 10e-4, 'metreToInch')
       .and.approximately(convert(22.783477, invert(lengthPresets.metreToNauticalMile)), 10e-4, 'metreToNauticalMile');
   });
 
@@ -235,7 +235,7 @@ describe('built-in presets', function() {
       .and.exactly(convert(10000, invert(massPresets.kilogramToGram)), 'kilogramToGram')
       .and.exactly(convert(1e+7, invert(massPresets.kilogramToMilligram)), 'kilogramToMilligram')
       .and.exactly(convert(1e+10, invert(massPresets.kilogramToMicrogram)), 'kilogramToMicrogram')
-      .and.approximately(convert(0.00984207, invert(massPresets.kilogramToLongTon)), 10e-6, 'kilogramToLongTon')
+      .and.approximately(convert(0.0098420, invert(massPresets.kilogramToLongTon)), 10e-4, 'kilogramToLongTon')
       .and.approximately(convert(0.0110231, invert(massPresets.kilogramToShortTon)), 10e-5, 'kilogramToShortTon')
       .and.approximately(convert(1.57473, invert(massPresets.kilogramToStone)), 10e-6, 'kilogramToStone')
       .and.approximately(convert(22.0462, invert(massPresets.kilogramToPound)), 10e-5, 'kilogramToPound')

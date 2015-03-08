@@ -12,21 +12,21 @@
     "metreToKilometre": [[0, 1000], [0, 1]],
     "metreToCentimetre": [[0, 1], [0, 100]],
     "metreToMillimetre": [[0, 1], [0, 1000]],
-    "metreToMile": [[0, 1000000000000000], [0, 621371192237.333984]],
-    "metreToYard": [[0, 1000000000000000], [0, 1093613298337707.75]],
-    "metreToFoot": [[0, 100000], [0, 328084]],
-    "metreToInch": [[0, 10000], [0, 393701]],
-    "metreToNauticalMile": [[0, 1852000], [0, 1000]]
+    "metreToMile": [[0, 1609.344], [0, 1]],
+    "metreToYard": [[0, 0.9144], [0, 1]],
+    "metreToFoot": [[0, 0.3048], [0, 1]],
+    "metreToInch": [[0, 0.0254], [0, 1]],
+    "metreToNauticalMile": [[0, 1852], [0, 1]]
   },
   "mass": {
     "kilogramToMetricTon": [[0, 1000], [0, 1]],
     "kilogramToGram": [[0, 1], [0, 1000]],
     "kilogramToMilligram": [[0, 1], [0, 1e+6]],
     "kilogramToMicrogram": [[0, 1], [0, 1e+9]],
-    "kilogramToLongTon": [[0, 1000000000000000], [0, 984206527611.060547]],
-    "kilogramToShortTon": [[0, 1000000000000000], [0, 1102311310924.38794]],
-    "kilogramToStone": [[0, 1000000000000000], [0, 157473044417769.688]],
-    "kilogramToPound": [[0, 1000000000000000], [0, 2204622621848775.75]],
-    "kilogramToOunce": [[0, 250000000000000], [0, 8818490487395103]]
+    "kilogramToLongTon": [[0, 1016], [0, 1]],
+    "kilogramToShortTon": [[0, 907.18474], [0, 1]],
+    "kilogramToStone": [[0, 6.35029318], [0, 1]],
+    "kilogramToPound": [[0, 0.45359237], [0, 1]],
+    "kilogramToOunce": [[0, 0.02834952312], [0, 1]]
   }
 }
