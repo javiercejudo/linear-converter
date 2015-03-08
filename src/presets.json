@@ -9,13 +9,24 @@
     "celsiusToRomer": [[0, 100], [7.5, 60]]
   },
   "distance": {
-    "kilometreToMetre": [[0, 1], [0, 1000]],
-    "kilometreToCentimetre": [[0, 1], [0, 1e+5]],
-    "kilometreToMillimetre": [[0, 1], [0, 1e+6]],
-    "kilometreToMile": [[0, 1609344], [0, 1e+6]],
-    "kilometreToYard": [[0, 100], [0, 109361]],
-    "kilometreToFoot": [[0, 100], [0, 328084]],
-    "kilometreToInch": [[0, 10], [0, 393701]],
-    "kilometreToNauticalMile": [[0, 1852], [0, 1000]]
+    "metreToKilometre": [[0, 1000], [0, 1]],
+    "metreToCentimetre": [[0, 1], [0, 100]],
+    "metreToMillimetre": [[0, 1], [0, 1000]],
+    "metreToMile": [[0, 1000000000000000], [0, 621371192237.333984]],
+    "metreToYard": [[0, 1000000000000000], [0, 1093613298337707.75]],
+    "metreToFoot": [[0, 100000], [0, 328084]],
+    "metreToInch": [[0, 10000], [0, 393701]],
+    "metreToNauticalMile": [[0, 1852000], [0, 1000]]
+  },
+  "mass": {
+    "kilogramToMetricTon": [[0, 1000], [0, 1]],
+    "kilogramToGram": [[0, 1], [0, 1000]],
+    "kilogramToMilligram": [[0, 1], [0, 1e+6]],
+    "kilogramToMicrogram": [[0, 1], [0, 1e+9]],
+    "kilogramToLongTon": [[0, 1000000000000000], [0, 984206527611.060547]],
+    "kilogramToShortTon": [[0, 1000000000000000], [0, 1102311310924.38794]],
+    "kilogramToStone": [[0, 1000000000000000], [0, 157473044417769.688]],
+    "kilogramToPound": [[0, 1000000000000000], [0, 2204622621848775.75]],
+    "kilogramToOunce": [[0, 250000000000000], [0, 8818490487395103]]
   }
 }

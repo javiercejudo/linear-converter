@@ -218,18 +218,28 @@ describe('built-in presets', function() {
   it('should include length', function() {
     var lengthPresets = presets.distance;
 
-    (42.195).should.be.exactly(convert(42195, invert(lengthPresets.kilometreToMetre)), 'kilometreToMetre')
-      .and.exactly(convert(4219500, invert(lengthPresets.kilometreToCentimetre)), 'kilometreToCentimetre')
-      .and.exactly(convert(42195000, invert(lengthPresets.kilometreToMillimetre)), 'kilometreToMillimetre')
-      .and.approximately(convert(26.2187575, invert(lengthPresets.kilometreToMile)), 10e-8, 'kilometreToMile')
-      .and.approximately(convert(46145.0131, invert(lengthPresets.kilometreToYard)), 10e-4, 'kilometreToYard')
-      .and.approximately(convert(138435.039, invert(lengthPresets.kilometreToFoot)), 10e-6, 'kilometreToFoot')
-      .and.approximately(convert(1661220.47, invert(lengthPresets.kilometreToInch)), 10e-5, 'kilometreToInch')
-      .and.approximately(convert(22.7834773, invert(lengthPresets.kilometreToNauticalMile)), 10e-8, 'kilometreToNauticalMile');
+    (42195).should.be.exactly(convert(42.195, invert(lengthPresets.metreToKilometre)), 'metreToKilometre')
+      .and.exactly(convert(4219500, invert(lengthPresets.metreToCentimetre)), 'metreToCentimetre')
+      .and.exactly(convert(42195000, invert(lengthPresets.metreToMillimetre)), 'metreToMillimetre')
+      .and.approximately(convert(26.218757, invert(lengthPresets.metreToMile)), 10e-4, 'metreToMile')
+      .and.approximately(convert(46145.013, invert(lengthPresets.metreToYard)), 10e-4, 'metreToYard')
+      .and.approximately(convert(138435.04, invert(lengthPresets.metreToFoot)), 10e-3, 'metreToFoot')
+      .and.approximately(convert(1661220.5, invert(lengthPresets.metreToInch)), 10e-2, 'metreToInch')
+      .and.approximately(convert(22.783477, invert(lengthPresets.metreToNauticalMile)), 10e-4, 'metreToNauticalMile');
   });
 
-  it.skip('should include mass', function() {
-    should(converter.PRESETS.mass).be.an.Object.and.not.eql({});
+  it('should include mass', function() {
+    var massPresets = presets.mass;
+
+    (10).should.be.exactly(convert(0.01, invert(massPresets.kilogramToMetricTon)), 'kilogramToMetricTon')
+      .and.exactly(convert(10000, invert(massPresets.kilogramToGram)), 'kilogramToGram')
+      .and.exactly(convert(1e+7, invert(massPresets.kilogramToMilligram)), 'kilogramToMilligram')
+      .and.exactly(convert(1e+10, invert(massPresets.kilogramToMicrogram)))
+      .and.approximately(convert(0.00984207, invert(massPresets.kilogramToLongTon)), 10e-6)
+      .and.approximately(convert(0.0110231, invert(massPresets.kilogramToShortTon)), 10e-5, 'kilogramToShortTon')
+      .and.approximately(convert(1.57473, invert(massPresets.kilogramToStone)), 10e-6, 'kilogramToStone')
+      .and.approximately(convert(22.0462, invert(massPresets.kilogramToPound)), 10e-5, 'kilogramToPound')
+      .and.approximately(convert(352.74, invert(massPresets.kilogramToOunce)), 10e-5, 'kilogramToOunce');
   });
 
   it.skip('should include time', function() {
