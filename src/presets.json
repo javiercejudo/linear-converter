@@ -7,5 +7,15 @@
     "celsiusToNewton": [[0, 100], [0, 33]],
     "celsiusToReaumur": [[0, 100], [0, 80]],
     "celsiusToRomer": [[0, 100], [7.5, 60]]
+  },
+  "distance": {
+    "kilometreToMetre": [[0, 1], [0, 1000]],
+    "kilometreToCentimetre": [[0, 1], [0, 1e+5]],
+    "kilometreToMillimetre": [[0, 1], [0, 1e+6]],
+    "kilometreToMile": [[0, 1609344], [0, 1e+6]],
+    "kilometreToYard": [[0, 100], [0, 109361]],
+    "kilometreToFoot": [[0, 100], [0, 328084]],
+    "kilometreToInch": [[0, 10], [0, 393701]],
+    "kilometreToNauticalMile": [[0, 1852], [0, 1000]]
   }
 }

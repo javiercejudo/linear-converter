@@ -209,14 +209,23 @@ describe('composing', function() {
   });
 });
 
-describe('the built-in presets', function() {
+describe('built-in presets', function() {
   var presets = converter.PRESETS;
   var convert = converter.convert;
   var invert = converter.invertPreset;
   var compose = converter.composePresets;
 
-  it.skip('should include length', function() {
-    should(converter.PRESETS.length).be.an.Object.and.not.eql({});
+  it('should include length', function() {
+    var lengthPresets = presets.distance;
+
+    (42.195).should.be.exactly(convert(42195, invert(lengthPresets.kilometreToMetre)), 'kilometreToMetre')
+      .and.exactly(convert(4219500, invert(lengthPresets.kilometreToCentimetre)), 'kilometreToCentimetre')
+      .and.exactly(convert(42195000, invert(lengthPresets.kilometreToMillimetre)), 'kilometreToMillimetre')
+      .and.approximately(convert(26.2187575, invert(lengthPresets.kilometreToMile)), 10e-8, 'kilometreToMile')
+      .and.approximately(convert(46145.0131, invert(lengthPresets.kilometreToYard)), 10e-4, 'kilometreToYard')
+      .and.approximately(convert(138435.039, invert(lengthPresets.kilometreToFoot)), 10e-6, 'kilometreToFoot')
+      .and.approximately(convert(1661220.47, invert(lengthPresets.kilometreToInch)), 10e-5, 'kilometreToInch')
+      .and.approximately(convert(22.7834773, invert(lengthPresets.kilometreToNauticalMile)), 10e-8, 'kilometreToNauticalMile');
   });
 
   it.skip('should include mass', function() {
@@ -234,35 +243,13 @@ describe('the built-in presets', function() {
   it('should include temperature', function() {
     var temperaturePresets = presets.temperature;
 
-    should(temperaturePresets).be.an.Object.and.not.eql({});
-
-    var celsiusToFahrenheit = temperaturePresets.celsiusToFahrenheit;
-    var celsiusToKelvin = temperaturePresets.celsiusToKelvin;
-    var celsiusToRankine = temperaturePresets.celsiusToRankine;
-    var celsiusToDelisle = temperaturePresets.celsiusToDelisle;
-    var celsiusToNewton = temperaturePresets.celsiusToNewton;
-    var celsiusToReaumur = temperaturePresets.celsiusToReaumur;
-    var celsiusToRomer = temperaturePresets.celsiusToRomer;
-
-    convert(40, celsiusToKelvin).should.be.exactly(313.15);
-
-    var kelvinToFahrenheit = compose([invert(celsiusToKelvin), celsiusToFahrenheit]);
-    convert(313.15, kelvinToFahrenheit).should.be.exactly(104);
-
-    var fahrenheitToRankine = compose([invert(celsiusToFahrenheit), celsiusToRankine]);
-    convert(104, fahrenheitToRankine).should.be.exactly(563.67);
-
-    var rankineToRomer = compose([invert(celsiusToRankine), celsiusToRomer]);
-    convert(563.67, rankineToRomer).toFixed(13).should.be.exactly((28.5).toFixed(13));
-
-    var romerToNewton = compose([invert(celsiusToRomer), celsiusToNewton]);
-    convert(28.5, romerToNewton).toFixed(13).should.be.exactly((13.2).toFixed(13));
-
-    var newtonToDelisle = compose([invert(celsiusToNewton), celsiusToDelisle]);
-    convert(13.2, newtonToDelisle).should.be.exactly(90);
-
-    var delisleToReaumur = compose([invert(celsiusToDelisle), celsiusToReaumur]);
-    convert(90, delisleToReaumur).should.be.exactly(32);
+    (40).should.be.exactly(convert(104, invert(temperaturePresets.celsiusToFahrenheit)), 'celsiusToFahrenheit')
+      .and.exactly(convert(313.15, invert(temperaturePresets.celsiusToKelvin)), 'celsiusToKelvin')
+      .and.approximately(convert(563.67, invert(temperaturePresets.celsiusToRankine)), 10e-14, 'celsiusToRankine')
+      .and.exactly(convert(90, invert(temperaturePresets.celsiusToDelisle)), 'celsiusToDelisle')
+      .and.exactly(convert(13.2, invert(temperaturePresets.celsiusToNewton)), 'celsiusToNewton')
+      .and.exactly(convert(32, invert(temperaturePresets.celsiusToReaumur)), 'celsiusToReaumur')
+      .and.exactly(convert(28.5, invert(temperaturePresets.celsiusToRomer)), 'celsiusToRomer');
   });
 
   it.skip('should include amount of substance', function() {
