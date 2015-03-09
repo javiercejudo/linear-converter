@@ -21,13 +21,13 @@ var convert = converter.convert;
 
 var temp = converter.PRESETS.temperature;
 
-convert(25, temp.celsiusToFahrenheit); // => 77
+convert(25, temp.celsiusToFahrenheit).should.be.exactly(77);
 
 // easy inversion of presets
 
-var invert = converter.inverPreset;
+var invert = converter.invertPreset;
 
-converter.convert(77, invert(temp.celsiusToFahrenheit)); // => 24
+converter.convert(77, invert(temp.celsiusToFahrenheit)).should.be.exactly(25);
 
 // convert presets any to any using inversion and composition
 
@@ -38,7 +38,7 @@ var kelvinToFahrenheit = compose([
   temp.celsiusToFahrenheit
 ]);
 
-converter.convert(293.15, kelvinToFahrenheit); // => 68;
+converter.convert(293.15, kelvinToFahrenheit).should.be.exactly(68);
 ```
 
 See [spec](test/spec.js).
