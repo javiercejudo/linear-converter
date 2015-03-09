@@ -2,7 +2,6 @@
 
 'use strict';
 
-var util = require('util');
 var rescale = require('rescale');
 var rescaleUtil = require('rescale-util');
 
