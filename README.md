@@ -18,6 +18,6 @@ converter.convert(25, converter.PRESETS.temperature.celsiusToFahrenheit); // => 
 
 ## See more
 
-- [walk-through](test/walk-through.js).
-- [spec](test/spec.js).
-- [all presets](src/presets.json).
+- [walk-through](test/walk-through.js)
+- [spec](test/spec.js)
+- [all presets](src/presets.json)
