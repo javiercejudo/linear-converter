@@ -8,39 +8,16 @@ Flexible linear converter with built in conversions for common units
 
     npm i linear-converter
 
-## Walk-through
+## Basic usage
 
 ```js
 var converter = require('convert');
 
-// main converter method
-
-var convert = converter.convert;
-
-// built-in presets for temperature, length, mass and more
-
-var temp = converter.PRESETS.temperature;
-
-convert(25, temp.celsiusToFahrenheit).should.be.exactly(77);
-
-// easy inversion of presets
-
-var invert = converter.invertPreset;
-
-converter.convert(77, invert(temp.celsiusToFahrenheit)).should.be.exactly(25);
-
-// convert presets any to any using inversion and composition
-
-var compose = converter.composePresets;
-
-var kelvinToFahrenheit = compose([
-  invert(temp.celsiusToKelvin),
-  temp.celsiusToFahrenheit
-]);
-
-converter.convert(293.15, kelvinToFahrenheit).should.be.exactly(68);
+converter.convert(25, converter.PRESETS.temperature.celsiusToFahrenheit); // => 77
 ```
 
-See [spec](test/spec.js).
+## See more
 
-See [all presets](src/presets.json).
+- [walk-through](test/walk-through.js).
+- [spec](test/spec.js).
+- [all presets](src/presets.json).
