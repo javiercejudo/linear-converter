@@ -24,6 +24,7 @@
   },
   "homepage": "https://github.com/javiercejudo/linear-converter",
   "devDependencies": {
+    "camel-case": "^1.1.1",
     "gulp": "^3.8.11",
     "gulp-mocha": "^2.0.0",
     "should": "^5.0.0",
