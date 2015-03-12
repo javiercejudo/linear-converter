@@ -5,3 +5,5 @@ before_install:
   - npm install -g gulp
 script:
   - gulp test
+after_success:
+  - gulp coveralls

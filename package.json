@@ -4,7 +4,7 @@
   "description": "Linear converter",
   "main": "src/convert.js",
   "scripts": {
-    "test": "gulp test && gulp coveralls"
+    "test": "gulp test"
   },
   "repository": {
     "type": "git",
