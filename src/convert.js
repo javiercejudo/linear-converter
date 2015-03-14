@@ -5,6 +5,8 @@
 var rescale = require('rescale');
 var rescaleUtil = require('rescale-util');
 
+var RescaleError = rescaleUtil.RescaleError;
+
 exports.PRESETS = require('./presets.json');
 
 exports.convert = function convert(x, preset) {
@@ -13,7 +15,7 @@ exports.convert = function convert(x, preset) {
   }
 
   if (!rescaleUtil.isValidPreset(preset)) {
-    throw new Error(rescaleUtil.getLastError());
+    throw new RescaleError(rescaleUtil.getLastError());
   }
 
   return rescale.rescale(x, preset[0], preset[1]);
@@ -21,7 +23,7 @@ exports.convert = function convert(x, preset) {
 
 exports.invertPreset = function invertPreset(preset) {
   if (!rescaleUtil.isValidPreset(preset)) {
-    throw new Error(rescaleUtil.getLastError());
+    throw new RescaleError(rescaleUtil.getLastError());
   }
 
   return preset.slice(0).reverse();
@@ -29,7 +31,7 @@ exports.invertPreset = function invertPreset(preset) {
 
 exports.composePresets = function composePresets(presets) {
   if (!rescaleUtil.areValidPresets(presets)) {
-    throw new Error(rescaleUtil.getLastError());
+    throw new RescaleError(rescaleUtil.getLastError());
   }
 
   return presets.reduce(function (previousPreset, currentPreset) {

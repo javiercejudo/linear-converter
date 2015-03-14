@@ -23,7 +23,7 @@ exports.throwAnError = function() {
   it('should throw an error', function() {
     (function() {
       compose(2, 2);
-    }).should.throw('some other error');
+    }).should.throw(rescaleUtil.RescaleError, {message: 'some other error'});
   });
 };
 

@@ -76,6 +76,6 @@ exports.throwAnError = function() {
   it('should throw an error', function() {
     (function() {
       convert(2, 2);
-    }).should.throw('an error');
+    }).should.throw(rescaleUtil.RescaleError, {message: 'an error'});
   });
 };

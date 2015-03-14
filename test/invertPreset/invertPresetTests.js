@@ -48,7 +48,7 @@ exports.throwAnError = function() {
   it('should throw an error', function() {
     (function() {
       invert(2, 2);
-    }).should.throw('some error');
+    }).should.throw(rescaleUtil.RescaleError, {message: 'some error'});
   });
 };
 
