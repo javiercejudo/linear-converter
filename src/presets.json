@@ -1,4 +1,22 @@
 {
+  "metricPrefixes": {
+    "noneToExa": [[0, 1e+18], [0, 1]],
+    "noneToPeta": [[0, 1e+15], [0, 1]],
+    "noneToTera": [[0, 1e+12], [0, 1]],
+    "noneToGiga": [[0, 1e+9], [0, 1]],
+    "noneToMega": [[0, 1e+6], [0, 1]],
+    "noneToKilo": [[0, 1000], [0, 1]],
+    "noneToHecto": [[0, 100], [0, 1]],
+    "noneToDeca": [[0, 10], [0, 1]],
+    "noneToDeci": [[0, 1], [0, 10]],
+    "noneToCenti": [[0, 1], [0, 100]],
+    "noneToMilli": [[0, 1], [0, 1000]],
+    "noneToMicro": [[0, 1], [0, 1e+6]],
+    "noneToNano": [[0, 1], [0, 1e+9]],
+    "noneToPico": [[0, 1], [0, 1e+12]],
+    "noneToFemto": [[0, 1], [0, 1e+15]],
+    "noneToAtto": [[0, 1], [0, 1e+18]]
+  },
   "temperature": {
     "celsiusToFahrenheit": [[0, 100], [32, 212]],
     "celsiusToKelvin": [[0, 100], [273.15, 373.15]],
@@ -42,5 +60,8 @@
     "secondToDecade": [[0, 315569520], [0, 1]],
     "secondToCentury": [[0, 3155695200], [0, 1]],
     "secondToMillennium": [[0, 31556952000], [0, 1]]
+  },
+  "electricCurrent": {
+    "ampereToAbampere": [[0, 10], [0, 1]]
   }
 }

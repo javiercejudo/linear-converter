@@ -12,6 +12,44 @@ var convert = converter.convert;
 var invert = converter.invertPreset;
 
 describe('built-in presets', function() {
+  it('should include metric prefixes', function() {
+    var metric = presets.metricPrefixes;
+
+    (1).should.be.exactly(convert(1e-18, invert(metric.noneToExa)), 'noneToExa')
+      .and.exactly(convert(1e-15, invert(metric.noneToPeta)), 'noneToPeta')
+      .and.exactly(convert(1e-12, invert(metric.noneToTera)), 'noneToTera')
+      .and.exactly(convert(1e-9, invert(metric.noneToGiga)), 'noneToGiga')
+      .and.exactly(convert(1e-6, invert(metric.noneToMega)), 'noneToMega')
+      .and.exactly(convert(0.001, invert(metric.noneToKilo)), 'noneToKilo')
+      .and.exactly(convert(0.01, invert(metric.noneToHecto)), 'noneToHecto')
+      .and.exactly(convert(0.1, invert(metric.noneToDeca)), 'noneToDeca')
+      .and.exactly(convert(10, invert(metric.noneToDeci)), 'noneToDeci')
+      .and.exactly(convert(100, invert(metric.noneToCenti)), 'noneToCenti')
+      .and.exactly(convert(1000, invert(metric.noneToMilli)), 'noneToMilli')
+      .and.exactly(convert(1e+6, invert(metric.noneToMicro)), 'noneToMicro')
+      .and.exactly(convert(1e+9, invert(metric.noneToNano)), 'noneToNano')
+      .and.exactly(convert(1e+12, invert(metric.noneToPico)), 'noneToPico')
+      .and.exactly(convert(1e+15, invert(metric.noneToFemto)), 'noneToFemto')
+      .and.exactly(convert(1e+18, invert(metric.noneToAtto)), 'noneToAtto');
+
+    (0).should.be.exactly(convert(0, metric.noneToExa), 'noneToExa')
+      .and.exactly(convert(0, metric.noneToPeta), 'noneToPeta')
+      .and.exactly(convert(0, metric.noneToTera), 'noneToTera')
+      .and.exactly(convert(0, metric.noneToGiga), 'noneToGiga')
+      .and.exactly(convert(0, metric.noneToMega), 'noneToMega')
+      .and.exactly(convert(0, metric.noneToKilo), 'noneToKilo')
+      .and.exactly(convert(0, metric.noneToHecto), 'noneToHecto')
+      .and.exactly(convert(0, metric.noneToDeca), 'noneToDeca')
+      .and.exactly(convert(0, metric.noneToDeci), 'noneToDeci')
+      .and.exactly(convert(0, metric.noneToCenti), 'noneToCenti')
+      .and.exactly(convert(0, metric.noneToMilli), 'noneToMilli')
+      .and.exactly(convert(0, metric.noneToMicro), 'noneToMicro')
+      .and.exactly(convert(0, metric.noneToNano), 'noneToNano')
+      .and.exactly(convert(0, metric.noneToPico), 'noneToPico')
+      .and.exactly(convert(0, metric.noneToFemto), 'noneToFemto')
+      .and.exactly(convert(0, metric.noneToAtto), 'noneToAtto');
+  });
+
   it('should include length', function() {
     var length = presets.distance;
 
@@ -23,6 +61,15 @@ describe('built-in presets', function() {
       .and.approximately(convert(138435.04, invert(length.metreToFoot)), 10e-4, 'metreToFoot')
       .and.approximately(convert(1661220.5, invert(length.metreToInch)), 10e-4, 'metreToInch')
       .and.approximately(convert(22.783477, invert(length.metreToNauticalMile)), 10e-4, 'metreToNauticalMile');
+
+    (0).should.be.exactly(convert(0, length.metreToKilometre), 'metreToKilometre')
+      .and.exactly(convert(0, length.metreToCentimetre), 'metreToCentimetre')
+      .and.exactly(convert(0, length.metreToMillimetre), 'metreToMillimetre')
+      .and.exactly(convert(0, length.metreToMile), 'metreToMile')
+      .and.exactly(convert(0, length.metreToYard), 'metreToYard')
+      .and.exactly(convert(0, length.metreToFoot), 'metreToFoot')
+      .and.exactly(convert(0, length.metreToInch), 'metreToInch')
+      .and.exactly(convert(0, length.metreToNauticalMile), 'metreToNauticalMile');
   });
 
   it('should include mass', function() {
@@ -37,6 +84,16 @@ describe('built-in presets', function() {
       .and.approximately(convert(1.57473, invert(mass.kilogramToStone)), 10e-6, 'kilogramToStone')
       .and.approximately(convert(22.0462, invert(mass.kilogramToPound)), 10e-5, 'kilogramToPound')
       .and.approximately(convert(352.74, invert(mass.kilogramToOunce)), 10e-5, 'kilogramToOunce');
+
+    (0).should.be.exactly(convert(0, mass.kilogramToMetricTon), 'kilogramToMetricTon')
+      .and.exactly(convert(0, mass.kilogramToGram), 'kilogramToGram')
+      .and.exactly(convert(0, mass.kilogramToMilligram), 'kilogramToMilligram')
+      .and.exactly(convert(0, mass.kilogramToMicrogram), 'kilogramToMicrogram')
+      .and.exactly(convert(0, mass.kilogramToLongTon), 'kilogramToLongTon')
+      .and.exactly(convert(0, mass.kilogramToShortTon), 'kilogramToShortTon')
+      .and.exactly(convert(0, mass.kilogramToStone), 'kilogramToStone')
+      .and.exactly(convert(0, mass.kilogramToPound), 'kilogramToPound')
+      .and.exactly(convert(0, mass.kilogramToOunce), 'kilogramToOunce');
   });
 
   it('should include time', function() {
@@ -55,10 +112,27 @@ describe('built-in presets', function() {
       .and.exactly(convert(0.0008213721020965523, invert(time.secondToDecade)), 'secondToDecade')
       .and.exactly(convert(0.00008213721020965523, invert(time.secondToCentury)), 'secondToCentury')
       .and.approximately(convert(0.000008213721020965523, invert(time.secondToMillennium)), 10e-11, 'secondToMillennium');
+
+    (0).should.be.exactly(convert(0, time.secondToNanosecond), 'secondToNanosecond')
+      .and.exactly(convert(0, time.secondToMicrosecond), 'secondToMicrosecond')
+      .and.exactly(convert(0, time.secondToMicrosecond), 'secondToMicrosecond')
+      .and.exactly(convert(0, time.secondToMillisecond), 'secondToMillisecond')
+      .and.exactly(convert(0, time.secondToMinute), 'secondToMinute')
+      .and.exactly(convert(0, time.secondToHour), 'secondToHour')
+      .and.exactly(convert(0, time.secondToDay), 'secondToDay')
+      .and.exactly(convert(0, time.secondToWeek), 'secondToWeek')
+      .and.exactly(convert(0, time.secondToMonth), 'secondToMonth')
+      .and.exactly(convert(0, time.secondToYear), 'secondToYear')
+      .and.exactly(convert(0, time.secondToDecade), 'secondToDecade')
+      .and.exactly(convert(0, time.secondToCentury), 'secondToCentury')
+      .and.exactly(convert(0, time.secondToMillennium), 'secondToMillennium');
   });
 
   it.skip('should include electric current', function() {
-    should(converter.PRESETS.electricCurrent).be.an.Object.and.not.eql({});
+    var current = presets.electricCurrent;
+
+    convert(10, current.ampereToAbampere).should.be.exactly(1);
+    convert(9, current.ampereToAbampere).should.be.exactly(0);
   });
 
   it('should include temperature', function() {
@@ -71,6 +145,14 @@ describe('built-in presets', function() {
       .and.exactly(convert(13.2, invert(temp.celsiusToNewton)), 'celsiusToNewton')
       .and.exactly(convert(32, invert(temp.celsiusToReaumur)), 'celsiusToReaumur')
       .and.exactly(convert(28.5, invert(temp.celsiusToRomer)), 'celsiusToRomer');
+
+    (0).should.be.exactly(convert(32, invert(temp.celsiusToFahrenheit)), 'celsiusToFahrenheit')
+      .and.exactly(convert(273.15, invert(temp.celsiusToKelvin)), 'celsiusToKelvin')
+      .and.exactly(convert(491.67, invert(temp.celsiusToRankine)), 'celsiusToRankine')
+      .and.exactly(convert(150, invert(temp.celsiusToDelisle)), 'celsiusToDelisle')
+      .and.exactly(convert(0, invert(temp.celsiusToNewton)), 'celsiusToNewton')
+      .and.exactly(convert(0, invert(temp.celsiusToReaumur)), 'celsiusToReaumur')
+      .and.exactly(convert(7.5, invert(temp.celsiusToRomer)), 'celsiusToRomer');
   });
 
   it.skip('should include amount of substance', function() {
