@@ -56,11 +56,11 @@ describe('built-in presets', function() {
     (42195).should.be.exactly(convert(42.195, invert(length.metreToKilometre)), 'metreToKilometre')
       .and.exactly(convert(4219500, invert(length.metreToCentimetre)), 'metreToCentimetre')
       .and.exactly(convert(42195000, invert(length.metreToMillimetre)), 'metreToMillimetre')
-      .and.approximately(convert(26.218757, invert(length.metreToMile)), 10e-4, 'metreToMile')
-      .and.approximately(convert(46145.013, invert(length.metreToYard)), 10e-4, 'metreToYard')
-      .and.approximately(convert(138435.04, invert(length.metreToFoot)), 10e-4, 'metreToFoot')
-      .and.approximately(convert(1661220.5, invert(length.metreToInch)), 10e-4, 'metreToInch')
-      .and.approximately(convert(22.783477, invert(length.metreToNauticalMile)), 10e-4, 'metreToNauticalMile');
+      .and.exactly(convert(26.218757456454306, invert(length.metreToMile)), 'metreToMile')
+      .and.exactly(convert(46145.01312335958, invert(length.metreToYard)), 'metreToYard')
+      .and.exactly(convert(138435.03937007874, invert(length.metreToFoot)), 'metreToFoot')
+      .and.exactly(convert(1661220.472440945, invert(length.metreToInch)), 'metreToInch')
+      .and.exactly(convert(22.783477321814257, invert(length.metreToNauticalMile)), 'metreToNauticalMile');
 
     (0).should.be.exactly(convert(0, length.metreToKilometre), 'metreToKilometre')
       .and.exactly(convert(0, length.metreToCentimetre), 'metreToCentimetre')
@@ -79,11 +79,11 @@ describe('built-in presets', function() {
       .and.exactly(convert(10000, invert(mass.kilogramToGram)), 'kilogramToGram')
       .and.exactly(convert(1e+7, invert(mass.kilogramToMilligram)), 'kilogramToMilligram')
       .and.exactly(convert(1e+10, invert(mass.kilogramToMicrogram)), 'kilogramToMicrogram')
-      .and.approximately(convert(0.0098420, invert(mass.kilogramToLongTon)), 10e-4, 'kilogramToLongTon')
-      .and.approximately(convert(0.0110231, invert(mass.kilogramToShortTon)), 10e-5, 'kilogramToShortTon')
-      .and.approximately(convert(1.57473, invert(mass.kilogramToStone)), 10e-6, 'kilogramToStone')
-      .and.approximately(convert(22.0462, invert(mass.kilogramToPound)), 10e-5, 'kilogramToPound')
-      .and.approximately(convert(352.74, invert(mass.kilogramToOunce)), 10e-5, 'kilogramToOunce');
+      .and.exactly(convert(0.00984251968503937, invert(mass.kilogramToLongTon)), 'kilogramToLongTon')
+      .and.exactly(convert(0.011023113109243879, invert(mass.kilogramToShortTon)), 'kilogramToShortTon')
+      .and.exactly(convert(1.5747304441776968, invert(mass.kilogramToStone)), 'kilogramToStone')
+      .and.exactly(convert(22.046226218487757, invert(mass.kilogramToPound)), 'kilogramToPound')
+      .and.exactly(convert(352.7396195580167, invert(mass.kilogramToOunce)), 'kilogramToOunce');
 
     (0).should.be.exactly(convert(0, mass.kilogramToMetricTon), 'kilogramToMetricTon')
       .and.exactly(convert(0, mass.kilogramToGram), 'kilogramToGram')
@@ -111,7 +111,7 @@ describe('built-in presets', function() {
       .and.exactly(convert(0.008213721020965523, invert(time.secondToYear)), 'secondToYear')
       .and.exactly(convert(0.0008213721020965523, invert(time.secondToDecade)), 'secondToDecade')
       .and.exactly(convert(0.00008213721020965523, invert(time.secondToCentury)), 'secondToCentury')
-      .and.approximately(convert(0.000008213721020965523, invert(time.secondToMillennium)), 10e-11, 'secondToMillennium');
+      .and.approximately(convert(0.000008213721020965522, invert(time.secondToMillennium)), 10e-11, 'secondToMillennium');
 
     (0).should.be.exactly(convert(0, time.secondToNanosecond), 'secondToNanosecond')
       .and.exactly(convert(0, time.secondToMicrosecond), 'secondToMicrosecond')
@@ -128,11 +128,11 @@ describe('built-in presets', function() {
       .and.exactly(convert(0, time.secondToMillennium), 'secondToMillennium');
   });
 
-  it.skip('should include electric current', function() {
+  it('should include electric current', function() {
     var current = presets.electricCurrent;
 
     convert(10, current.ampereToAbampere).should.be.exactly(1);
-    convert(9, current.ampereToAbampere).should.be.exactly(0);
+    convert(0, current.ampereToAbampere).should.be.exactly(0);
   });
 
   it('should include temperature', function() {
@@ -163,8 +163,18 @@ describe('built-in presets', function() {
     should(converter.PRESETS.luminousIntensity).be.an.Object.and.not.eql({});
   });
 
-  it.skip('should include speed', function() {
-    should(converter.PRESETS.speed).be.an.Object.and.not.eql({});
+  it('should include speed', function() {
+    var speed = presets.speed;
+
+    (100/9.58).should.be.exactly(convert(23.35006567906474, invert(speed.metresSecondToMilesHour)), 'metresSecondToMilesHour')
+      .and.exactly(convert(34.24676299596162, invert(speed.metresSecondToFeetSecond)), 'metresSecondToFeetSecond')
+      .and.exactly(convert(37.578288100208766, invert(speed.metresSecondToKilometresHour)), 'metresSecondToKilometresHour')
+      .and.exactly(convert(20.290652321926984, invert(speed.metresSecondToKnot)), 'metresSecondToKnot');
+
+    (0).should.be.exactly(convert(0, speed.metresSecondToMilesHour), 'metresSecondToMilesHour')
+      .and.exactly(convert(0, speed.metresSecondToFeetSecond), 'metresSecondToFeetSecond')
+      .and.exactly(convert(0, speed.metresSecondToKilometresHour), 'metresSecondToKilometresHour')
+      .and.exactly(convert(0, speed.metresSecondToKnot), 'metresSecondToKnot');
   });
 
   it.skip('should include volume', function() {

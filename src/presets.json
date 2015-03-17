@@ -63,5 +63,11 @@
   },
   "electricCurrent": {
     "ampereToAbampere": [[0, 10], [0, 1]]
+  },
+  "speed": {
+    "metresSecondToMilesHour": [[0, 1], [0, 2.236936292054402]],
+    "metresSecondToFeetSecond": [[0, 1], [0, 3.280839895013123]],
+    "metresSecondToKilometresHour": [[0, 1], [0, 3.6]],
+    "metresSecondToKnot": [[0, 1], [0, 1.943844492440605]]
   }
 }
