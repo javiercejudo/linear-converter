@@ -155,8 +155,11 @@ describe('built-in presets', function() {
       .and.exactly(convert(7.5, invert(temp.celsiusToRomer)), 'celsiusToRomer');
   });
 
-  it.skip('should include amount of substance', function() {
-    should(converter.PRESETS.amountOfSubstance).be.an.Object.and.not.eql({});
+  it('should include amount of substance', function() {
+    var substance = presets.amountOfSubstance;
+
+    convert(9525.43977, substance.moleToPoundMole).should.be.exactly(21);
+    convert(0, substance.moleToPoundMole).should.be.exactly(0);
   });
 
   it.skip('should include luminous intensity', function() {
