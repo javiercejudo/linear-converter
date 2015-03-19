@@ -14,25 +14,19 @@ exports.convert = function convert(x, preset) {
     return x;
   }
 
-  if (!rescaleUtil.isValidPreset(preset)) {
-    throw new RescaleError(rescaleUtil.getLastError());
-  }
+  assertPreset(preset);
 
   return rescale.rescale(x, preset[0], preset[1]);
 };
 
 exports.invertPreset = function invertPreset(preset) {
-  if (!rescaleUtil.isValidPreset(preset)) {
-    throw new RescaleError(rescaleUtil.getLastError());
-  }
+  assertPreset(preset);
 
   return preset.slice(0).reverse();
 };
 
 exports.composePresets = function composePresets(presets) {
-  if (!rescaleUtil.areValidPresets(presets)) {
-    throw new RescaleError(rescaleUtil.getLastError());
-  }
+  assertPresets(presets);
 
   return presets.reduce(function (previousPreset, currentPreset) {
     return [
@@ -44,3 +38,27 @@ exports.composePresets = function composePresets(presets) {
     ];
   });
 };
+
+exports.getCoefficientA = function getCoefficientA(preset) {
+  assertPreset(preset);
+
+  return (preset[1][1] - preset[1][0]) / (preset[0][1] - preset[0][0]);
+};
+
+exports.getCoefficientB = function getCoefficientB(preset) {
+  assertPreset(preset);
+
+  return rescale.rescale(0, preset[0], preset[1]);
+};
+
+function assertPreset(preset) {
+  if (!rescaleUtil.isValidPreset(preset)) {
+    throw new RescaleError(rescaleUtil.getLastError());
+  }
+}
+
+function assertPresets(presets) {
+  if (!rescaleUtil.areValidPresets(presets)) {
+    throw new RescaleError(rescaleUtil.getLastError());
+  }
+}
