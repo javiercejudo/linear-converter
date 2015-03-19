@@ -72,5 +72,14 @@
     "metresSecondToFeetSecond": [[0, 1], [0, 3.280839895013123]],
     "metresSecondToKilometresHour": [[0, 1], [0, 3.6]],
     "metresSecondToKnot": [[0, 1], [0, 1.943844492440605]]
+  },
+  "area": {
+    "squareMetreToSquareKilometre": [[0, 1000000], [0, 1]],
+    "squareMetreToHectare": [[0, 10000], [0, 1]],
+    "squareMetreToSquareMile": [[0, 2589988.110336], [0, 1]],
+    "squareMetreToAcre": [[0, 4046.8564224], [0, 1]],
+    "squareMetreToSquareYard": [[0, 0.83612736], [0, 1]],
+    "squareMetreToSquareFoot": [[0, 0.09290304], [0, 1]],
+    "squareMetreToSquareInch": [[0, 0.00064516], [0, 1]]
   }
 }
