@@ -8,7 +8,7 @@ var rescaleUtil = require('rescale-util');
 var getCoefficientB = require('../../src/convert.js').getCoefficientB;
 
 exports.returnCoefficientB = function() {
-  it('be able to be computed', function() {
+  it('should return coefficient b', function() {
     getCoefficientB([[0, 1], [1, 3]]).should.be.exactly(1);
 
     getCoefficientB([[0, 100], [32, 212]])
