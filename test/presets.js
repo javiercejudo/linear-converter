@@ -3,8 +3,6 @@
 'use strict';
 
 var should = require('should');
-var sinon = require('sinon');
-var rescale = require('rescale');
 var converter = require('../src/convert.js');
 
 var presets = converter.PRESETS;
