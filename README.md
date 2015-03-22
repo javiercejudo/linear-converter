@@ -49,3 +49,10 @@ lc.convert(-23, [[0, 1], [-46, -48]]); // => 0
 - [walk-through](test/walk-through.js)
 - [spec](test/spec.js)
 - [all presets](src/presets.json)
+
+## Related projects
+
+- [rescale](https://github.com/javiercejudo/rescale): rescales a point given two scales.
+- [scale](https://github.com/javiercejudo/scale): scales normalised data.
+- [normalise](): normalise data to [0, 1].
+- [rescale-util](https://github.com/javiercejudo/rescale-util): rescale utilities.
