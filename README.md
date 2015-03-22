@@ -48,8 +48,8 @@ it multiplies by 2. Any linear function can be described that way:
 
 ```js
 // f(x) = ax + b
-lc.convert(x, [[0, 1], [b, a + b]]); // => ax + b
-lc.convert(x, [[Math.sqrt(a), -b/a], [b, 0]]); // => ax + b
+lc.convert(x, [[0, 1], [b, a+b]]); // => ax + b
+lc.convert(x, [[1/a, -b/a], [b+1, 0]]); // => ax + b
 ```
 
 For an arbitrary f(_x_) = _ax + b_, any [[_x<sub>1</sub>_, _x<sub>2</sub>_], [f(_x<sub>1</sub>_), f(_x<sub>2</sub>_)]] is a valid preset.
