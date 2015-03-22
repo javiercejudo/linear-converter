@@ -58,7 +58,7 @@ More examples:
 
 ```js
 // degrees to radians
-lc.convert(240, [[0, 180], [0, Math.Pi]]); // => 4 * Math.PI / 3
+lc.convert(240, [[0, 180], [0, Math.PI]]); // => 4 * Math.PI / 3
 
 // f(x) = 3x
 lc.convert(5, [[0, 1/3], [0, 1]]); // => 15
