@@ -29,5 +29,10 @@ describe('walk-through', function() {
     ]);
 
     convert(293.15, kelvinToFahrenheit).should.be.exactly(68);
+
+    // calculate the coefficients for the underlying
+    // linear function from a preset
+    converter.getCoefficientA([[0, 1], [1, 3]]).should.be.exactly(2);
+    converter.getCoefficientB([[0, 1], [1, 3]]).should.be.exactly(1);
   });
 });
