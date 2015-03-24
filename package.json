@@ -1,7 +1,7 @@
 {
   "name": "linear-converter",
-  "version": "1.0.0-beta.4",
-  "description": "Linear converter",
+  "version": "1.0.0-beta.5",
+  "description": "Flexible linear converter with built in conversions for common units",
   "main": "src/convert.js",
   "scripts": {
     "test": "gulp test"
@@ -34,6 +34,7 @@
     "sinon": "^1.13.0"
   },
   "dependencies": {
+    "linear-presets": "^1.0.0-beta.1",
     "rescale": "^2.1.0",
     "rescale-util": "^1.4.1"
   }

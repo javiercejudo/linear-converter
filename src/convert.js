@@ -4,10 +4,11 @@
 
 var rescale = require('rescale');
 var rescaleUtil = require('rescale-util');
+var linearPresets = require('linear-presets').PRESETS;
 
 var RescaleError = rescaleUtil.RescaleError;
 
-exports.PRESETS = require('./presets.json');
+exports.PRESETS = linearPresets;
 
 exports.convert = function convert(x, preset) {
   if (typeof preset === 'undefined') {
