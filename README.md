@@ -86,7 +86,7 @@ lc.getCoefficientB([[x1, x2], [f(x1), f(x2)]]); // => b
 
 - [walk-through](test/walk-through.js)
 - [spec](test/spec.js)
-- [all presets](src/presets.json)
+- [all presets](https://github.com/javiercejudo/linear-presets/blob/master/data/presets.json)
 
 ## Related projects
 
