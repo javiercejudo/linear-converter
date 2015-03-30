@@ -111,7 +111,7 @@ function assertPreset(preset) {
 /**
  * Asserts an array of valid preset is given
  *
- * @param {Array} preset The array of presets to assert
+ * @param {Array} presets The array of presets to assert
  *
  * @throws {RescaleError}
  */
