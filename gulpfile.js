@@ -1,11 +1,23 @@
 var gulp = require('gulp');
 var mocha = require('gulp-mocha');
 var istanbul = require('gulp-istanbul');
-var rimraf = require('rimraf');
+var del = require('del');
 var coveralls = require('gulp-coveralls');
+var browserify = require('browserify');
+var source = require('vinyl-source-stream');
+var buffer = require('vinyl-buffer');
+var uglify = require('gulp-uglify');
+var sourcemaps = require('gulp-sourcemaps');
+var gutil = require('gulp-util');
 
-gulp.task('clean', function (cb) {
-  rimraf('./coverage', cb);
+var pkg = require('./package.json');
+
+gulp.task('clean:coverage', function (cb) {
+  del(['coverage'], cb);
+});
+
+gulp.task('clean:dist', function (cb) {
+  del(['dist'], cb);
 });
 
 gulp.task('instrument', function () {
@@ -14,7 +26,7 @@ gulp.task('instrument', function () {
     .pipe(istanbul.hookRequire());
 });
 
-gulp.task('test', ['clean', 'instrument'], function () {
+gulp.task('test', ['clean:coverage', 'instrument'], function () {
   return gulp.src(['test/*.js'])
     .pipe(mocha())
     .pipe(istanbul.writeReports());
@@ -25,4 +37,21 @@ gulp.task('coveralls', function () {
     .pipe(coveralls());
 });
 
-gulp.task('default', ['test']);
+gulp.task('browserify', ['clean:dist'], function () {
+  var b = browserify({
+    debug: true
+  });
+
+  b.require('./' + pkg.main, {expose: pkg.name});
+
+  return b.bundle()
+    .pipe(source(pkg.name + '.min.js'))
+    .pipe(buffer())
+    .pipe(sourcemaps.init({loadMaps: true}))
+        .pipe(uglify())
+        .on('error', gutil.log)
+    .pipe(sourcemaps.write('./'))
+    .pipe(gulp.dest('./dist/'));
+});
+
+gulp.task('default', ['browserify']);

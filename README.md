@@ -11,6 +11,12 @@ Flexible linear converter with built in conversions for common units
 
     npm i linear-converter
 
+To use it in the browser, include the following on your site:
+
+```js
+<script src="node_modules/linear-converter/dist/linear-converter.min.js"></script>
+```
+
 ## Basic usage
 
 ```js
