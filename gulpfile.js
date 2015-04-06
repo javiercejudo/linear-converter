@@ -39,11 +39,7 @@ gulp.task('coveralls', function () {
 });
 
 gulp.task('browserify', ['clean:dist'], function () {
-  var b = browserify({
-    debug: true
-  });
-
-  b.require('./' + pkg.main, {expose: pkg.name});
+  var b = browserify().require('./' + pkg.main, {expose: pkg.name});
 
   return b.bundle()
     .pipe(source(pkg.name + '.js'))
