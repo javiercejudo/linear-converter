@@ -25,7 +25,7 @@ var lc = require('linear-converter');
 lc.convert(25, lc.PRESETS.temperature.celsiusToFahrenheit); // => 77
 ```
 
-See [plunker example](http://plnkr.co/edit/mY318xCxj0v2IHrzKVIs?p=preview) for an interactive quick intro.
+See [plunker example](http://plnkr.co/edit/Fh6ffC?p=preview) for an quick interactive intro.
 
 ## Preset inversion
 
@@ -92,8 +92,8 @@ lc.getCoefficientB([[x1, x2], [f(x1), f(x2)]]); // => b
 
 ## See more
 
-- [walk-through](test/walk-through.js)
-- [spec](test/spec.js)
+- [walk-through](test/iojs/walk-through.js)
+- [spec](test/iojs/spec.js)
 - [all presets](https://github.com/javiercejudo/linear-presets/blob/master/data/presets.json)
 
 ## Related projects
