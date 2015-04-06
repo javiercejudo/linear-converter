@@ -25,6 +25,8 @@ var lc = require('linear-converter');
 lc.convert(25, lc.PRESETS.temperature.celsiusToFahrenheit); // => 77
 ```
 
+See [plunker example](http://plnkr.co/edit/mY318xCxj0v2IHrzKVIs?p=preview) for an interactive quick intro.
+
 ## Preset inversion
 
 The provided presets go in one direction only; to invert the direction, use `invertPreset`:
