@@ -9,6 +9,7 @@ var buffer = require('vinyl-buffer');
 var uglify = require('gulp-uglify');
 var sourcemaps = require('gulp-sourcemaps');
 var gutil = require('gulp-util');
+var rename = require('gulp-rename');
 
 var pkg = require('./package.json');
 
@@ -27,7 +28,7 @@ gulp.task('instrument', function () {
 });
 
 gulp.task('test', ['clean:coverage', 'instrument'], function () {
-  return gulp.src(['test/*.js'])
+  return gulp.src(['test/iojs/*.js'])
     .pipe(mocha())
     .pipe(istanbul.writeReports());
 });
@@ -45,13 +46,16 @@ gulp.task('browserify', ['clean:dist'], function () {
   b.require('./' + pkg.main, {expose: pkg.name});
 
   return b.bundle()
-    .pipe(source(pkg.name + '.min.js'))
+    .pipe(source(pkg.name + '.js'))
     .pipe(buffer())
+    .pipe(gulp.dest('./dist/'))
     .pipe(sourcemaps.init({loadMaps: true}))
-        .pipe(uglify())
-        .on('error', gutil.log)
+    .pipe(uglify()).on('error', gutil.log)
+    .pipe(rename(pkg.name + '.min.js'))
+    .pipe(gulp.dest('./dist/'))
     .pipe(sourcemaps.write('./'))
     .pipe(gulp.dest('./dist/'));
 });
 
-gulp.task('default', ['browserify']);
+gulp.task('build', ['browserify']);
+gulp.task('default', ['build']);

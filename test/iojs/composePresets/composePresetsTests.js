@@ -6,7 +6,7 @@ var should = require('should');
 var sinon = require('sinon');
 var rescale = require('rescale');
 var rescaleUtil = require('rescale-util');
-var compose = require('../../src/convert.js').composePresets;
+var compose = require('../../../src/convert.js').composePresets;
 
 exports.throwAnError = function() {
   var getLastErrorStub;
