@@ -228,7 +228,7 @@ arguments[4][3][0].apply(exports,arguments)
 var rescaleUtil = require('rescale-util');
 var RescaleError = rescaleUtil.RescaleError;
 
-exports.scale = function scale(x, scale) {
+exports.scale = function scaleNormalised(x, scale) {
   if (typeof scale === 'undefined') {
     return x;
   }
