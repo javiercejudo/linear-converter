@@ -137,7 +137,7 @@ exports.isValidScale = api.isValidScale = function isValidScale(scale) {
     return false;
   }
 
-  if (!Number.isFinite(scale[0]) || !Number.isFinite(scale[1])) {
+  if (!isFinite(scale[0]) || !isFinite(scale[1])) {
     setScaleError('the extremes must be finite numbers');
 
     return false;
