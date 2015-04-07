@@ -25,7 +25,7 @@ var lc = require('linear-converter');
 lc.convert(25, lc.PRESETS.temperature.celsiusToFahrenheit); // => 77
 ```
 
-See [JSFiddle example](https://jsfiddle.net/javiercejudo/7cxmto4r/1/) for an quick interactive intro.
+See [JSFiddle example](https://jsfiddle.net/javiercejudo/7cxmto4r/1/) for a quick interactive intro.
 
 ## Preset inversion
 
