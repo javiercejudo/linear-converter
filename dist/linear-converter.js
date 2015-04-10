@@ -113,7 +113,8 @@ exports.PRESETS = require('../data/presets.json');
 
 'use strict';
 
-var error = '',
+var initialError = '',
+    error = initialError,
     validScaleExample = 'Eg. [0, 1]',
     validPresetExample = 'Eg. [[0, 100], [32, 212]]',
     validPresetsExample = 'Eg. [[[0, 100], [32, 212]], [[0, 100], [-273.15, -173.15]]]',
@@ -137,7 +138,7 @@ exports.isValidScale = api.isValidScale = function isValidScale(scale) {
     return false;
   }
 
-  if (!isFinite(scale[0]) || !isFinite(scale[1])) {
+  if (!isFinite(scale[0]) || !isFinite(scale[1]) || typeof scale[0] !== 'number' || typeof scale[1] !== 'number') {
     setScaleError('the extremes must be finite numbers');
 
     return false;
@@ -181,7 +182,7 @@ exports.getLastError = function getLastError() {
 };
 
 exports.resetLastError = function getLastError() {
-  error = '';
+  error = initialError;
 };
 
 function setScaleError(newError) {

@@ -44,6 +44,6 @@
   "dependencies": {
     "linear-presets": "^1.0.0-beta.2",
     "rescale": "^2.1.0",
-    "rescale-util": "^1.4.1"
+    "rescale-util": "^1.4.2"
   }
 }
