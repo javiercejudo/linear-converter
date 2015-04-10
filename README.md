@@ -17,6 +17,8 @@ To use it in the browser, include the following on your site:
 <script src="node_modules/linear-converter/dist/linear-converter.min.js"></script>
 ```
 
+For CLI use, see [linear-converter-cli](https://github.com/javiercejudo/linear-converter-cli).
+
 ## Basic usage
 
 ```js
