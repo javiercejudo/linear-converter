@@ -5,7 +5,7 @@
 var should = require('should');
 var sinon = require('sinon');
 var rescaleUtil = require('rescale-util');
-var getCoefficientA = require('../../../src/convert.js').getCoefficientA;
+var getCoefficientA = require('../../../src/linear-converter.js').getCoefficientA;
 
 exports.returnCoefficientA = function() {
   it('should return coefficient a', function() {

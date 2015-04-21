@@ -1,6 +1,14 @@
+/**
+ * linear-converter - Copyright 2015 Javier Cejudo
+ * @version v1.0.0
+ * @link https://github.com/javiercejudo/linear-converter
+ * @license MIT
+ */
 require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 module.exports={
   "metricPrefixes": {
+    "noneToYotta": [[0, 1e24], [0, 1]],
+    "noneToZetta": [[0, 1e21], [0, 1]],
     "noneToExa": [[0, 1e18], [0, 1]],
     "noneToPeta": [[0, 1e15], [0, 1]],
     "noneToTera": [[0, 1e12], [0, 1]],
@@ -16,7 +24,9 @@ module.exports={
     "noneToNano": [[0, 1], [0, 1e9]],
     "noneToPico": [[0, 1], [0, 1e12]],
     "noneToFemto": [[0, 1], [0, 1e15]],
-    "noneToAtto": [[0, 1], [0, 1e18]]
+    "noneToAtto": [[0, 1], [0, 1e18]],
+    "noneToZepto": [[0, 1], [0, 1e21]],
+    "noneToYocto": [[0, 1], [0, 1e24]]
   },
   "temperature": {
     "celsiusToFahrenheit": [[0, 100], [32, 212]],
@@ -68,7 +78,7 @@ module.exports={
   "amountOfSubstance": {
     "moleToPoundMole": [[0, 453.59237], [0, 1]]
   },
-  "speed": {
+  "velocity": {
     "metresSecondToMilesHour": [[0, 1], [0, 2.236936292054402]],
     "metresSecondToFeetSecond": [[0, 1], [0, 3.280839895013123]],
     "metresSecondToKilometresHour": [[0, 1], [0, 3.6]],
@@ -93,11 +103,33 @@ module.exports={
     "cubicMetreToImperialPint": [[0, 0.00056826125], [0, 1]],
     "cubicMetreToImperialQuart": [[0, 0.0011365225], [0, 1]],
     "cubicMetreToImperialGallon": [[0, 0.00454609], [0, 1]],
-    "cubicMetreToUSFluidOunce": [[0, 0.000473176473], [0, 1]],
-    "cubicMetreToUSGill": [[0, 0.000473176473], [0, 1]],
+    "cubicMetreToUSDram": [[0, 0.0000036966911953125], [0, 1]],
+    "cubicMetreToUSFluidOunce": [[0, 0.0000295735295625], [0, 1]],
+    "cubicMetreToUSGill": [[0, 0.00011829411825], [0, 1]],
+    "cubicMetreToUSCup": [[0, 0.0002365882365], [0, 1]],
     "cubicMetreToUSPint": [[0, 0.000473176473], [0, 1]],
-    "cubicMetreToUSQuart": [[0, 0.000473176473], [0, 1]],
-    "cubicMetreToUSGallon": [[0, 0.000473176473], [0, 1]]
+    "cubicMetreToUSQuart": [[0, 0.000946352946], [0, 1]],
+    "cubicMetreToUSGallon": [[0, 0.003785411784], [0, 1]]
+  },
+  "luminousIntensity": {
+    "candelaToCandlepower": [[0, 0.981], [0, 1]],
+    "candelaToHefnerkerze": [[0, 0.920], [0, 1]]
+  },
+  "angle": {
+    "radianToTurn": [[0, 6.283185307179586], [0, 1]],
+    "radianToDegree": [[0, 6.283185307179586], [0, 360]],
+    "radianToGradian": [[0, 6.283185307179586], [0, 400]]
+  },
+  "digitalInformation": {
+    "byteToBit": [[0, 1], [0, 8]],
+    "byteToKibibyte": [[0, 1024], [0, 1]],
+    "byteToMebibyte": [[0, 1048576], [0, 1]],
+    "byteToGibibyte": [[0, 1073741824], [0, 1]],
+    "byteToTebibyte": [[0, 1099511627776], [0, 1]],
+    "byteToPebibyte": [[0, 1125899906842624], [0, 1]],
+    "byteToExbibyte": [[0, 1152921504606846976], [0, 1]],
+    "byteToZebibyte": [[0, 1180591620717411303424], [0, 1]],
+    "byteToYobibyte": [[0, 1208925819614629174706176], [0, 1]]
   }
 }
 
@@ -198,8 +230,6 @@ function setPresetsError(newError) {
 }
 
 },{}],4:[function(require,module,exports){
-arguments[4][3][0].apply(exports,arguments)
-},{"dup":3}],5:[function(require,module,exports){
 /*jshint node:true */
 
 'use strict';
@@ -219,9 +249,7 @@ exports.normalise = function normalise(x, scale) {
   return (x - scale[0]) / (scale[1] - scale[0]);
 };
 
-},{"rescale-util":4}],6:[function(require,module,exports){
-arguments[4][3][0].apply(exports,arguments)
-},{"dup":3}],7:[function(require,module,exports){
+},{"rescale-util":3}],5:[function(require,module,exports){
 /*jshint node:true */
 
 'use strict';
@@ -241,7 +269,7 @@ exports.scale = function scaleNormalised(x, scale) {
   return scale[0] + x * (scale[1] - scale[0]);
 };
 
-},{"rescale-util":6}],8:[function(require,module,exports){
+},{"rescale-util":3}],6:[function(require,module,exports){
 /*jshint node:true */
 
 'use strict';
@@ -257,18 +285,17 @@ exports.rescale = function rescale(x, oldScale, newScale) {
   return scale.scale(normalise.normalise(x, oldScale), newScale);
 };
 
-},{"normalise":5,"scale-normalised":7}],"linear-converter":[function(require,module,exports){
+},{"normalise":4,"scale-normalised":5}],"linear-converter":[function(require,module,exports){
 /*jshint node:true */
 
 'use strict';
 
 var rescale = require('rescale');
 var rescaleUtil = require('rescale-util');
-var linearPresets = require('linear-presets').PRESETS;
 
 var RescaleError = rescaleUtil.RescaleError;
 
-exports.PRESETS = linearPresets;
+exports.PRESETS = require('linear-presets').PRESETS;
 
 /**
  * Linearly converts x as described by a preset
@@ -381,4 +408,4 @@ function assertPresets(presets) {
   }
 }
 
-},{"linear-presets":2,"rescale":8,"rescale-util":3}]},{},[]);
+},{"linear-presets":2,"rescale":6,"rescale-util":3}]},{},[]);

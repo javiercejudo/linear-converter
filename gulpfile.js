@@ -10,8 +10,16 @@ var uglify = require('gulp-uglify');
 var sourcemaps = require('gulp-sourcemaps');
 var gutil = require('gulp-util');
 var rename = require('gulp-rename');
+var header = require('gulp-header');
 
 var pkg = require('./package.json');
+var banner = ['/**',
+  ' * <%= pkg.name %> - Copyright 2015 <%= pkg.author %>',
+  ' * @version v<%= pkg.version %>',
+  ' * @link <%= pkg.homepage %>',
+  ' * @license <%= pkg.license %>',
+  ' */\n'
+].join('\n');
 
 gulp.task('clean:coverage', function (cb) {
   del(['coverage'], cb);
@@ -44,10 +52,12 @@ gulp.task('browserify', ['clean:dist'], function () {
   return b.bundle()
     .pipe(source(pkg.name + '.js'))
     .pipe(buffer())
+    .pipe(header(banner, {pkg: pkg}))
     .pipe(gulp.dest('./dist/'))
     .pipe(sourcemaps.init({loadMaps: true}))
     .pipe(uglify()).on('error', gutil.log)
     .pipe(rename(pkg.name + '.min.js'))
+    .pipe(header(banner, {pkg: pkg}))
     .pipe(gulp.dest('./dist/'))
     .pipe(sourcemaps.write('./'))
     .pipe(gulp.dest('./dist/'));

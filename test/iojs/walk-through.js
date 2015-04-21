@@ -3,7 +3,7 @@
 'use strict';
 
 var should = require('should');
-var converter = require('../../src/convert.js');
+var converter = require('../../src/linear-converter.js');
 
 describe('walk-through', function() {
   it('should teach the basics', function() {
