@@ -1,11 +1,26 @@
 language: node_js
 node_js:
-  - 'iojs'
-  - '0.10'
-  - '0.12'
+- "0.10"
+env:
+  matrix:
+  - BROWSER=SL_Chrome
+  - BROWSER=SL_Firefox
+  - BROWSER=SL_IE_9
+  - BROWSER=SL_IE_10
+  - BROWSER=SL_IE_11
+  - BROWSER=SL_Safari
+  - BROWSER=SL_Opera
+  global:
+  - SAUCE_USERNAME=linear-converter
+  - secure: hQsvj0JogRKd3AXcqrfaAcjOi8PEN+s65eafJH6Bg+tq++hzEQ6iIk/0hPb+hs9xhSVhi+0t36F6aVeTv2LmVX7NqERRWN/reWkXCNuQoHxUHx5Va26SpS5fGJkYJpjwsEwSXEYE3b07eM6KUMpro8exAIlJYcjFdTBw7e/tH8g=
+matrix:
+  fast_finish: true
+addons:
+  sauce_connect: true
 before_install:
-  - npm install -g gulp
+- npm install -g gulp
 script:
-  - gulp test
+- gulp test
+- '[ "${TRAVIS_PULL_REQUEST}" = "false" ] && ./node_modules/karma/bin/karma start --single-run --browsers $BROWSER'
 after_success:
-  - gulp coveralls
+- gulp coveralls

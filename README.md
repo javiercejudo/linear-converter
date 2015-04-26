@@ -5,6 +5,8 @@
 [![Code Climate](https://codeclimate.com/github/javiercejudo/linear-converter/badges/gpa.svg)](https://codeclimate.com/github/javiercejudo/linear-converter)
 [![Inline docs](http://inch-ci.org/github/javiercejudo/linear-converter.svg?branch=master)](http://inch-ci.org/github/javiercejudo/linear-converter)
 
+[![Sauce Test Status](https://saucelabs.com/browser-matrix/linear-converter.svg)](https://saucelabs.com/u/linear-converter)
+
 Flexible linear converter with built in conversions for common units
 
 ## Install

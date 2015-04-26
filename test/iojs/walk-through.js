@@ -17,8 +17,9 @@ describe('walk-through', function() {
 
     // easy inversion of presets
     var invert = converter.invertPreset;
+    var fahrenheitToCelsius = invert(temp.celsiusToFahrenheit);
 
-    convert(77, invert(temp.celsiusToFahrenheit)).should.be.exactly(25);
+    convert(77, fahrenheitToCelsius).should.be.exactly(25);
 
     // convert presets any to any using inversion and composition
     var compose = converter.composePresets;
