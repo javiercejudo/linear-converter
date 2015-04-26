@@ -34,7 +34,9 @@ See [CodePen example](http://codepen.io/javiercejudo/pen/PwvePd?editors=101) for
 The provided presets go in one direction only; to invert the direction, use `invertPreset`:
 
 ```js
-lc.convert(77, lc.invertPreset(lc.PRESETS.temperature.celsiusToFahrenheit)); // => 25
+var fahrenheitToCelsius = lc.invertPreset(lc.PRESETS.temperature.celsiusToFahrenheit);
+
+lc.convert(77, fahrenheitToCelsius); // => 25
 ```
 
 ## Presets composition
