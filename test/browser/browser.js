@@ -1,8 +1,10 @@
 /*jshint node:true, mocha:true */
 /*global converter */
 
-(function() {
+(function($hould) {
   'use strict';
+
+  var converter = require('linear-converter');
 
   describe('browser support', function() {
     it('should cover the basics', function() {
@@ -31,8 +33,9 @@
 
       // calculate the coefficients for the underlying
       // linear function from a preset
-      converter.getCoefficientA([[0, 1], [1, 3]]).should.be.exactly(2);
+      // using Should() to make IE9 happy: https://github.com/tj/should.js/wiki/Known-Bugs#ie9
+      $hould(converter.getCoefficientA([[0, 1], [1, 3]])).be.exactly(2);
       converter.getCoefficientB([[0, 1], [1, 3]]).should.be.exactly(1);
     });
   });
-}());
+}(Should));
