@@ -4,6 +4,7 @@
   "description": "Flexible linear converter with built in conversions for common units",
   "main": "src/linear-converter.js",
   "scripts": {
+    "postinstall": "gulp build",
     "test": "gulp test"
   },
   "repository": {
