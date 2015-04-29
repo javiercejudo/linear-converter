@@ -14,7 +14,6 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-      'node_modules/gulp-mocha/node_modules/mocha/mocha.js',
       'node_modules/should/should.js',
       'dist/linear-converter.js',
       'test/browser/*.js'
@@ -108,8 +107,8 @@ module.exports = function(config) {
       'SL_iOS': {
         base: 'SauceLabs',
         browserName: 'iphone',
-        platform: 'OS X 10.9',
-        version: '7.1'
+        platform: 'OS X 10.10',
+        version: '8.2'
       },
     },
 
@@ -119,8 +118,8 @@ module.exports = function(config) {
     browsers: [
       'PhantomJS'
     ],
-    
-    
+
+
     // timeout for capturing a browser (in ms)
     captureTimeout: 180000,
 
