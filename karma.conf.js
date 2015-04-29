@@ -119,6 +119,10 @@ module.exports = function(config) {
     browsers: [
       'PhantomJS'
     ],
+    
+    
+    // timeout for capturing a browser (in ms)
+    captureTimeout: 180000,
 
 
     // Continuous Integration mode
