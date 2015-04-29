@@ -104,6 +104,7 @@ lc.getCoefficientB([[x1, x2], [f(x1), f(x2)]]); // => b
 
 ## Related projects
 
+- [linear-converter-cli](https://github.com/javiercejudo/linear-converter-cli): CLI for linear-converter.
 - [rescale](https://github.com/javiercejudo/rescale): rescales a point given two scales.
 - [scale](https://github.com/javiercejudo/scale): scales normalised data.
 - [normalise](https://github.com/javiercejudo/normalise): normalise data to [0, 1].
