@@ -37,6 +37,15 @@ module.exports={
     "celsiusToReaumur": [[0, 100], [0, 80]],
     "celsiusToRomer": [[0, 100], [7.5, 60]]
   },
+  "temperatureDifference": {
+    "celsiusToFahrenheit": [[0, 5], [0, 9]],
+    "celsiusToKelvin": [[0, 1], [0, 1]],
+    "celsiusToRankine": [[0, 5], [0, 9]],
+    "celsiusToDelisle": [[0, 2], [0, -3]],
+    "celsiusToNewton": [[0, 100], [0, 33]],
+    "celsiusToReaumur": [[0, 5], [0, 4]],
+    "celsiusToRomer": [[0, 40], [0, 21]]
+  },
   "distance": {
     "metreToKilometre": [[0, 1e3], [0, 1]],
     "metreToCentimetre": [[0, 1], [0, 100]],

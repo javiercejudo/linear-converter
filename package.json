@@ -51,7 +51,7 @@
     "vinyl-source-stream": "^1.1.0"
   },
   "dependencies": {
-    "linear-presets": "^1.0.0",
+    "linear-presets": "^1.1.0",
     "rescale": "^2.1.0",
     "rescale-util": "^1.4.2"
   }
