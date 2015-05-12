@@ -11,15 +11,19 @@ Flexible linear converter with built in conversions for common units
 
 ## Install
 
+### npm
+
     npm i linear-converter
+
+### Bower
+
+    bower install linear-converter
 
 To use it in the browser, include the following on your site:
 
 ```js
-<script src="node_modules/linear-converter/dist/linear-converter.min.js"></script>
+<script src="bower_components/linear-converter/dist/linear-converter.min.js"></script>
 ```
-
-For CLI use, see [linear-converter-cli](https://github.com/javiercejudo/linear-converter-cli).
 
 ## Basic usage
 
@@ -30,6 +34,8 @@ lc.convert(25, lc.PRESETS.temperature.celsiusToFahrenheit); // => 77
 ```
 
 See [CodePen example](http://codepen.io/javiercejudo/pen/PwvePd?editors=101) for a quick interactive intro.
+
+For CLI use, see [linear-converter-cli](https://github.com/javiercejudo/linear-converter-cli).
 
 ## Preset inversion
 
