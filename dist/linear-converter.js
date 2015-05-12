@@ -94,8 +94,8 @@ module.exports={
     "metresSecondToKnot": [[0, 1], [0, 1.943844492440605]]
   },
   "area": {
-    "squareMetreToSquareKilometre": [[0, 1000000], [0, 1]],
-    "squareMetreToHectare": [[0, 10000], [0, 1]],
+    "squareMetreToSquareKilometre": [[0, 1e6], [0, 1]],
+    "squareMetreToHectare": [[0, 1e4], [0, 1]],
     "squareMetreToSquareMile": [[0, 2589988.110336], [0, 1]],
     "squareMetreToAcre": [[0, 4046.8564224], [0, 1]],
     "squareMetreToSquareYard": [[0, 0.83612736], [0, 1]],
