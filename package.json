@@ -3,10 +3,6 @@
   "version": "1.1.1",
   "description": "Flexible linear converter with built in conversions for common units",
   "main": "src/linear-converter.js",
-  "scripts": {
-    "postinstall": "gulp build",
-    "test": "gulp test"
-  },
   "repository": {
     "type": "git",
     "url": "https://github.com/javiercejudo/linear-converter"
@@ -51,7 +47,7 @@
     "vinyl-source-stream": "^1.1.0"
   },
   "dependencies": {
-    "linear-presets": "^1.1.0",
+    "linear-presets": "^1.1.1",
     "rescale": "^2.1.0",
     "rescale-util": "^1.4.2"
   }
