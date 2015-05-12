@@ -1,0 +1,30 @@
+{
+  "name": "linear-converter",
+  "version": "1.1.2",
+  "homepage": "https://github.com/javiercejudo/linear-converter",
+  "authors": [
+    "Javier Cejudo <javier@javiercejudo.com>"
+  ],
+  "description": "Flexible linear converter with built in conversions for common units",
+  "main": "dist/linear-converter.js",
+  "moduleType": [
+    "node"
+  ],
+  "keywords": [
+    "feature scaling",
+    "normalisation",
+    "normalization",
+    "scale",
+    "rescale",
+    "conversion",
+    "units"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

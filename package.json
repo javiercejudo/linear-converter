@@ -12,7 +12,9 @@
     "normalisation",
     "normalization",
     "scale",
-    "rescale"
+    "rescale",
+    "conversion",
+    "units"
   ],
   "author": "Javier Cejudo",
   "license": "MIT",
