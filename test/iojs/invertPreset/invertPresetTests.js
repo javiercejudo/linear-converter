@@ -6,7 +6,7 @@ var should = require('should');
 var sinon = require('sinon');
 var rescale = require('rescale');
 var rescaleUtil = require('rescale-util');
-var invert = require('../../../src/linear-converter.js').invertPreset;
+var invert = require('../../../src/linear-converter').invertPreset;
 
 exports.delegateItsValidationToRescaleUtil = function() {
   var rescaleUtilMock;

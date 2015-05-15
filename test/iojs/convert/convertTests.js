@@ -6,7 +6,7 @@ var should = require('should');
 var sinon = require('sinon');
 var rescale = require('rescale');
 var rescaleUtil = require('rescale-util');
-var convert = require('../../../src/linear-converter.js').convert;
+var convert = require('../../../src/linear-converter').convert;
 
 exports.beTheIdentity = function() {
   it('should be the identity', function() {

@@ -1,3 +1,5 @@
+/*jshint node:true */
+
 var gulp = require('gulp');
 var mocha = require('gulp-mocha');
 var istanbul = require('gulp-istanbul');
@@ -14,7 +16,7 @@ var header = require('gulp-header');
 
 var pkg = require('./package.json');
 var banner = ['/**',
-  ' * <%= pkg.name %> - Copyright 2015 <%= pkg.author %>',
+  ' * <%= pkg.name %> - Copyright ' + new Date().getFullYear() + ' <%= pkg.author %>',
   ' * @version v<%= pkg.version %>',
   ' * @link <%= pkg.homepage %>',
   ' * @license <%= pkg.license %>',
@@ -30,12 +32,24 @@ gulp.task('clean:dist', function (cb) {
 });
 
 gulp.task('instrument', function () {
-  return gulp.src(['src/*.js'])
+  return gulp.src(['src/linear-converter.js'])
     .pipe(istanbul())
     .pipe(istanbul.hookRequire());
 });
 
-gulp.task('test', ['clean:coverage', 'instrument'], function () {
+gulp.task('browserify-bigjs', [], function () {
+  var bigjs = 'big.js';
+
+  var b = browserify()
+    .require('./node_modules/' + bigjs + '/' + bigjs, {expose: bigjs});
+
+  return b.bundle()
+    .pipe(source(bigjs))
+    .pipe(buffer())
+    .pipe(gulp.dest('./tmp/'));
+});
+
+gulp.task('test', ['clean:coverage', 'instrument', 'browserify-bigjs'], function () {
   return gulp.src(['test/iojs/*.js'])
     .pipe(mocha())
     .pipe(istanbul.writeReports());
@@ -47,7 +61,12 @@ gulp.task('coveralls', function () {
 });
 
 gulp.task('browserify', ['clean:dist'], function () {
-  var b = browserify().require('./' + pkg.main, {expose: pkg.name});
+  var b = browserify()
+    .require('./' + pkg.main, {expose: pkg.name});
+
+  Object.keys(pkg.optionalDependencies || {}).forEach(function(optionalDep) {
+    b.ignore(optionalDep);
+  });
 
   return b.bundle()
     .pipe(source(pkg.name + '.js'))

@@ -3,11 +3,11 @@
 'use strict';
 
 var better = require('betterer').better;
-var convertTests = require('./convert/convertTests.js');
-var invertPresetTests = require('./invertPreset/invertPresetTests.js');
-var composePresetsTests = require('./composePresets/composePresetsTests.js');
-var coefficientATests = require('./coefficients/coefficientATests.js');
-var coefficientBTests = require('./coefficients/coefficientBTests.js');
+var convertTests = require('./convert/convertTests');
+var invertPresetTests = require('./invertPreset/invertPresetTests');
+var composePresetsTests = require('./composePresets/composePresetsTests');
+var coefficientATests = require('./coefficients/coefficientATests');
+var coefficientBTests = require('./coefficients/coefficientBTests');
 
 var o_o = describe;
 
@@ -32,11 +32,12 @@ o_o('composing', function() { var o_O = composePresetsTests;
 });
 
 o_o('computing coefficient a', function() { var o_O = coefficientATests;
-  o_o('of a valid preset', better('return coefficient a', o_O));
+  o_o('when big.js is available', better('work with arbitrary precision', o_O));
+  o_o('when big.js is not available', better('work with floating-point numbers', o_O));
   o_o('of an invalid preset', better('throw an error', o_O));
 });
 
 o_o('computing coefficient b', function() { var o_O = coefficientBTests;
-  o_o('of a valid preset', better('return coefficient b', o_O));
+  o_o('with a valid preset', better('delegate to rescale with x=0', o_O));
   o_o('of an invalid preset', better('throw an error', o_O));
 });

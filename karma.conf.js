@@ -1,5 +1,11 @@
 // Karma configuration
 
+var maybeArbitraryPrecisionUrl = [];
+
+if (process.env.ARBITRARY_PRECISION === 'true') {
+  maybeArbitraryPrecisionUrl = 'tmp/big.js';
+}
+
 module.exports = function(config) {
   config.set({
 
@@ -15,9 +21,12 @@ module.exports = function(config) {
     // list of files / patterns to load in the browser
     files: [
       'node_modules/should/should.js',
+    ]
+    .concat(maybeArbitraryPrecisionUrl)
+    .concat([
       'dist/linear-converter.js',
       'test/browser/*.js'
-    ],
+    ]),
 
 
     // list of files to exclude
@@ -34,8 +43,7 @@ module.exports = function(config) {
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ['dots', 'saucelabs'],
-
+    reporters: ['mocha', 'saucelabs'],
 
     // web server port
     port: 9876,
@@ -121,8 +129,10 @@ module.exports = function(config) {
 
 
     // timeout for capturing a browser (in ms)
-    captureTimeout: 180000,
+    captureTimeout: 0,
 
+    // how long will Karma wait for a message from a browser before disconnecting from it (in ms).
+    browserNoActivityTimeout: 0,
 
     // Continuous Integration mode
     // if true, Karma captures browsers, runs the tests and exits

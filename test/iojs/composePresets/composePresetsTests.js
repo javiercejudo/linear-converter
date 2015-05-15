@@ -6,7 +6,7 @@ var should = require('should');
 var sinon = require('sinon');
 var rescale = require('rescale');
 var rescaleUtil = require('rescale-util');
-var compose = require('../../../src/linear-converter.js').composePresets;
+var compose = require('../../../src/linear-converter').composePresets;
 
 exports.throwAnError = function() {
   var getLastErrorStub;
@@ -64,10 +64,25 @@ exports.throwAnotherError = function() {
     (function() {
       compose([[[0, 10], [10, Infinity]], [[10, 20], [50, 60]]]);
     }).should.throw('yet another error');
+
+    (function() {
+      compose();
+    }).should.throw('yet another error');
   });
 };
 
 exports.composeThePresets = function() {
+  var areValidPresetsStub;
+
+  beforeEach(function() {
+    areValidPresetsStub = sinon.stub(rescaleUtil, 'areValidPresets');
+    areValidPresetsStub.returns(true);
+  });
+
+  afterEach(function() {
+    areValidPresetsStub.restore();
+  });
+
   it('should compose the presets', function() {
     compose([
       [[0, 10], [10, 20]],
@@ -84,5 +99,11 @@ exports.composeThePresets = function() {
       [[1, 3], [3, 9]],
       [[1000, Math.E], [999, Math.E - 1]]
     ]).should.eql([[1, 2], [5, 11]]);
+
+    compose([
+      [[1, 2], [2, 4]]
+    ]).should.eql([[1, 2], [2, 4]]);
+
+    should(compose([])).eql([]);
   });
 };
