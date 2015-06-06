@@ -1,6 +1,6 @@
 /**
  * linear-converter - Copyright 2015 Javier Cejudo <javier@javiercejudo.com> (http://www.javiercejudo.com)
- * @version v1.2.0-beta.1
+ * @version v1.2.0
  * @link https://github.com/javiercejudo/linear-converter#readme
  * @license MIT
  */

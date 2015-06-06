@@ -1,6 +1,6 @@
 {
   "name": "linear-converter",
-  "version": "1.2.0-beta.1",
+  "version": "1.2.0",
   "description": "Flexible linear converter with built in conversions for common units",
   "main": "src/linear-converter.js",
   "scripts": {
