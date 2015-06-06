@@ -9,7 +9,19 @@
 
 Flexible linear converter with built in conversions for common units
 
-## Install
+## Table of contents
+
+- [Installation](#installation)
+- [Basic usage](#basic-usage)
+- [Preset inversion](#preset-inversion)
+- [Presets composition](#presets-composition)
+- [Custom conversions](#custom-conversions)
+- [Coefficients](#coefficients)
+- [Arbitrary precision](#arbitrary-precision)
+- [See more](#see-more)
+- [Related projects](#related-projects)
+
+## Installation
 
 ### npm
 
@@ -102,9 +114,31 @@ lc.getCoefficientA([[x1, x2], [f(x1), f(x2)]]); // => a
 lc.getCoefficientB([[x1, x2], [f(x1), f(x2)]]); // => b
 ```
 
+## Arbitrary precision
+
+By default, *linear-converter* works with native floating-point numbers.
+However, it will work with arbitrary precision if
+[big.js](https://github.com/MikeMcl/big.js) is available;
+
+```js
+// without big.js
+lc.getCoefficientA([[0, 0.1], [0.1, 0.3]]); // => 1.9999999999999998
+
+// with big.js
+lc.getCoefficientA([[0, 0.1], [0.1, 0.3]]); // => 2
+```
+
+In the browser, you will need to generate a bundled *big.js* package by
+running the following command:
+
+    browserify -r node_modules/big.js/big.js:big.js > browserified-big.js
+
+Alternatively, grab it from https://wzrd.in/bundle/big.js.
+
+Then simply include that file before *linear-converter*.
+
 ## See more
 
-- [walk-through](test/iojs/walk-through.js)
 - [spec](test/iojs/spec.js)
 - [all presets](https://github.com/javiercejudo/linear-presets/blob/master/data/presets.json)
 
@@ -115,3 +149,4 @@ lc.getCoefficientB([[x1, x2], [f(x1), f(x2)]]); // => b
 - [scale](https://github.com/javiercejudo/scale): scales normalised data.
 - [normalise](https://github.com/javiercejudo/normalise): normalise data to [0, 1].
 - [rescale-util](https://github.com/javiercejudo/rescale-util): rescale utilities.
+- [rescale-arbitrary-precision](https://github.com/javiercejudo/rescale-arbitrary-precision): arbitrary precision for rescale.

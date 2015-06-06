@@ -1,7 +1,7 @@
 /**
- * linear-converter - Copyright 2015 Javier Cejudo
- * @version v1.1.3
- * @link https://github.com/javiercejudo/linear-converter
+ * linear-converter - Copyright 2015 Javier Cejudo <javier@javiercejudo.com> (http://www.javiercejudo.com)
+ * @version v1.2.0-beta.1
+ * @link https://github.com/javiercejudo/linear-converter#readme
  * @license MIT
  */
 require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
@@ -154,6 +154,55 @@ exports.PRESETS = require('../data/presets.json');
 
 'use strict';
 
+/**
+ * Returns the package for the given name if found or undefined otherwise
+ *
+ * @param  {String} The name of the package to load
+ *
+ * @return {*}
+ */
+exports.optionale = function optionale(optioanlDependency) {
+  try {
+    return require(optioanlDependency);
+  } catch (er) {
+    return;
+  }
+};
+
+},{}],4:[function(require,module,exports){
+/*jshint node:true */
+
+'use strict';
+
+var optionale = require('optionale');
+
+var decimal;
+
+/**
+ * Returns arbitrary precision library if available or undefined otherwise
+ *
+ * @return {*}
+ */
+exports.load = function load() {
+  decimal = optionale.optionale('big.js');
+
+  return decimal;
+};
+
+/**
+ * Returns true if arbitrary precision is available and false otherwise
+ *
+ * @return {Boolean} Arbitrary precision availability
+ */
+exports.isAvailable = function isAvailable() {
+  return typeof decimal !== 'undefined';
+};
+
+},{"optionale":3}],5:[function(require,module,exports){
+/*jshint node:true */
+
+'use strict';
+
 var initialError = '',
     error = initialError,
     validScaleExample = 'Eg. [0, 1]',
@@ -238,13 +287,16 @@ function setPresetsError(newError) {
   error = newError + '. ' + validPresetsExample;
 }
 
-},{}],4:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 /*jshint node:true */
 
 'use strict';
 
 var rescaleUtil = require('rescale-util');
+var arbitraryPrecision = require('rescale-arbitrary-precision');
+
 var RescaleError = rescaleUtil.RescaleError;
+var decimal = arbitraryPrecision.load();
 
 exports.normalise = function normalise(x, scale) {
   if (typeof scale === 'undefined') {
@@ -255,16 +307,32 @@ exports.normalise = function normalise(x, scale) {
     throw new RescaleError(rescaleUtil.getLastError());
   }
 
-  return (x - scale[0]) / (scale[1] - scale[0]);
+  if (arbitraryPrecision.isAvailable()) {
+    return Number(normaliseDecimal(x, scale));
+  }
+
+  return normaliseNative(x, scale);
 };
 
-},{"rescale-util":3}],5:[function(require,module,exports){
+function normaliseDecimal(x, scale) {
+  return decimal(x).minus(scale[0])
+    .div(decimal(scale[1]).minus(scale[0]));
+}
+
+function normaliseNative(x, scale) {
+  return (x - scale[0]) / (scale[1] - scale[0]);
+}
+
+},{"rescale-arbitrary-precision":4,"rescale-util":5}],7:[function(require,module,exports){
 /*jshint node:true */
 
 'use strict';
 
 var rescaleUtil = require('rescale-util');
+var arbitraryPrecision = require('rescale-arbitrary-precision');
+
 var RescaleError = rescaleUtil.RescaleError;
+var decimal = arbitraryPrecision.load();
 
 exports.scale = function scaleNormalised(x, scale) {
   if (typeof scale === 'undefined') {
@@ -275,35 +343,76 @@ exports.scale = function scaleNormalised(x, scale) {
     throw new RescaleError(rescaleUtil.getLastError());
   }
 
-  return scale[0] + x * (scale[1] - scale[0]);
+  if (arbitraryPrecision.isAvailable()) {
+    return Number(scaleDecimal(x, scale));
+  }
+
+  return scaleNative(x, scale);
 };
 
-},{"rescale-util":3}],6:[function(require,module,exports){
+function scaleDecimal(x, scale) {
+  return decimal(scale[1]).minus(scale[0]).times(x).plus(scale[0]);
+}
+
+function scaleNative(x, scale) {
+  return scale[0] + x * (scale[1] - scale[0]);
+}
+
+},{"rescale-arbitrary-precision":4,"rescale-util":5}],8:[function(require,module,exports){
 /*jshint node:true */
 
 'use strict';
 
 var normalise = require('normalise');
 var scale = require('scale-normalised');
+var arbitraryPrecision = require('rescale-arbitrary-precision');
+
+var decimal = arbitraryPrecision.load();
 
 exports.rescale = function rescale(x, oldScale, newScale) {
   if (typeof newScale === 'undefined') {
     return normalise.normalise(x, oldScale);
   }
 
-  return scale.scale(normalise.normalise(x, oldScale), newScale);
+  if (arbitraryPrecision.isAvailable()) {
+    return Number(rescaleDecimal(x, oldScale, newScale));
+  }
+
+  return rescaleNative(x, oldScale, newScale);
 };
 
-},{"normalise":4,"scale-normalised":5}],"linear-converter":[function(require,module,exports){
+function rescaleDecimal(x, oldScale, newScale) {
+  return scaleDecimal(normaliseDecimal(x, oldScale), newScale);
+}
+
+function normaliseDecimal(x, scale) {
+  return decimal(x).minus(scale[0])
+    .div(decimal(scale[1]).minus(scale[0]));
+}
+
+function scaleDecimal(x, scale) {
+  return decimal(scale[1]).minus(scale[0]).times(x).plus(scale[0]);
+}
+
+function rescaleNative(x, oldScale, newScale) {
+  return scale.scale(normalise.normalise(x, oldScale), newScale);
+}
+
+},{"normalise":6,"rescale-arbitrary-precision":4,"scale-normalised":7}],"linear-converter":[function(require,module,exports){
 /*jshint node:true */
 
 'use strict';
 
 var rescale = require('rescale');
 var rescaleUtil = require('rescale-util');
+var arbitraryPrecision = require('rescale-arbitrary-precision');
 
 var RescaleError = rescaleUtil.RescaleError;
+var decimal = arbitraryPrecision.load();
 
+/**
+ * @type {Object}
+ */
 exports.PRESETS = require('linear-presets').PRESETS;
 
 /**
@@ -350,15 +459,11 @@ exports.invertPreset = function invertPreset(preset) {
 exports.composePresets = function composePresets(presets) {
   assertPresets(presets);
 
-  return presets.reduce(function (previousPreset, currentPreset) {
-    return [
-      previousPreset[0],
-      [
-        rescale.rescale(previousPreset[1][0], currentPreset[0], currentPreset[1]),
-        rescale.rescale(previousPreset[1][1], currentPreset[0], currentPreset[1])
-      ]
-    ];
-  });
+  if (presets.length === 0) {
+    return presets;
+  }
+
+  return presets.reduce(compose2presets);
 };
 
 /**
@@ -373,7 +478,11 @@ exports.composePresets = function composePresets(presets) {
 exports.getCoefficientA = function getCoefficientA(preset) {
   assertPreset(preset);
 
-  return (preset[1][1] - preset[1][0]) / (preset[0][1] - preset[0][0]);
+  if (arbitraryPrecision.isAvailable()) {
+    return Number(getCoefficientADecimal(preset));
+  }
+
+  return getCoefficientANative(preset);
 };
 
 /**
@@ -390,6 +499,48 @@ exports.getCoefficientB = function getCoefficientB(preset) {
 
   return rescale.rescale(0, preset[0], preset[1]);
 };
+
+/**
+ * Composes two presets to create a single preset
+ *
+ * @param {Array} preset The first preset to compose
+ * @param {Array} preset The second preset to compose
+ *
+ * @return {Array} The composed preset
+ */
+function compose2presets(presetA, presetB) {
+  return [
+    presetA[0],
+    presetA[1].map(function(x) {
+      return rescale.rescale(x, presetB[0], presetB[1]);
+    })
+  ];
+}
+
+/**
+ * Calculates the a coefficient in the f(x) = ax + b function that describes
+ * the given preset using floating-point numbers.
+ *
+ * @param {Array} preset The preset for which to calculate its a coefficient
+ *
+ * @return {Number} The coefficient a
+ */
+function getCoefficientANative(preset) {
+  return (preset[1][1] - preset[1][0]) / (preset[0][1] - preset[0][0]);
+}
+
+/**
+ * Calculates the a coefficient in the f(x) = ax + b function that describes
+ * the given preset using arbitrary precision.
+ *
+ * @param {Array} preset The preset for which to calculate its a coefficient
+ *
+ * @return {Big} The coefficient a
+ */
+function getCoefficientADecimal(preset) {
+  return decimal(preset[1][1]).minus(preset[1][0])
+    .div(decimal(preset[0][1]).minus(preset[0][0]));
+}
 
 /**
  * Asserts a valid preset is given
@@ -417,4 +568,4 @@ function assertPresets(presets) {
   }
 }
 
-},{"linear-presets":2,"rescale":6,"rescale-util":3}]},{},[]);
+},{"linear-presets":2,"rescale":8,"rescale-arbitrary-precision":4,"rescale-util":5}]},{},[]);
