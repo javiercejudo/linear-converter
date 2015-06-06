@@ -102,8 +102,8 @@ exports.getCoefficientB = function getCoefficientB(preset) {
 /**
  * Composes two presets to create a single preset
  *
- * @param {Array} preset The first preset to compose
- * @param {Array} preset The second preset to compose
+ * @param {Array} presetA The first preset to compose
+ * @param {Array} presetB The second preset to compose
  *
  * @return {Array} The composed preset
  */
