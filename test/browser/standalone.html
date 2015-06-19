@@ -16,14 +16,16 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.1.1/es5-shim.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.1.1/es5-sham.js"></script>
   <![endif]-->
+  <script src="https://wzrd.in/bundle/linear-presets"></script>
   <script src="../../dist/linear-converter.js"></script>
 
   <script>
+    var PRESETS = require('linear-presets').PRESETS;
     var converter = require('linear-converter');
     var convert = converter.convert;
 
     // built-in presets for temperature, length, mass and more
-    var temp = converter.PRESETS.temperature;
+    var temp = PRESETS.temperature;
 
     var ex = [];
     ex[0] = {};

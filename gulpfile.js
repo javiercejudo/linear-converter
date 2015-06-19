@@ -49,7 +49,19 @@ gulp.task('browserify-bigjs', [], function () {
     .pipe(gulp.dest('./tmp/'));
 });
 
-gulp.task('test', ['clean:coverage', 'instrument', 'browserify-bigjs'], function () {
+gulp.task('browserify-linear-presets', [], function () {
+  var presets = 'linear-presets';
+
+  var b = browserify()
+    .require('./node_modules/' + presets + '/src/' + presets + '.js', {expose: presets});
+
+  return b.bundle()
+    .pipe(source(presets))
+    .pipe(buffer())
+    .pipe(gulp.dest('./tmp/'));
+});
+
+gulp.task('test', ['clean:coverage', 'instrument', 'browserify-bigjs', 'browserify-linear-presets'], function () {
   return gulp.src(['test/iojs/*.js'])
     .pipe(mocha())
     .pipe(istanbul.writeReports());

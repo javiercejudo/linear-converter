@@ -4,7 +4,6 @@
 
 var should = require('should');
 var sinon = require('sinon');
-var rescaleUtil = require('rescale-util');
 var big = require('big.js');
 var arbitraryPrecision = require('rescale-arbitrary-precision');
 var getCoefficientA = require('../../../src/linear-converter').getCoefficientA;
@@ -52,24 +51,5 @@ exports.workWithFloatingPointNumbers = function() {
 
     getCoefficientA([[0, 100], [150, 0]])
       .should.be.exactly(-3/2);
-  });
-};
-
-exports.throwAnError = function() {
-  var getLastErrorStub;
-
-  beforeEach(function() {
-    getLastErrorStub = sinon.stub(rescaleUtil, 'getLastError');
-    getLastErrorStub.returns('an error');
-  });
-
-  afterEach(function() {
-    getLastErrorStub.restore();
-  });
-
-  it('should throw an error', function() {
-    (function() {
-      getCoefficientA(2);
-    }).should.throw(rescaleUtil.RescaleError, {message: 'an error'});
   });
 };

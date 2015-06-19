@@ -4,6 +4,7 @@
 (function($hould) {
   'use strict';
 
+  var PRESETS = require('linear-presets').PRESETS;
   var converter = require('linear-converter');
   var arbitraryPrecisionAvailable = true;
   var transform;
@@ -23,7 +24,7 @@
     var convert = converter.convert;
 
     // built-in presets for temperature, length, mass and more
-    var temp = converter.PRESETS.temperature;
+    var temp = PRESETS.temperature;
 
     // easy inversion of presets
     var invert = converter.invertPreset;

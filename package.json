@@ -46,6 +46,7 @@
     "karma-mocha-reporter": "^1.0.2",
     "karma-phantomjs-launcher": "^0.1.4",
     "karma-sauce-launcher": "^0.2.10",
+    "linear-presets": "^1.1.1",
     "mocha": "^2.2.4",
     "rimraf": "^2.3.2",
     "should": "^5.0.0",
@@ -54,10 +55,8 @@
     "vinyl-source-stream": "^1.1.0"
   },
   "dependencies": {
-    "linear-presets": "^1.1.1",
-    "rescale": "^4.0.1",
-    "rescale-arbitrary-precision": "^1.0.1",
-    "rescale-util": "^3.0.0"
+    "rescale": "^5.0.0",
+    "rescale-arbitrary-precision": "^1.0.1"
   },
   "optionalDependencies": {
     "big.js": "^3.0.2"

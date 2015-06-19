@@ -7,7 +7,7 @@
 
 [![Sauce Test Status](https://saucelabs.com/browser-matrix/linear-converter.svg)](https://saucelabs.com/u/linear-converter)
 
-Flexible linear converter with built in conversions for common units
+Flexible linear converter
 
 ## Table of contents
 
@@ -40,9 +40,10 @@ To use it in the browser, include the following on your site:
 ## Basic usage
 
 ```js
+var PRESETS = require('linear-presets').PRESETS;
 var lc = require('linear-converter');
 
-lc.convert(25, lc.PRESETS.temperature.celsiusToFahrenheit); // => 77
+lc.convert(25, PRESETS.temperature.celsiusToFahrenheit); // => 77
 ```
 
 See [CodePen example](http://codepen.io/javiercejudo/pen/PwvePd?editors=101) for a quick interactive intro.
@@ -51,22 +52,18 @@ For CLI use, see [linear-converter-cli](https://github.com/javiercejudo/linear-c
 
 ## Preset inversion
 
-The provided presets go in one direction only; to invert the direction, use `invertPreset`:
-
 ```js
-var fahrenheitToCelsius = lc.invertPreset(lc.PRESETS.temperature.celsiusToFahrenheit);
+var fahrenheitToCelsius = lc.invertPreset(PRESETS.temperature.celsiusToFahrenheit);
 
 lc.convert(77, fahrenheitToCelsius); // => 25
 ```
 
 ## Presets composition
 
-The provided presets have a base unit from which to convert. Any to any conversions are straightforward using inversion and composition with `composePresets`:
-
 ```js
 var kelvinToFahrenheit = lc.composePresets([
-  lc.invertPreset(lc.PRESETS.temperature.celsiusToKelvin),
-  lc.PRESETS.temperature.celsiusToFahrenheit
+  lc.invertPreset(PRESETS.temperature.celsiusToKelvin),
+  PRESETS.temperature.celsiusToFahrenheit
 ]);
 
 lc.convert(293.15, kelvinToFahrenheit); // => 68
@@ -77,7 +74,7 @@ lc.convert(293.15, kelvinToFahrenheit); // => 68
 Custom conversions are easily achieved by passing an array with 2 scales, each
 of those an array with 2 values. For example, **[[0, 1], [0, 2]]** means that 0 and
 1 in the first scale map to 0 and 2 in the second scale respectively; in short,
-it multiplies by 2. Any linear function can be described that way:
+it multiplies by 2. Any linear conversion can be described that way:
 
 ```js
 // f(x) = ax + b
