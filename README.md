@@ -46,7 +46,9 @@ var lc = require('linear-converter');
 lc.convert(25, PRESETS.temperature.celsiusToFahrenheit); // => 77
 ```
 
-See [CodePen example](http://codepen.io/javiercejudo/pen/PwvePd?editors=101) for a quick interactive intro.
+For a quick interactive intro, see [CodePen example](http://codepen.io/javiercejudo/pen/PwvePd?editors=101).
+
+If you prefer the object-oriented paradigm, see [linear-conversion](https://github.com/javiercejudo/linear-conversion).
 
 For CLI use, see [linear-converter-cli](https://github.com/javiercejudo/linear-converter-cli).
 
