@@ -24,6 +24,7 @@ module.exports = function(config) {
     ]
     .concat(maybeArbitraryPrecisionUrl)
     .concat([
+      'tmp/linear-presets',
       'dist/linear-converter.js',
       'test/browser/*.js'
     ]),
