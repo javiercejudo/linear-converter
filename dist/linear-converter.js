@@ -1,35 +1,111 @@
 /**
  * linear-converter - Copyright 2015 Javier Cejudo <javier@javiercejudo.com> (http://www.javiercejudo.com)
- * @version v2.0.0
+ * @version v2.1.0
  * @link https://github.com/javiercejudo/linear-converter#readme
  * @license MIT
  */
 require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-/*jshint node:true */
-
-'use strict';
+/**
+ * lodash 3.0.1 (Custom Build) <https://lodash.com/>
+ * Build: `lodash modern modularize exports="npm" -o ./`
+ * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
+ * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
+ * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+ * Available under MIT license <https://lodash.com/license>
+ */
 
 /**
- * Returns the package for the given name if found or undefined otherwise
+ * Checks if `value` is `undefined`.
  *
- * @param  {String} The name of the package to load
+ * @static
+ * @memberOf _
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is `undefined`, else `false`.
+ * @example
  *
- * @return {*}
+ * _.isUndefined(void 0);
+ * // => true
+ *
+ * _.isUndefined(null);
+ * // => false
  */
-exports.optionale = function optionale(optioanlDependency) {
-  try {
-    return require(optioanlDependency);
-  } catch (er) {
-    return;
-  }
-};
+function isUndefined(value) {
+  return value === undefined;
+}
+
+module.exports = isUndefined;
 
 },{}],2:[function(require,module,exports){
 /*jshint node:true */
 
 'use strict';
 
+var isUndefined = require('lodash.isundefined');
+
+exports.optionale = optionale;
+exports.any = any;
+exports.some = some;
+
+/**
+ * Returns the package for the given name if found or undefined otherwise
+ *
+ * @param {String} The name of the package to try to load
+ *
+ * @return {*}
+ */
+function optionale(optionalDependency) {
+  try {
+    return require(optionalDependency);
+  } catch (ignore) {
+  }
+}
+
+/**
+ * Returns the first available package if it exists or undefined otherwise
+ *
+ * @param {Array} The names of the package to try to load
+ *
+ * @return {*}
+ */
+function any(optioanlDependencies) {
+  var result;
+
+  optioanlDependencies.every(function(optionalDependency) {
+    result = optionale(optionalDependency);
+
+    return isUndefined(result);
+  });
+
+  return result;
+}
+
+/**
+ * Returns the first available package if it exists or throws Error otherwise
+ *
+ * @param {Array} The names of the package to try to load
+ *
+ * @return {*}
+ *
+ * @throws Error
+ */
+function some(optionalDependencies) {
+  var result = any(optionalDependencies);
+
+  if (isUndefined(result)) {
+    throw new Error('None of the dependencies could be loaded');
+  }
+
+  return result;
+}
+
+},{"lodash.isundefined":1}],3:[function(require,module,exports){
+/*jshint node:true */
+
+'use strict';
+
 var optionale = require('optionale');
+var isUndefined = require('lodash.isundefined');
 
 var decimal;
 
@@ -39,7 +115,7 @@ var decimal;
  * @return {*}
  */
 exports.load = function load() {
-  decimal = optionale.optionale('big.js');
+  decimal = optionale.any(['big.js', 'bignumber.js', 'decimal.js']);
 
   return decimal;
 };
@@ -50,17 +126,17 @@ exports.load = function load() {
  * @return {Boolean} Arbitrary precision availability
  */
 exports.isAvailable = function isAvailable() {
-  return typeof decimal !== 'undefined';
+  return !isUndefined(decimal);
 };
 
-},{"optionale":1}],3:[function(require,module,exports){
+},{"lodash.isundefined":1,"optionale":2}],4:[function(require,module,exports){
 /*jshint node:true */
 
 'use strict';
 
 var arbitraryPrecision = require('rescale-arbitrary-precision');
 
-var decimal = arbitraryPrecision.load();
+var Decimal = arbitraryPrecision.load();
 
 exports.normalise = function normalise(x, scale) {
   if (typeof scale === 'undefined') {
@@ -75,22 +151,28 @@ exports.normalise = function normalise(x, scale) {
 };
 
 function normaliseDecimal(x, scale) {
-  return decimal(x).minus(scale[0])
-    .div(decimal(scale[1]).minus(scale[0]));
+  return new Decimal(x).minus(scale[0])
+    .div(new Decimal(scale[1]).minus(scale[0]));
 }
 
 function normaliseNative(x, scale) {
   return (x - scale[0]) / (scale[1] - scale[0]);
 }
 
-},{"rescale-arbitrary-precision":2}],4:[function(require,module,exports){
+},{"rescale-arbitrary-precision":7}],5:[function(require,module,exports){
+arguments[4][1][0].apply(exports,arguments)
+},{"dup":1}],6:[function(require,module,exports){
+arguments[4][2][0].apply(exports,arguments)
+},{"dup":2,"lodash.isundefined":5}],7:[function(require,module,exports){
+arguments[4][3][0].apply(exports,arguments)
+},{"dup":3,"lodash.isundefined":5,"optionale":6}],8:[function(require,module,exports){
 /*jshint node:true */
 
 'use strict';
 
 var arbitraryPrecision = require('rescale-arbitrary-precision');
 
-var decimal = arbitraryPrecision.load();
+var Decimal = arbitraryPrecision.load();
 
 exports.scale = function scaleNormalised(x, scale) {
   if (typeof scale === 'undefined') {
@@ -105,14 +187,14 @@ exports.scale = function scaleNormalised(x, scale) {
 };
 
 function scaleDecimal(x, scale) {
-  return decimal(scale[1]).minus(scale[0]).times(x).plus(scale[0]);
+  return new Decimal(scale[1]).minus(scale[0]).times(x).plus(scale[0]);
 }
 
 function scaleNative(x, scale) {
   return scale[0] + x * (scale[1] - scale[0]);
 }
 
-},{"rescale-arbitrary-precision":2}],5:[function(require,module,exports){
+},{"rescale-arbitrary-precision":7}],9:[function(require,module,exports){
 /*jshint node:true */
 
 'use strict';
@@ -121,7 +203,7 @@ var normalise = require('normalise');
 var scale = require('scale-normalised');
 var arbitraryPrecision = require('rescale-arbitrary-precision');
 
-var decimal = arbitraryPrecision.load();
+var Decimal = arbitraryPrecision.load();
 
 exports.rescale = function rescale(x, oldScale, newScale) {
   if (typeof newScale === 'undefined') {
@@ -140,19 +222,19 @@ function rescaleDecimal(x, oldScale, newScale) {
 }
 
 function normaliseDecimal(x, scale) {
-  return decimal(x).minus(scale[0])
-    .div(decimal(scale[1]).minus(scale[0]));
+  return new Decimal(x).minus(scale[0])
+    .div(new Decimal(scale[1]).minus(scale[0]));
 }
 
 function scaleDecimal(x, scale) {
-  return decimal(scale[1]).minus(scale[0]).times(x).plus(scale[0]);
+  return new Decimal(scale[1]).minus(scale[0]).times(x).plus(scale[0]);
 }
 
 function rescaleNative(x, oldScale, newScale) {
   return scale.scale(normalise.normalise(x, oldScale), newScale);
 }
 
-},{"normalise":3,"rescale-arbitrary-precision":2,"scale-normalised":4}],"linear-converter":[function(require,module,exports){
+},{"normalise":4,"rescale-arbitrary-precision":7,"scale-normalised":8}],"linear-converter":[function(require,module,exports){
 /*jshint node:true */
 
 'use strict';
@@ -160,7 +242,7 @@ function rescaleNative(x, oldScale, newScale) {
 var rescale = require('rescale');
 var arbitraryPrecision = require('rescale-arbitrary-precision');
 
-var decimal = arbitraryPrecision.load();
+var Decimal = arbitraryPrecision.load();
 
 /**
  * Linearly converts x as described by a preset
@@ -262,8 +344,8 @@ function getCoefficientANative(preset) {
  * @return {Big} The coefficient a
  */
 function getCoefficientADecimal(preset) {
-  return decimal(preset[1][1]).minus(preset[1][0])
-    .div(decimal(preset[0][1]).minus(preset[0][0]));
+  return new Decimal(preset[1][1]).minus(preset[1][0])
+    .div(new Decimal(preset[0][1]).minus(preset[0][0]));
 }
 
-},{"rescale":5,"rescale-arbitrary-precision":2}]},{},[]);
+},{"rescale":9,"rescale-arbitrary-precision":3}]},{},[]);
