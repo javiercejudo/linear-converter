@@ -1,5 +1,7 @@
 /*jshint node:true */
 
+var decimalDep = process.env.DECIMAL ? process.env.DECIMAL : 'big.js';
+
 var gulp = require('gulp');
 var mocha = require('gulp-mocha');
 var istanbul = require('gulp-istanbul');
@@ -23,33 +25,31 @@ var banner = ['/**',
   ' */\n'
 ].join('\n');
 
-gulp.task('clean:coverage', function (cb) {
+gulp.task('clean:coverage', function(cb) {
   del(['coverage'], cb);
 });
 
-gulp.task('clean:dist', function (cb) {
+gulp.task('clean:dist', function(cb) {
   del(['dist'], cb);
 });
 
-gulp.task('instrument', function () {
+gulp.task('instrument', function() {
   return gulp.src(['src/linear-converter.js'])
     .pipe(istanbul())
     .pipe(istanbul.hookRequire());
 });
 
-gulp.task('browserify-bigjs', [], function () {
-  var bigjs = 'big.js';
-
+gulp.task('browserify-decimal', [], function() {
   var b = browserify()
-    .require('./node_modules/' + bigjs + '/' + bigjs, {expose: bigjs});
+    .require('./node_modules/' + decimalDep + '/' + decimalDep, {expose: decimalDep});
 
   return b.bundle()
-    .pipe(source(bigjs))
+    .pipe(source(decimalDep))
     .pipe(buffer())
     .pipe(gulp.dest('./tmp/'));
 });
 
-gulp.task('browserify-linear-presets', [], function () {
+gulp.task('browserify-linear-presets', [], function() {
   var presets = 'linear-presets';
 
   var b = browserify()
@@ -61,18 +61,18 @@ gulp.task('browserify-linear-presets', [], function () {
     .pipe(gulp.dest('./tmp/'));
 });
 
-gulp.task('test', ['clean:coverage', 'instrument', 'browserify-bigjs', 'browserify-linear-presets'], function () {
+gulp.task('test', ['clean:coverage', 'instrument', 'browserify-decimal', 'browserify-linear-presets'], function() {
   return gulp.src(['test/iojs/*.js'])
     .pipe(mocha())
     .pipe(istanbul.writeReports());
 });
 
-gulp.task('coveralls', function () {
+gulp.task('coveralls', function() {
   gulp.src('coverage/lcov.info')
     .pipe(coveralls());
 });
 
-gulp.task('browserify', ['clean:dist'], function () {
+gulp.task('browserify', ['clean:dist'], function() {
   var b = browserify()
     .require('./' + pkg.main, {expose: pkg.name});
 

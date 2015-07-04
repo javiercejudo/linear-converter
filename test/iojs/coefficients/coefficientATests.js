@@ -4,7 +4,6 @@
 
 var should = require('should');
 var sinon = require('sinon');
-var big = require('big.js');
 var arbitraryPrecision = require('rescale-arbitrary-precision');
 var getCoefficientA = require('../../../src/linear-converter').getCoefficientA;
 

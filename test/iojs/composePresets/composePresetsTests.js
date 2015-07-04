@@ -20,7 +20,7 @@ exports.composeThePresets = function() {
     compose([
       [[1, 2], [2, 4]],
       [[1, 3], [3, 9]],
-      [[1000, Math.E], [999, Math.E - 1]]
+      [[1000, Number(Math.E.toFixed(14))], [999, Number(Math.E.toFixed(14)) - 1]]
     ]).should.eql([[1, 2], [5, 11]]);
 
     compose([

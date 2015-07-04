@@ -5,7 +5,7 @@
 var rescale = require('rescale');
 var arbitraryPrecision = require('rescale-arbitrary-precision');
 
-var decimal = arbitraryPrecision.load();
+var Decimal = arbitraryPrecision.load();
 
 /**
  * Linearly converts x as described by a preset
@@ -107,6 +107,6 @@ function getCoefficientANative(preset) {
  * @return {Big} The coefficient a
  */
 function getCoefficientADecimal(preset) {
-  return decimal(preset[1][1]).minus(preset[1][0])
-    .div(decimal(preset[0][1]).minus(preset[0][0]));
+  return new Decimal(preset[1][1]).minus(preset[1][0])
+    .div(new Decimal(preset[0][1]).minus(preset[0][0]));
 }

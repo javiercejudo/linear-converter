@@ -2,6 +2,8 @@
 
 'use strict';
 
+var decimalDep = process.env.DECIMAL ? process.env.DECIMAL : 'big.js';
+
 var better = require('betterer').better;
 var convertTests = require('./convert/convertTests');
 var invertPresetTests = require('./invertPreset/invertPresetTests');
@@ -24,8 +26,8 @@ o_o('composing', function() { var o_O = composePresetsTests;
 });
 
 o_o('computing coefficient a', function() { var o_O = coefficientATests;
-  o_o('when big.js is available', better('work with arbitrary precision', o_O));
-  o_o('when big.js is not available', better('work with floating-point numbers', o_O));
+  o_o('when ' + decimalDep + ' is available', better('work with arbitrary precision', o_O));
+  o_o('when ' + decimalDep + ' is not available', better('work with floating-point numbers', o_O));
 });
 
 o_o('computing coefficient b', function() { var o_O = coefficientBTests;
