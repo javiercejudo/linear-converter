@@ -117,24 +117,28 @@ lc.getCoefficientB([[x1, x2], [f(x1), f(x2)]]); // => b
 
 By default, *linear-converter* works with native floating-point numbers.
 However, it will work with arbitrary precision if
-[big.js](https://github.com/MikeMcl/big.js) is available;
+[big.js](https://github.com/MikeMcl/big.js),
+[bignumber.js](https://github.com/MikeMcl/bignumber.js)
+or
+[decimal.js](https://github.com/MikeMcl/decimal.js)
+are available:
 
 ```js
-// without big.js
+// without arbitrary precision library
 lc.getCoefficientA([[0, 0.1], [0.1, 0.3]]); // => 1.9999999999999998
 
-// with big.js
+// with arbitrary precision library
 lc.getCoefficientA([[0, 0.1], [0.1, 0.3]]); // => 2
 ```
 
-In the browser, you will need to generate a bundled *big.js* package by
-running the following command:
+In the browser, you will need to bundle the arbitrary precision library.
+For example:
 
     browserify -r node_modules/big.js/big.js:big.js > browserified-big.js
 
 Alternatively, grab it from https://wzrd.in/bundle/big.js.
 
-Then simply include that file before *linear-converter*.
+Then simply include that file before *linear-converter*. See [CodePen example](http://codepen.io/javiercejudo/pen/WvEWdQ?editors=101).
 
 ## See more
 
