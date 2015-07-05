@@ -159,13 +159,7 @@ function normaliseNative(x, scale) {
   return (x - scale[0]) / (scale[1] - scale[0]);
 }
 
-},{"rescale-arbitrary-precision":7}],5:[function(require,module,exports){
-arguments[4][1][0].apply(exports,arguments)
-},{"dup":1}],6:[function(require,module,exports){
-arguments[4][2][0].apply(exports,arguments)
-},{"dup":2,"lodash.isundefined":5}],7:[function(require,module,exports){
-arguments[4][3][0].apply(exports,arguments)
-},{"dup":3,"lodash.isundefined":5,"optionale":6}],8:[function(require,module,exports){
+},{"rescale-arbitrary-precision":3}],5:[function(require,module,exports){
 /*jshint node:true */
 
 'use strict';
@@ -194,7 +188,7 @@ function scaleNative(x, scale) {
   return scale[0] + x * (scale[1] - scale[0]);
 }
 
-},{"rescale-arbitrary-precision":7}],9:[function(require,module,exports){
+},{"rescale-arbitrary-precision":3}],6:[function(require,module,exports){
 /*jshint node:true */
 
 'use strict';
@@ -234,7 +228,7 @@ function rescaleNative(x, oldScale, newScale) {
   return scale.scale(normalise.normalise(x, oldScale), newScale);
 }
 
-},{"normalise":4,"rescale-arbitrary-precision":7,"scale-normalised":8}],"linear-converter":[function(require,module,exports){
+},{"normalise":4,"rescale-arbitrary-precision":3,"scale-normalised":5}],"linear-converter":[function(require,module,exports){
 /*jshint node:true */
 
 'use strict';
@@ -348,4 +342,4 @@ function getCoefficientADecimal(preset) {
     .div(new Decimal(preset[0][1]).minus(preset[0][0]));
 }
 
-},{"rescale":9,"rescale-arbitrary-precision":3}]},{},[]);
+},{"rescale":6,"rescale-arbitrary-precision":3}]},{},[]);
