@@ -2,22 +2,14 @@
 
 'use strict';
 
-var should = require('should');
-var sinon = require('sinon');
-var arbitraryPrecision = require('rescale-arbitrary-precision');
-var getCoefficientA = require('../../../src/linear-converter').getCoefficientA;
+require('should');
+
+var bigjsAdapter = require('bigjs-adapter');
+var floatingAdapter = require('floating-adapter');
+var lcFactory = require('../../../src/linear-converter');
 
 exports.workWithArbitraryPrecision = function() {
-  var hasArbitraryPrecisionStub;
-
-  beforeEach(function() {
-    hasArbitraryPrecisionStub = sinon.stub(arbitraryPrecision, 'isAvailable');
-    hasArbitraryPrecisionStub.returns(true);
-  });
-
-  afterEach(function() {
-    hasArbitraryPrecisionStub.restore();
-  });
+  var getCoefficientA = lcFactory(bigjsAdapter).getCoefficientA;
 
   it('should work with arbitrary precision', function() {
     getCoefficientA([[0, 0.1], [0.1, 0.3]]).should.be.exactly(2);
@@ -31,16 +23,7 @@ exports.workWithArbitraryPrecision = function() {
 };
 
 exports.workWithFloatingPointNumbers = function() {
-  var hasArbitraryPrecisionStub;
-
-  beforeEach(function() {
-    hasArbitraryPrecisionStub = sinon.stub(arbitraryPrecision, 'isAvailable');
-    hasArbitraryPrecisionStub.returns(false);
-  });
-
-  afterEach(function() {
-    hasArbitraryPrecisionStub.restore();
-  });
+  var getCoefficientA = lcFactory(floatingAdapter).getCoefficientA;
 
   it('work with floating-point numbers', function() {
     getCoefficientA([[0, 0.1], [0.1, 0.3]]).should.be.exactly(1.9999999999999998);

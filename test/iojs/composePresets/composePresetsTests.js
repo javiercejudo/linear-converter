@@ -2,10 +2,14 @@
 
 'use strict';
 
-var should = require('should');
-var compose = require('../../../src/linear-converter').composePresets;
+require('should');
+
+var floatingAdapter = require('floating-adapter');
+var lcFactory = require('../../../src/linear-converter');
 
 exports.composeThePresets = function() {
+  var compose = lcFactory(floatingAdapter).composePresets;
+
   it('should compose the presets', function() {
     compose([
       [[0, 10], [10, 20]],
