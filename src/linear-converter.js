@@ -5,18 +5,23 @@
 var arbitraryPrecision = require('linear-arbitrary-precision');
 var rescaleFactory = require('rescale');
 
+/**
+ * Returns the linear converter api based on the given adapter
+ *
+ * @param {Object} adapter Linear converter adapter
+ *
+ * @return {Object} Linear converter API
+ */
 module.exports = function factory(adapter) {
   var Decimal = arbitraryPrecision(adapter);
   var rescale = rescaleFactory(adapter);
   var api = {};
 
-  api.rescale = rescale;
-
   /**
    * Linearly converts x as described by a preset
    *
-   * @param  {Number} x The number to be converted
-   * @param  {Array} preset The preset that describes the conversion
+   * @param {Number} x The number to be converted
+   * @param {Array} preset The preset that describes the conversion
    *
    * @return {Number} The converted x
    */
