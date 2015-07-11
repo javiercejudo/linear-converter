@@ -39,9 +39,12 @@ To use it in the browser, include the following on your site:
 
 ## Basic usage
 
+*linear-converter* uses [linear-arbitrary-precision](https://github.com/javiercejudo/linear-arbitrary-precision)
+to support arbitrary precision. See [all available adapters](https://www.npmjs.com/browse/keyword/linear-arbitrary-precision-adapter).
+
 ```js
+var lc = require('linear-converter')(require('floating-adapter'));
 var PRESETS = require('linear-presets').PRESETS;
-var lc = require('linear-converter');
 
 lc.convert(25, PRESETS.temperature.celsiusToFahrenheit); // => 77
 ```
@@ -115,19 +118,18 @@ lc.getCoefficientB([[x1, x2], [f(x1), f(x2)]]); // => b
 
 ## Arbitrary precision
 
-By default, *linear-converter* works with native floating-point numbers.
-However, it will work with arbitrary precision if
-[big.js](https://github.com/MikeMcl/big.js),
-[bignumber.js](https://github.com/MikeMcl/bignumber.js)
-or
-[decimal.js](https://github.com/MikeMcl/decimal.js)
-are available:
+Arbitrary precision support is provided via [linear-arbitrary-precision](https://github.com/javiercejudo/linear-arbitrary-precision).
+See [all available adapters](https://www.npmjs.com/browse/keyword/linear-arbitrary-precision-adapter).
 
 ```js
-// without arbitrary precision library
+// without arbitrary precision (very lightweight)
+var lc = require('linear-converter')(require('floating-adapter'));
+
 lc.getCoefficientA([[0, 0.1], [0.1, 0.3]]); // => 1.9999999999999998
 
-// with arbitrary precision library
+// with arbitrary precision
+var lc = require('linear-converter')(require('bigjs-adapter'));
+
 lc.getCoefficientA([[0, 0.1], [0.1, 0.3]]); // => 2
 ```
 
@@ -152,4 +154,3 @@ Then simply include that file before *linear-converter*. See [CodePen example](h
 - [scale](https://github.com/javiercejudo/scale): scales normalised data.
 - [normalise](https://github.com/javiercejudo/normalise): normalise data to [0, 1].
 - [rescale-util](https://github.com/javiercejudo/rescale-util): rescale utilities.
-- [rescale-arbitrary-precision](https://github.com/javiercejudo/rescale-arbitrary-precision): arbitrary precision for rescale.

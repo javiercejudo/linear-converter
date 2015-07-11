@@ -2,30 +2,26 @@
 
 'use strict';
 
-var should = require('should');
-var sinon = require('sinon');
-var rescale = require('rescale');
-var getCoefficientB = require('../../../src/linear-converter').getCoefficientB;
+require('should');
 
-exports.delegateToRescaleWithX0 = function() {
-  var rescaleMock;
+var bigjsAdapter = require('bigjs-adapter');
+var floatingAdapter = require('floating-adapter');
+var lcFactory = require('../../../src/linear-converter');
 
-  beforeEach(function() {
-    rescaleMock = sinon.mock(rescale);
+exports.workWithArbitraryPrecision = function() {
+  var getCoefficientB = lcFactory(bigjsAdapter).getCoefficientB;
 
-    rescaleMock.expects('rescale')
-      .withExactArgs(0, [0, 1], [2, 3]).returns('anything');
-
-    rescaleMock.expects('rescale')
-      .withExactArgs(0, [5, -60], [5.7, Math.PI]).returns('whatever');
+  it('should work with arbitrary precision', function() {
+    getCoefficientB([[0.1, 0.3], [0, 0.1]]).should.be.exactly(-0.05);
+    getCoefficientB([[-5, 100], [-17, 193]]).should.be.exactly(-7);
   });
+};
 
-  afterEach(function() {
-    rescaleMock.verify();
-  });
+exports.workWithFloatingPointNumbers = function() {
+  var getCoefficientB = lcFactory(floatingAdapter).getCoefficientB;
 
-  it('delegate to rescale with x=0', function() {
-    getCoefficientB([[0, 1], [2, 3]]).should.be.exactly('anything');
-    getCoefficientB([[5, -60], [5.7, Math.PI]]).should.be.exactly('whatever');
+  it('work with floating-point numbers', function() {
+    getCoefficientB([[0.1, 0.3], [0, 0.1]]).should.be.exactly(-0.05000000000000002);
+    getCoefficientB([[0, 100], [32, 212]]).should.be.exactly(32);
   });
 };

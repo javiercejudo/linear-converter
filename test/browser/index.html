@@ -2,15 +2,16 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>Mocha Tests (floating-point numbers)</title>
+  <title>Linear Converter tests</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mocha/2.2.5/mocha.css" />
 </head>
 <body>
   <div id="mocha"></div>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/mocha/2.2.5/mocha.js"></script>
   <script src="https://cdn.rawgit.com/shouldjs/should.js/6.0.3/should.js"></script>
-
   <script src="https://wzrd.in/bundle/linear-presets"></script>
+  <script src="https://wzrd.in/bundle/floating-adapter"></script>
+  <script src="https://wzrd.in/bundle/bigjs-adapter"></script>
   <script src="../../dist/linear-converter.js"></script>
   <script>
     mocha.setup('bdd');
@@ -18,11 +19,6 @@
   <script src="browser.js"></script>
   <script>
     mocha.checkLeaks();
-
-    it('should not have arbitrary precision', function() {
-      hasArbitraryPrecision().should.be.exactly(false);
-    });
-
     mocha.run();
   </script>
 </body>

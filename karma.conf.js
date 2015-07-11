@@ -1,11 +1,5 @@
 // Karma configuration
 
-var maybeArbitraryPrecisionUrl = [];
-
-if (process.env.ARBITRARY_PRECISION === 'true') {
-  maybeArbitraryPrecisionUrl = 'tmp/big.js';
-}
-
 module.exports = function(config) {
   config.set({
 
@@ -21,18 +15,16 @@ module.exports = function(config) {
     // list of files / patterns to load in the browser
     files: [
       'node_modules/should/should.js',
-    ]
-    .concat(maybeArbitraryPrecisionUrl)
-    .concat([
       'tmp/linear-presets',
+      'tmp/bigjs-adapter',
+      'tmp/floating-adapter',
       'dist/linear-converter.js',
       'test/browser/*.js'
-    ]),
+    ],
 
 
     // list of files to exclude
-    exclude: [
-    ],
+    exclude: [],
 
 
     // preprocess matching files before serving them to the browser
@@ -45,6 +37,7 @@ module.exports = function(config) {
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
     reporters: ['mocha', 'saucelabs'],
+
 
     // web server port
     port: 9876,
@@ -61,6 +54,7 @@ module.exports = function(config) {
 
     // enable / disable watching file and executing tests whenever any file changes
     autoWatch: true,
+
 
     sauceLabs: {
       username: process.env.SAUCE_USERNAME,
@@ -89,13 +83,13 @@ module.exports = function(config) {
       'SL_IE_9': {
         base: 'SauceLabs',
         browserName: 'internet explorer',
-        platform: 'Windows 2008',
+        platform: 'Windows 7',
         version: '9'
       },
       'SL_IE_10': {
         base: 'SauceLabs',
         browserName: 'internet explorer',
-        platform: 'Windows 2012',
+        platform: 'Windows 7',
         version: '10'
       },
       'SL_IE_11': {
@@ -106,16 +100,23 @@ module.exports = function(config) {
       },
       'SL_Opera': {
         base: 'SauceLabs',
-        browserName: 'opera'
+        browserName: 'opera',
+        platform: 'Windows 7',
+        version: '12.12'
       },
       'SL_Android': {
         base: 'SauceLabs',
         browserName: 'android',
+        deviceName: 'Samsung Galaxy S4 Emulator',
+        deviceOrientation: 'portrait',
         platform: 'Linux',
+        version: '4.4'
       },
       'SL_iOS': {
         base: 'SauceLabs',
         browserName: 'iphone',
+        deviceName: 'iPhone Simulator',
+        deviceOrientation: 'portrait',
         platform: 'OS X 10.10',
         version: '8.2'
       },
@@ -124,16 +125,16 @@ module.exports = function(config) {
 
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-    browsers: [
-      'PhantomJS'
-    ],
+    browsers: ['PhantomJS'],
 
 
     // timeout for capturing a browser (in ms)
     captureTimeout: 0,
 
+
     // how long will Karma wait for a message from a browser before disconnecting from it (in ms).
     browserNoActivityTimeout: 0,
+
 
     // Continuous Integration mode
     // if true, Karma captures browsers, runs the tests and exits

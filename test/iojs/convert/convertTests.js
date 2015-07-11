@@ -2,28 +2,16 @@
 
 'use strict';
 
-var should = require('should');
-var sinon = require('sinon');
-var rescale = require('rescale');
-var convert = require('../../../src/linear-converter').convert;
+require('should');
 
-exports.delegateTheConversionToRescale = function() {
-  var rescaleStub;
+var floatingAdapter = require('floating-adapter');
+var lcFactory = require('../../../src/linear-converter');
 
-  beforeEach(function() {
-    rescaleStub = sinon.stub(rescale, 'rescale');
+exports.convertBasedOnTheProvidedPreset = function() {
+  var convert = lcFactory(floatingAdapter).convert;
 
-    rescaleStub.withArgs('anything', [0, 10], [10, 20])
-      .onFirstCall().returns(Math.PI)
-      .onSecondCall().returns(34);
-  });
-
-  afterEach(function() {
-    rescaleStub.restore();
-  });
-
-  it('should delegate the conversion to rescale', function() {
-    convert('anything', [[0, 10], [10, 20]]).should.be.exactly(Math.PI);
-    convert('anything', [[0, 10], [10, 20]]).should.be.exactly(34);
+  it('convert based on the provided preset', function() {
+    convert(-273.15, [[0, 10], [10, 20]]).should.be.exactly(-263.15);
+    convert(24, [[0, 10], [10, 20]]).should.be.exactly(34);
   });
 };

@@ -1,7 +1,5 @@
 /*jshint node:true */
 
-var decimalDep = process.env.DECIMAL ? process.env.DECIMAL : 'big.js';
-
 var gulp = require('gulp');
 var mocha = require('gulp-mocha');
 var istanbul = require('gulp-istanbul');
@@ -39,16 +37,6 @@ gulp.task('instrument', function() {
     .pipe(istanbul.hookRequire());
 });
 
-gulp.task('browserify-decimal', [], function() {
-  var b = browserify()
-    .require('./node_modules/' + decimalDep + '/' + decimalDep, {expose: decimalDep});
-
-  return b.bundle()
-    .pipe(source(decimalDep))
-    .pipe(buffer())
-    .pipe(gulp.dest('./tmp/'));
-});
-
 gulp.task('browserify-linear-presets', [], function() {
   var presets = 'linear-presets';
 
@@ -61,7 +49,31 @@ gulp.task('browserify-linear-presets', [], function() {
     .pipe(gulp.dest('./tmp/'));
 });
 
-gulp.task('test', ['clean:coverage', 'instrument', 'browserify-decimal', 'browserify-linear-presets'], function() {
+gulp.task('browserify-bigjs-adapter', [], function() {
+  var presets = 'bigjs-adapter';
+
+  var b = browserify()
+    .require('./node_modules/' + presets + '/src/' + presets + '.js', {expose: presets});
+
+  return b.bundle()
+    .pipe(source(presets))
+    .pipe(buffer())
+    .pipe(gulp.dest('./tmp/'));
+});
+
+gulp.task('browserify-floating-adapter', [], function() {
+  var presets = 'floating-adapter';
+
+  var b = browserify()
+    .require('./node_modules/' + presets + '/src/' + presets + '.js', {expose: presets});
+
+  return b.bundle()
+    .pipe(source(presets))
+    .pipe(buffer())
+    .pipe(gulp.dest('./tmp/'));
+});
+
+gulp.task('test', ['clean:coverage', 'instrument', 'browserify-linear-presets', 'browserify-bigjs-adapter', 'browserify-floating-adapter'], function() {
   return gulp.src(['test/iojs/*.js'])
     .pipe(mocha())
     .pipe(istanbul.writeReports());
