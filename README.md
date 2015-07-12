@@ -149,6 +149,7 @@ Then simply include that file before *linear-converter*. See [CodePen example](h
 
 ## Related projects
 
+- [linear-conversion](https://github.com/javiercejudo/linear-conversion): linear conversion class for linear-converter.
 - [linear-converter-cli](https://github.com/javiercejudo/linear-converter-cli): CLI for linear-converter.
 - [rescale](https://github.com/javiercejudo/rescale): rescales a point given two scales.
 - [scale](https://github.com/javiercejudo/scale): scales normalised data.
