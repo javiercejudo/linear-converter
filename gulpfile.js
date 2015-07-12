@@ -23,6 +23,16 @@ var banner = ['/**',
   ' */\n'
 ].join('\n');
 
+function tmpBrowserify(pkgName) {
+  var b = browserify()
+    .require('./node_modules/' + pkgName + '/src/' + pkgName + '.js', {expose: pkgName});
+
+  return b.bundle()
+    .pipe(source(pkgName))
+    .pipe(buffer())
+    .pipe(gulp.dest('./tmp/'));
+}
+
 gulp.task('clean:coverage', function(cb) {
   del(['coverage'], cb);
 });
@@ -38,39 +48,15 @@ gulp.task('instrument', function() {
 });
 
 gulp.task('browserify-linear-presets', [], function() {
-  var presets = 'linear-presets';
-
-  var b = browserify()
-    .require('./node_modules/' + presets + '/src/' + presets + '.js', {expose: presets});
-
-  return b.bundle()
-    .pipe(source(presets))
-    .pipe(buffer())
-    .pipe(gulp.dest('./tmp/'));
+  return tmpBrowserify('linear-presets');
 });
 
 gulp.task('browserify-bigjs-adapter', [], function() {
-  var presets = 'bigjs-adapter';
-
-  var b = browserify()
-    .require('./node_modules/' + presets + '/src/' + presets + '.js', {expose: presets});
-
-  return b.bundle()
-    .pipe(source(presets))
-    .pipe(buffer())
-    .pipe(gulp.dest('./tmp/'));
+  return tmpBrowserify('bigjs-adapter');
 });
 
 gulp.task('browserify-floating-adapter', [], function() {
-  var presets = 'floating-adapter';
-
-  var b = browserify()
-    .require('./node_modules/' + presets + '/src/' + presets + '.js', {expose: presets});
-
-  return b.bundle()
-    .pipe(source(presets))
-    .pipe(buffer())
-    .pipe(gulp.dest('./tmp/'));
+  return tmpBrowserify('floating-adapter');
 });
 
 gulp.task('test', ['clean:coverage', 'instrument', 'browserify-linear-presets', 'browserify-bigjs-adapter', 'browserify-floating-adapter'], function() {
