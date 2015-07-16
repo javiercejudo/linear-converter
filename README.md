@@ -133,14 +133,7 @@ var lc = require('linear-converter')(require('bigjs-adapter'));
 lc.getCoefficientA([[0, 0.1], [0.1, 0.3]]); // => 2
 ```
 
-In the browser, you will need to bundle the arbitrary precision library.
-For example:
-
-    browserify -r node_modules/big.js/big.js:big.js > browserified-big.js
-
-Alternatively, grab it from https://wzrd.in/bundle/big.js.
-
-Then simply include that file before *linear-converter*. See [CodePen example](http://codepen.io/javiercejudo/pen/WvEWdQ?editors=101).
+See [CodePen example](http://codepen.io/javiercejudo/pen/WvEWdQ?editors=101).
 
 ## See more
 
