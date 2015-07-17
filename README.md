@@ -44,9 +44,9 @@ to support arbitrary precision. See [all available adapters](https://www.npmjs.c
 
 ```js
 var lc = require('linear-converter')(require('floating-adapter'));
-var PRESETS = require('linear-presets').PRESETS;
+var temp = require('linear-presets-temperature');
 
-lc.convert(25, PRESETS.temperature.celsiusToFahrenheit); // => 77
+lc.convert(25, temp.celsiusToFahrenheit); // => 77
 ```
 
 For a quick interactive intro, see [CodePen example](http://codepen.io/javiercejudo/pen/PwvePd?editors=101).
@@ -58,7 +58,7 @@ For CLI use, see [linear-converter-cli](https://github.com/javiercejudo/linear-c
 ## Preset inversion
 
 ```js
-var fahrenheitToCelsius = lc.invertPreset(PRESETS.temperature.celsiusToFahrenheit);
+var fahrenheitToCelsius = lc.invertPreset(temp.celsiusToFahrenheit);
 
 lc.convert(77, fahrenheitToCelsius); // => 25
 ```
@@ -67,8 +67,8 @@ lc.convert(77, fahrenheitToCelsius); // => 25
 
 ```js
 var kelvinToFahrenheit = lc.composePresets([
-  lc.invertPreset(PRESETS.temperature.celsiusToKelvin),
-  PRESETS.temperature.celsiusToFahrenheit
+  lc.invertPreset(temp.celsiusToKelvin),
+  temp.celsiusToFahrenheit
 ]);
 
 lc.convert(293.15, kelvinToFahrenheit); // => 68
@@ -138,7 +138,7 @@ See [CodePen example](http://codepen.io/javiercejudo/pen/WvEWdQ?editors=101).
 ## See more
 
 - [spec](test/iojs/spec.js)
-- [all presets](https://github.com/javiercejudo/linear-presets/blob/master/data/presets.json)
+- [all presets](https://github.com/javiercejudo/linear-presets#presets)
 
 ## Related projects
 
