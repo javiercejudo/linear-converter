@@ -17,6 +17,7 @@ Flexible linear converter
 - [Presets composition](#presets-composition)
 - [Custom conversions](#custom-conversions)
 - [Coefficients](#coefficients)
+- [Preset equivalence](#preset-equivalence)
 - [Arbitrary precision](#arbitrary-precision)
 - [See more](#see-more)
 - [Related projects](#related-projects)
@@ -114,6 +115,22 @@ lc.getCoefficientB([[0, 1], [1, 3]]); // => 1
 // f(x) = ax + b
 lc.getCoefficientA([[x1, x2], [f(x1), f(x2)]]); // => a
 lc.getCoefficientB([[x1, x2], [f(x1), f(x2)]]); // => b
+```
+
+## Preset equivalence
+
+```js
+// f(x) = -3 * (x - 2)
+lc.equivalentPresets([
+  [[1, 5], [3, -9]],
+  [[0, 2], [6, 0]],
+  [[-1, 100], [9, -294]],
+]); // => true
+
+lc.equivalentPresets([
+  [[0, 1], [0, 2]], // f(x) = 2x
+  [[0, 1], [0, 3]]  // f(x) = 3x
+]); // => false
 ```
 
 ## Arbitrary precision
