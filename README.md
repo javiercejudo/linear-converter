@@ -45,7 +45,7 @@ to support arbitrary precision. See [all available adapters](https://www.npmjs.c
 
 ```js
 var lc = require('linear-converter')(require('floating-adapter'));
-var temp = require('linear-presets-temperature');
+var temp = require('linear-presets').PRESETS.temperature;
 
 lc.convert(25, temp.celsiusToFahrenheit); // => 77
 ```
