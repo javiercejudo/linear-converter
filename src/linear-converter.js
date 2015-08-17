@@ -4,6 +4,8 @@
 
 var arbitraryPrecision = require('linear-arbitrary-precision');
 var rescaleFactory = require('rescale');
+var twoOfAKind = require('olsen');
+var everyAgainstFirst = require('every-against-first');
 
 /**
  * Returns the linear converter api based on the given adapter
@@ -79,6 +81,17 @@ module.exports = function factory(adapter) {
   };
 
   /**
+   * Check equivalence of two or more presets
+   *
+   * @param {Array} presets The array of the presets to check for equivalence
+   *
+   * @return {Boolean} whether the presets are equivalent or not
+   */
+  api.equivalentPresets = function equivalentPresets(presets) {
+    return everyAgainstFirst(presets, equivalent2presets);
+  };
+
+  /**
    * Composes two presets to create a single preset
    *
    * @param {Array} presetA The first preset to compose
@@ -93,6 +106,30 @@ module.exports = function factory(adapter) {
         return rescale.rescale(x, presetB[0], presetB[1]);
       })
     ];
+  }
+
+  /**
+   * Returns an array of api functions that determine equivalence
+   *
+   * @return {Array}
+   */
+  function presetEquivalenceRequisites() {
+    return [
+      api.getCoefficientA,
+      api.getCoefficientB
+    ];
+  }
+
+  /**
+   * Check equivalence of two presets
+   *
+   * @param {Array} presetA The first preset to check for equivalence
+   * @param {Array} presetB The second preset to check for equivalence
+   *
+   * @return {Boolean} whether the presets are equivalent or not
+   */
+  function equivalent2presets(presetA, presetB) {
+    return presetEquivalenceRequisites().every(twoOfAKind(presetA, presetB));
   }
 
   return api;

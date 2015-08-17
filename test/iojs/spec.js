@@ -8,6 +8,7 @@ var invertPresetTests = require('./invertPreset/invertPresetTests');
 var composePresetsTests = require('./composePresets/composePresetsTests');
 var coefficientATests = require('./coefficients/coefficientATests');
 var coefficientBTests = require('./coefficients/coefficientBTests');
+var equivalenceTests = require('./equivalence/equivalenceTests');
 
 var o_o = describe;
 
@@ -31,4 +32,9 @@ o_o('computing coefficient a', function() { var o_O = coefficientATests;
 o_o('computing coefficient b', function() { var o_O = coefficientBTests;
   o_o('when arbitrary precision is available', better('work with arbitrary precision', o_O));
   o_o('when arbitrary precision is not available', better('work with floating-point numbers', o_O));
+});
+
+o_o('checking for equivalence', function() { var o_O = equivalenceTests;
+  o_o('when presets are equivalent', better('return true', o_O));
+  o_o('when presets are not equivalent', better('return false', o_O));
 });

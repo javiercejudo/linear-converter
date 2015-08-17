@@ -54,7 +54,9 @@
     "vinyl-source-stream": "^1.1.0"
   },
   "dependencies": {
+    "every-against-first": "^1.0.0",
     "linear-arbitrary-precision": "^3.0.2",
+    "olsen": "^2.0.0",
     "rescale": "^6.1.0"
   }
 }

@@ -18,7 +18,7 @@ module.exports = function(config) {
       'tmp/linear-presets',
       'tmp/bigjs-adapter',
       'tmp/floating-adapter',
-      'dist/linear-converter.js',
+      'tmp/linear-converter.js',
       'test/browser/*.js'
     ],
 

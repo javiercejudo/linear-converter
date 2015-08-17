@@ -2,13 +2,15 @@
 
 set -e
 
-if [ "$TRAVIS_NODE_VERSION" = "iojs" ]; then
-  if [ "$SAUCE_ACCESS_KEY" ]; then
-    BROWSERS=$SL_BROWSERS
-  else
-    BROWSERS=PhantomJS
-  fi
+BROWSERS=PhantomJS
 
-  echo -e '\nO_o Browser tests'
-  ./node_modules/karma/bin/karma start --single-run --browsers $BROWSERS
+if [[ "$TRAVIS_NODE_VERSION" = "iojs" && "$SAUCE_ACCESS_KEY" ]]; then
+  BROWSERS=$SL_BROWSERS
 fi
+
+echo -e '\nO_o Browser tests'
+echo -e '\nO_o Preparing...'
+gulp dev
+
+echo -e '\nO_o Running browser tests...'
+karma start --single-run --browsers $BROWSERS

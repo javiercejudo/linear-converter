@@ -24,13 +24,30 @@ var banner = ['/**',
 ].join('\n');
 
 function tmpBrowserify(pkgName) {
-  var b = browserify()
-    .require('./node_modules/' + pkgName + '/src/' + pkgName + '.js', {expose: pkgName});
+  var pkgPath = './node_modules/' + pkgName + '/src/' + pkgName + '.js';
+  var b = browserify().require(pkgPath, {expose: pkgName});
 
   return b.bundle()
     .pipe(source(pkgName))
     .pipe(buffer())
     .pipe(gulp.dest('./tmp/'));
+}
+
+function browserifyLc(dest) {
+  var b = browserify().require('./' + pkg.main, {expose: pkg.name});
+
+  return b.bundle()
+    .pipe(source(pkg.name + '.js'))
+    .pipe(buffer())
+    .pipe(header(banner, {pkg: pkg}))
+    .pipe(gulp.dest(dest))
+    .pipe(sourcemaps.init({loadMaps: true}))
+    .pipe(uglify()).on('error', gutil.log)
+    .pipe(rename(pkg.name + '.min.js'))
+    .pipe(header(banner, {pkg: pkg}))
+    .pipe(gulp.dest(dest))
+    .pipe(sourcemaps.write('./'))
+    .pipe(gulp.dest(dest));
 }
 
 gulp.task('clean:coverage', function(cb) {
@@ -59,7 +76,7 @@ gulp.task('browserify-floating-adapter', [], function() {
   return tmpBrowserify('floating-adapter');
 });
 
-gulp.task('test', ['clean:coverage', 'instrument', 'browserify-linear-presets', 'browserify-bigjs-adapter', 'browserify-floating-adapter'], function() {
+gulp.task('test', ['clean:coverage', 'instrument'], function() {
   return gulp.src(['test/iojs/*.js'])
     .pipe(mocha())
     .pipe(istanbul.writeReports());
@@ -71,25 +88,14 @@ gulp.task('coveralls', function() {
 });
 
 gulp.task('browserify', ['clean:dist'], function() {
-  var b = browserify()
-    .require('./' + pkg.main, {expose: pkg.name});
+  return browserifyLc('./dist/');
+});
 
-  Object.keys(pkg.optionalDependencies || {}).forEach(function(optionalDep) {
-    b.ignore(optionalDep);
-  });
+var devDeps = ['browserify-linear-presets',
+  'browserify-bigjs-adapter', 'browserify-floating-adapter'];
 
-  return b.bundle()
-    .pipe(source(pkg.name + '.js'))
-    .pipe(buffer())
-    .pipe(header(banner, {pkg: pkg}))
-    .pipe(gulp.dest('./dist/'))
-    .pipe(sourcemaps.init({loadMaps: true}))
-    .pipe(uglify()).on('error', gutil.log)
-    .pipe(rename(pkg.name + '.min.js'))
-    .pipe(header(banner, {pkg: pkg}))
-    .pipe(gulp.dest('./dist/'))
-    .pipe(sourcemaps.write('./'))
-    .pipe(gulp.dest('./dist/'));
+gulp.task('dev', devDeps, function() {
+  return browserifyLc('./tmp/');
 });
 
 gulp.task('build', ['browserify']);
