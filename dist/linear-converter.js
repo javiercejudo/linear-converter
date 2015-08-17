@@ -1,10 +1,21 @@
 /**
  * linear-converter - Copyright 2015 Javier Cejudo <javier@javiercejudo.com> (http://www.javiercejudo.com)
- * @version v3.0.0
+ * @version v3.1.0
  * @link https://github.com/javiercejudo/linear-converter#readme
  * @license MIT
  */
 require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+'use strict';
+
+module.exports = function everyAgainstFirst(array, callback, thisArg) {
+  var first = array.shift();
+
+  return array.every(function (current, index) {
+    return callback.call(thisArg, first, current, index + 1, array);
+  });
+};
+
+},{}],2:[function(require,module,exports){
 // Copyright 2015 Sergii Iefremov
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -29,7 +40,7 @@ module.exports = function(value, error) {
   throw error;
 };
 
-},{}],2:[function(require,module,exports){
+},{}],3:[function(require,module,exports){
 /**
  * lodash 3.0.1 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern modularize exports="npm" -o ./`
@@ -84,7 +95,7 @@ function isString(value) {
 
 module.exports = isString;
 
-},{}],3:[function(require,module,exports){
+},{}],4:[function(require,module,exports){
 /*jshint node:true */
 
 'use strict';
@@ -92,9 +103,7 @@ module.exports = isString;
 var isString = require('lodash.isstring');
 var assert = require('assert-error');
 
-module.exports = factory;
-
-function factory(adapter) {
+module.exports = function factory(adapter) {
   var Impl = adapter.getInstance();
 
   function Decimal(x) {
@@ -108,6 +117,7 @@ function factory(adapter) {
     };
   }
 
+  Decimal.getAdapter = getAdapter;
   Decimal.getPrecision = getPrecision;
   Decimal.setPrecision = setPrecision;
   Decimal.JSONReviver = JSONReviver;
@@ -138,6 +148,10 @@ function factory(adapter) {
     return adapter.valueOf(this.val());
   };
 
+  function getAdapter() {
+    return adapter;
+  }
+
   function getPrecision() {
     return adapter.getPrecision(Impl);
   }
@@ -155,13 +169,39 @@ function factory(adapter) {
   }
 
   function newDecimalFromImpl(x) {
-    return new Decimal(adapter.toString(x))
+    return new Decimal(adapter.toString(x));
   }
 
   return Decimal;
-}
+};
 
-},{"assert-error":1,"lodash.isstring":2}],4:[function(require,module,exports){
+},{"assert-error":2,"lodash.isstring":3}],5:[function(require,module,exports){
+/*jshint node:true */
+
+'use strict';
+
+/**
+ * Returns a two of a kind check
+ *
+ * @param {*} a
+ * @param {*} b
+ *
+ * @return {Function} [description]
+ */
+module.exports = function olsen(a, b) {
+  /**
+   * Two of a kind check
+   *
+   * @param {Function} function to compare against
+   *
+   * @return {Boolean}
+   */
+  return function check(kind) {
+    return kind(a) === kind(b);
+  };
+};
+
+},{}],6:[function(require,module,exports){
 /**
  * lodash 3.0.1 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern modularize exports="npm" -o ./`
@@ -193,7 +233,7 @@ function isUndefined(value) {
 
 module.exports = isUndefined;
 
-},{}],5:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 /*jshint node:true */
 
 'use strict';
@@ -221,7 +261,7 @@ module.exports = function factory(adapter) {
   return api;
 };
 
-},{"linear-arbitrary-precision":3,"lodash.isundefined":4}],6:[function(require,module,exports){
+},{"linear-arbitrary-precision":4,"lodash.isundefined":6}],8:[function(require,module,exports){
 /*jshint node:true */
 
 'use strict';
@@ -252,26 +292,33 @@ module.exports = function factory(adapter) {
   return api;
 };
 
-},{"linear-arbitrary-precision":3,"lodash.isundefined":4,"normalise":5}],"linear-converter":[function(require,module,exports){
+},{"linear-arbitrary-precision":4,"lodash.isundefined":6,"normalise":7}],"linear-converter":[function(require,module,exports){
 /*jshint node:true */
 
 'use strict';
 
 var arbitraryPrecision = require('linear-arbitrary-precision');
 var rescaleFactory = require('rescale');
+var twoOfAKind = require('olsen');
+var everyAgainstFirst = require('every-against-first');
 
+/**
+ * Returns the linear converter api based on the given adapter
+ *
+ * @param {Object} adapter Linear converter adapter
+ *
+ * @return {Object} Linear converter API
+ */
 module.exports = function factory(adapter) {
   var Decimal = arbitraryPrecision(adapter);
   var rescale = rescaleFactory(adapter);
   var api = {};
 
-  api.rescale = rescale;
-
   /**
    * Linearly converts x as described by a preset
    *
-   * @param  {Number} x The number to be converted
-   * @param  {Array} preset The preset that describes the conversion
+   * @param {Number} x The number to be converted
+   * @param {Array} preset The preset that describes the conversion
    *
    * @return {Number} The converted x
    */
@@ -329,6 +376,17 @@ module.exports = function factory(adapter) {
   };
 
   /**
+   * Check equivalence of two or more presets
+   *
+   * @param {Array} presets The array of the presets to check for equivalence
+   *
+   * @return {Boolean} whether the presets are equivalent or not
+   */
+  api.equivalentPresets = function equivalentPresets(presets) {
+    return everyAgainstFirst(presets, equivalent2presets);
+  };
+
+  /**
    * Composes two presets to create a single preset
    *
    * @param {Array} presetA The first preset to compose
@@ -345,7 +403,31 @@ module.exports = function factory(adapter) {
     ];
   }
 
+  /**
+   * Returns an array of api functions that determine equivalence
+   *
+   * @return {Array}
+   */
+  function presetEquivalenceRequisites() {
+    return [
+      api.getCoefficientA,
+      api.getCoefficientB
+    ];
+  }
+
+  /**
+   * Check equivalence of two presets
+   *
+   * @param {Array} presetA The first preset to check for equivalence
+   * @param {Array} presetB The second preset to check for equivalence
+   *
+   * @return {Boolean} whether the presets are equivalent or not
+   */
+  function equivalent2presets(presetA, presetB) {
+    return presetEquivalenceRequisites().every(twoOfAKind(presetA, presetB));
+  }
+
   return api;
 };
 
-},{"linear-arbitrary-precision":3,"rescale":6}]},{},[]);
+},{"every-against-first":1,"linear-arbitrary-precision":4,"olsen":5,"rescale":8}]},{},[]);
