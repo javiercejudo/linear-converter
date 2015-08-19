@@ -17,17 +17,20 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.1.1/es5-shim.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.1.1/es5-sham.js"></script>
   <![endif]-->
+  <script src="../../tmp/linear-arbitrary-precision"></script>
   <script src="../../tmp/linear-presets"></script>
   <script src="../../tmp/floating-adapter"></script>
   <script src="../../tmp/linear-converter.js"></script>
 
   <script>
-    var PRESETS = require('linear-presets').PRESETS;
-    var converter = require('linear-converter')(require('floating-adapter'));
-    var convert = converter.convert;
+    var arbitraryPrecision = require('linear-arbitrary-precision');
+    var floatingAdapter = require('floating-adapter');
+    var lcFactory = require('linear-converter');
+    var temp = require('linear-presets').PRESETS.temperature;
 
-    // built-in presets for temperature, length, mass and more
-    var temp = PRESETS.temperature;
+    var Decimal = arbitraryPrecision(floatingAdapter);
+    var converter = lcFactory(Decimal);
+    var convert = converter.convert;
 
     var ex = [];
     ex[0] = {};
@@ -44,10 +47,10 @@
     // convert presets any to any using inversion and composition
     var compose = converter.composePresets;
 
-    var kelvinToFahrenheit = compose([
-    invert(temp.celsiusToKelvin),
-    temp.celsiusToFahrenheit
-    ]);
+    var kelvinToFahrenheit = compose(
+      invert(temp.celsiusToKelvin),
+      temp.celsiusToFahrenheit
+    );
 
     ex[2] = {};
     ex[2].desc = '293.15 Kelvin to Fahrenheit';
@@ -64,12 +67,11 @@
     ex[4].value = converter.getCoefficientB([[0, 1], [1, 3]]);
 
     ex[5] = {};
-    ex[5].desc = 'equivalente presets [[1, 5], [3, -9]], [[0, 2], [6, 0]], [[-1, 100], [9, -294]]';
-    ex[5].value = converter.equivalentPresets([
+    ex[5].desc = 'equivalente presets [[1, 5], [3, -9]], [[-1, 100], [9, -294]]';
+    ex[5].value = converter.equivalentPresets(
       [[1, 5], [3, -9]],
-      [[0, 2], [6, 0]],
-      [[-1, 100], [9, -294]],
-    ]);
+      [[-1, 100], [9, -294]]
+    );
 
     ex.forEach(function(example, index) {
     document.getElementById('ex' + index).innerHTML =

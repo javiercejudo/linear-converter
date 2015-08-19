@@ -64,6 +64,10 @@ gulp.task('instrument', function() {
     .pipe(istanbul.hookRequire());
 });
 
+gulp.task('browserify-linear-arbitrary-precision', [], function() {
+  return tmpBrowserify('linear-arbitrary-precision');
+});
+
 gulp.task('browserify-linear-presets', [], function() {
   return tmpBrowserify('linear-presets');
 });
@@ -91,8 +95,12 @@ gulp.task('browserify', ['clean:dist'], function() {
   return browserifyLc('./dist/');
 });
 
-var devDeps = ['browserify-linear-presets',
-  'browserify-bigjs-adapter', 'browserify-floating-adapter'];
+var devDeps = [
+  'browserify-linear-presets',
+  'browserify-bigjs-adapter',
+  'browserify-floating-adapter',
+  'browserify-linear-arbitrary-precision'
+];
 
 gulp.task('dev', devDeps, function() {
   return browserifyLc('./tmp/');
