@@ -44,7 +44,9 @@ To use it in the browser, include the following on your site:
 to support arbitrary precision. See [all available adapters](https://www.npmjs.com/browse/keyword/linear-arbitrary-precision-adapter).
 
 ```js
-var lc = require('linear-converter')(require('floating-adapter'));
+var Decimal = require('linear-arbitrary-precision')(require('floating-adapter'));
+var lc = require('linear-converter')(Decimal);
+
 var temp = require('linear-presets').PRESETS.temperature;
 
 lc.convert(25, temp.celsiusToFahrenheit); // => 77
@@ -67,10 +69,10 @@ lc.convert(77, fahrenheitToCelsius); // => 25
 ## Presets composition
 
 ```js
-var kelvinToFahrenheit = lc.composePresets([
+var kelvinToFahrenheit = lc.composePresets(
   lc.invertPreset(temp.celsiusToKelvin),
   temp.celsiusToFahrenheit
-]);
+);
 
 lc.convert(293.15, kelvinToFahrenheit); // => 68
 ```
@@ -121,16 +123,15 @@ lc.getCoefficientB([[x1, x2], [f(x1), f(x2)]]); // => b
 
 ```js
 // f(x) = -3 * (x - 2)
-lc.equivalentPresets([
+lc.equivalentPresets(
   [[1, 5], [3, -9]],
-  [[0, 2], [6, 0]],
-  [[-1, 100], [9, -294]],
-]); // => true
+  [[-1, 100], [9, -294]]
+); // => true
 
-lc.equivalentPresets([
+lc.equivalentPresets(
   [[0, 1], [0, 2]], // f(x) = 2x
   [[0, 1], [0, 3]]  // f(x) = 3x
-]); // => false
+); // => false
 ```
 
 ## Arbitrary precision
@@ -140,12 +141,14 @@ See [all available adapters](https://www.npmjs.com/browse/keyword/linear-arbitra
 
 ```js
 // without arbitrary precision (very lightweight)
-var lc = require('linear-converter')(require('floating-adapter'));
+var Decimal = require('linear-arbitrary-precision')(require('floating-adapter'));
+var lc = require('linear-converter')(Decimal);
 
 lc.getCoefficientA([[0, 0.1], [0.1, 0.3]]); // => 1.9999999999999998
 
 // with arbitrary precision
-var lc = require('linear-converter')(require('bigjs-adapter'));
+var Decimal = require('linear-arbitrary-precision')(require('bigjs-adapter'));
+var lc = require('linear-converter')(Decimal);
 
 lc.getCoefficientA([[0, 0.1], [0.1, 0.3]]); // => 2
 ```

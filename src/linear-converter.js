@@ -2,21 +2,18 @@
 
 'use strict';
 
-var arbitraryPrecision = require('linear-arbitrary-precision');
 var rescaleFactory = require('rescale');
 var twoOfAKind = require('olsen');
-var everyAgainstFirst = require('every-against-first');
 
 /**
  * Returns the linear converter api based on the given adapter
  *
- * @param {Object} adapter Linear converter adapter
+ * @param {Object} Decimal instance of decimal library
  *
  * @return {Object} Linear converter API
  */
-module.exports = function factory(adapter) {
-  var Decimal = arbitraryPrecision(adapter);
-  var rescale = rescaleFactory(adapter);
+module.exports = function factory(Decimal) {
+  var rescale = rescaleFactory(Decimal);
   var api = {};
 
   /**
@@ -39,18 +36,26 @@ module.exports = function factory(adapter) {
    * @return {Array} The inverted preset
    */
   api.invertPreset = function invertPreset(preset) {
-    return preset.slice(0).reverse();
+    return preset.slice().reverse();
   };
 
   /**
-   * Composes two or more presets to create a single preset
+   * Composes two presets to create a single preset
    *
-   * @param {Array} presets The array of the presets to compose
+   * @param {Array} presetA The first preset to compose
+   * @param {Array} presetB The second preset to compose
    *
    * @return {Array} The composed preset
    */
-  api.composePresets = function composePresets(presets) {
-    return presets.reduce(compose2presets);
+  api.composePresets = function composePresets(presetA, presetB) {
+    return [
+      presetA[0].map(function(x) {
+        return rescale.rescale(x);
+      }),
+      presetA[1].map(function(x) {
+        return rescale.rescale(x, presetB[0], presetB[1]);
+      })
+    ];
   };
 
   /**
@@ -62,10 +67,8 @@ module.exports = function factory(adapter) {
    * @return {Number} The coefficient a
    */
   api.getCoefficientA = function getCoefficientA(preset) {
-    return Number(
-      new Decimal(preset[1][1].toString()).minus(new Decimal(preset[1][0].toString()))
-        .div(new Decimal(preset[0][1].toString()).minus(new Decimal(preset[0][0].toString())))
-    );
+    return new Decimal(preset[1][1].toString()).minus(new Decimal(preset[1][0].toString()))
+      .div(new Decimal(preset[0][1].toString()).minus(new Decimal(preset[0][0].toString())));
   };
 
   /**
@@ -81,32 +84,17 @@ module.exports = function factory(adapter) {
   };
 
   /**
-   * Check equivalence of two or more presets
+   * Check equivalence of two presets
    *
-   * @param {Array} presets The array of the presets to check for equivalence
+   * @param {Array} presetA The first preset to check for equivalence
+   * @param {Array} presetB The second preset to check for equivalence
    *
    * @return {Boolean} whether the presets are equivalent or not
    */
-  api.equivalentPresets = function equivalentPresets(presets) {
-    return everyAgainstFirst(presets, equivalent2presets);
+  api.equivalentPresets = function equivalentPresets(presetA, presetB) {
+    return presetEquivalenceRequisites().map(wrapPresetEquivalenceRequisite)
+      .every(twoOfAKind(presetA, presetB));
   };
-
-  /**
-   * Composes two presets to create a single preset
-   *
-   * @param {Array} presetA The first preset to compose
-   * @param {Array} presetB The second preset to compose
-   *
-   * @return {Array} The composed preset
-   */
-  function compose2presets(presetA, presetB) {
-    return [
-      presetA[0],
-      presetA[1].map(function(x) {
-        return rescale.rescale(x, presetB[0], presetB[1]);
-      })
-    ];
-  }
 
   /**
    * Returns an array of api functions that determine equivalence
@@ -121,15 +109,16 @@ module.exports = function factory(adapter) {
   }
 
   /**
-   * Check equivalence of two presets
+   * Wraps a preset equivalence requisite to return a stringified version
    *
-   * @param {Array} presetA The first preset to check for equivalence
-   * @param {Array} presetB The second preset to check for equivalence
+   * @param {Function} presetEquivalenceRequisite [description]
    *
-   * @return {Boolean} whether the presets are equivalent or not
+   * @return {Function}
    */
-  function equivalent2presets(presetA, presetB) {
-    return presetEquivalenceRequisites().every(twoOfAKind(presetA, presetB));
+  function wrapPresetEquivalenceRequisite(presetEquivalenceRequisite) {
+    return function(preset) {
+      return presetEquivalenceRequisite(preset).toString();
+    };
   }
 
   return api;
