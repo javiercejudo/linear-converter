@@ -49,7 +49,10 @@ var lc = require('linear-converter')(Decimal);
 
 var temp = require('linear-presets').PRESETS.temperature;
 
-lc.convert(25, temp.celsiusToFahrenheit); // => 77
+lc.convert(25, temp.celsiusToFahrenheit); // => new Decimal('77')
+
+// also accepts Decimals
+lc.convert(new Decimal('25'), temp.celsiusToFahrenheit);
 ```
 
 For a quick interactive intro, see [CodePen example](http://codepen.io/javiercejudo/pen/PwvePd?editors=101).
@@ -63,7 +66,7 @@ For CLI use, see [linear-converter-cli](https://github.com/javiercejudo/linear-c
 ```js
 var fahrenheitToCelsius = lc.invertPreset(temp.celsiusToFahrenheit);
 
-lc.convert(77, fahrenheitToCelsius); // => 25
+lc.convert(77, fahrenheitToCelsius); // => 25 (as decimal)
 ```
 
 ## Presets composition
@@ -74,7 +77,7 @@ var kelvinToFahrenheit = lc.composePresets(
   temp.celsiusToFahrenheit
 );
 
-lc.convert(293.15, kelvinToFahrenheit); // => 68
+lc.convert(293.15, kelvinToFahrenheit); // => 68 (as decimal)
 ```
 
 ## Custom conversions
