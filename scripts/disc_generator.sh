@@ -9,5 +9,6 @@ NODE_BIN=node_modules/.bin
 browserify --full-paths src/linear-converter.js > $BUNDLE
 cat $BUNDLE | uglifyjs > $BUNDLE_MIN
 
+echo -e '\nO_o Generating discs'
 $NODE_BIN/discify $BUNDLE > $DISC
 $NODE_BIN/discify $BUNDLE_MIN > $DISC_MIN

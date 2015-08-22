@@ -4,7 +4,8 @@
   "description": "Flexible linear converter",
   "main": "src/linear-converter.js",
   "scripts": {
-    "test": "gulp test && scripts/browser_tester.sh"
+    "test": "gulp test && scripts/browser_tester.sh",
+    "disc": "gulp dev && ./scripts/disc_generator.sh"
   },
   "repository": {
     "type": "git",
