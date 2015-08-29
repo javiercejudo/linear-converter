@@ -57,9 +57,11 @@ lc.convert(new Decimal('25'), temp.celsiusToFahrenheit);
 
 For a quick interactive intro, see [CodePen example](http://codepen.io/javiercejudo/pen/PwvePd?editors=101).
 
-If you prefer the object-oriented paradigm, see [linear-conversion](https://github.com/javiercejudo/linear-conversion).
+Variants:
 
-For CLI use, see [linear-converter-cli](https://github.com/javiercejudo/linear-converter-cli).
+- [linear-converter-to-go](https://github.com/javiercejudo/linear-converter-to-go): opinionated, zero-configuration version with floating point precision and built-in conversion presets.
+- [linear-conversion](https://github.com/javiercejudo/linear-conversion): if you prefer the object-oriented paradigm.
+- [linear-converter-cli](https://github.com/javiercejudo/linear-converter-cli): for CLI use.
 
 ## Preset inversion
 
