@@ -1,6 +1,6 @@
 /**
  * linear-converter - Copyright 2015 Javier Cejudo <javier@javiercejudo.com> (http://www.javiercejudo.com)
- * @version v4.0.0
+ * @version v4.0.1
  * @link https://github.com/javiercejudo/linear-converter#readme
  * @license MIT
  */
@@ -73,15 +73,11 @@ module.exports = function factory(Decimal) {
   var api = {};
 
   api.normalise = function normalise(x, scale) {
-    var xDecimal = new Decimal(x.toString());
-
-    if (isUndefined(scale)) {
-      return xDecimal;
-    }
+    scale = scale || [0, 1];
 
     var scale0 = new Decimal(scale[0].toString());
 
-    return xDecimal.minus(scale0)
+    return new Decimal(x.toString()).minus(scale0)
       .div(new Decimal(scale[1].toString()).minus(scale0));
   };
 
@@ -99,9 +95,7 @@ module.exports = function factory(Decimal) {
   var api = {};
 
   api.scale = function scaleNormalised(x, scale) {
-    if (isUndefined(scale)) {
-      return x;
-    }
+    scale = scale || [0, 1];
 
     var scale0 = new Decimal(scale[0].toString());
 
@@ -110,7 +104,7 @@ module.exports = function factory(Decimal) {
   };
 
   return api;
-}
+};
 
 },{"lodash.isundefined":2}],5:[function(require,module,exports){
 /*jshint node:true */
@@ -127,10 +121,6 @@ module.exports = function factory(Decimal) {
   var api = {};
 
   api.rescale = function rescale(x, oldScale, newScale) {
-    if (isUndefined(newScale)) {
-      return normalise(x, oldScale);
-    }
-
     return scale(normalise(x, oldScale), newScale);
   };
 
