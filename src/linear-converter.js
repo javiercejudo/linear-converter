@@ -4,6 +4,7 @@
 
 var rescaleFactory = require('rescale');
 var twoOfAKind = require('olsen');
+var unitPreset = require('unit-preset');
 
 /**
  * Returns the linear converter api based on the given adapter
@@ -50,7 +51,7 @@ module.exports = function factory(Decimal) {
   api.composePresets = function composePresets(presetA, presetB) {
     return [
       presetA[0].map(function(x) {
-        return rescale.rescale(x);
+        return rescale.rescale(x, unitPreset[0], unitPreset[1]);
       }),
       presetA[1].map(function(x) {
         return rescale.rescale(x, presetB[0], presetB[1]);

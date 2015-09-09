@@ -27,6 +27,7 @@
   },
   "homepage": "https://github.com/javiercejudo/linear-converter#readme",
   "devDependencies": {
+    "arbitrary-precision": "^1.1.1",
     "betterer": "^1.0.0",
     "bigjs-adapter": "^2.0.1",
     "browserify": "^9.0.7",
@@ -50,7 +51,6 @@
     "karma-mocha-reporter": "^1.0.2",
     "karma-phantomjs-launcher": "^0.1.4",
     "karma-sauce-launcher": "^0.2.10",
-    "linear-arbitrary-precision": "^3.0.2",
     "linear-presets": "^1.1.1",
     "mocha": "^2.2.4",
     "should": "^5.0.0",
@@ -59,6 +59,7 @@
   },
   "dependencies": {
     "olsen": "^2.0.0",
-    "rescale": "^7.0.0"
+    "rescale": "^7.0.0",
+    "unit-preset": "^1.0.0"
   }
 }

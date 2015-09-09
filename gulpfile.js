@@ -64,8 +64,8 @@ gulp.task('instrument', function() {
     .pipe(istanbul.hookRequire());
 });
 
-gulp.task('browserify-linear-arbitrary-precision', [], function() {
-  return tmpBrowserify('linear-arbitrary-precision');
+gulp.task('browserify-arbitrary-precision', [], function() {
+  return tmpBrowserify('arbitrary-precision');
 });
 
 gulp.task('browserify-linear-presets', [], function() {
@@ -99,7 +99,7 @@ var devDeps = [
   'browserify-linear-presets',
   'browserify-bigjs-adapter',
   'browserify-floating-adapter',
-  'browserify-linear-arbitrary-precision'
+  'browserify-arbitrary-precision'
 ];
 
 gulp.task('dev', devDeps, function() {

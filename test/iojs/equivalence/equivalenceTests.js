@@ -4,7 +4,7 @@
 
 require('should');
 
-var arbitraryPrecision = require('linear-arbitrary-precision');
+var arbitraryPrecision = require('arbitrary-precision');
 var floatingAdapter = require('floating-adapter');
 var everyAgainstFirst = require('every-against-first');
 var lcFactory = require('../../../src/linear-converter');

@@ -4,13 +4,13 @@
 
 require('should');
 
-var arbitraryPrecision = require('linear-arbitrary-precision');
-var floatingAdapter = require('floating-adapter');
+var arbitraryPrecision = require('arbitrary-precision');
+var floatingAdapter = require('bigjs-adapter');
 var lcFactory = require('../../../src/linear-converter');
 
 function scaleVals(scale) {
   return scale.map(function(x) {
-    return x.val().val();
+    return Number(x);
   })
 }
 
@@ -20,9 +20,9 @@ exports.composeThePresets = function() {
 
   it('should compose the presets', function() {
     compose(
-      [[0, 10], [10, 20]],
+      [[0, 10], [10.5, 20.5]],
       [[10, 20], [50, 60]]
-    ).map(scaleVals).should.eql([[0, 10], [50, 60]]);
+    ).map(scaleVals).should.eql([[0, 10], [50.5, 60.5]]);
 
     compose(
       [[0, 1], [0, -2]],

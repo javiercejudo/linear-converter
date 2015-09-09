@@ -4,7 +4,7 @@
 
 require('should');
 
-var arbitraryPrecision = require('linear-arbitrary-precision');
+var arbitraryPrecision = require('arbitrary-precision');
 var bigjsAdapter = require('bigjs-adapter');
 var floatingAdapter = require('floating-adapter');
 var lcFactory = require('../../../src/linear-converter');
@@ -16,7 +16,7 @@ exports.workWithArbitraryPrecision = function() {
   Decimal.setPrecision(52);
 
   it('should work with arbitrary precision', function() {
-    getCoefficientB([[0.1, 0.3], [0, 0.1]]).val().eq(new Decimal('-0.05').val())
+    getCoefficientB([[0.1, 0.3], [0, 0.1]]).equals(new Decimal('-0.05'))
       .should.be.exactly(true);
 
     getCoefficientB([[-5, 100], [-17, 193]]).val().toFixed(50)
@@ -29,10 +29,10 @@ exports.workWithFloatingPointNumbers = function() {
   var getCoefficientB = lcFactory(Decimal).getCoefficientB;
 
   it('work with floating-point numbers', function() {
-    getCoefficientB([[0.1, 0.3], [0, 0.1]]).val().val()
-      .should.be.exactly(-0.05000000000000002);
+    getCoefficientB([[0.1, 0.3], [0, 0.1]]).equals(new Decimal('-0.05000000000000002'))
+      .should.be.exactly(true);
 
-    getCoefficientB([[0, 100], [32, 212]]).val().val()
-      .should.be.exactly(32);
+    getCoefficientB([[0, 100], [32, 212]]).equals(new Decimal('32'))
+      .should.be.exactly(true);
   });
 };

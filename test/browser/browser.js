@@ -4,7 +4,7 @@
 (function($hould) {
   'use strict';
 
-  var arbitraryPrecision = require('linear-arbitrary-precision');
+  var arbitraryPrecision = require('arbitrary-precision');
   var bigjsAdapter = require('bigjs-adapter');
   var floatingAdapter = require('floating-adapter');
   var lcFactory = require('linear-converter');

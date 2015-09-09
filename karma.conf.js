@@ -15,7 +15,7 @@ module.exports = function(config) {
     // list of files / patterns to load in the browser
     files: [
       'node_modules/should/should.js',
-      'tmp/linear-arbitrary-precision',
+      'tmp/arbitrary-precision',
       'tmp/linear-presets',
       'tmp/bigjs-adapter',
       'tmp/floating-adapter',
