@@ -1,6 +1,6 @@
 /**
  * linear-converter - Copyright 2015 Javier Cejudo <javier@javiercejudo.com> (http://www.javiercejudo.com)
- * @version v4.0.1
+ * @version v4.0.2
  * @link https://github.com/javiercejudo/linear-converter#readme
  * @license MIT
  */
@@ -68,12 +68,13 @@ module.exports = isUndefined;
 'use strict';
 
 var isUndefined = require('lodash.isundefined');
+var unitScale = require('unit-scale');
 
 module.exports = function factory(Decimal) {
   var api = {};
 
   api.normalise = function normalise(x, scale) {
-    scale = scale || [0, 1];
+    scale = scale || unitScale;
 
     var scale0 = new Decimal(scale[0].toString());
 
@@ -84,18 +85,19 @@ module.exports = function factory(Decimal) {
   return api;
 };
 
-},{"lodash.isundefined":2}],4:[function(require,module,exports){
+},{"lodash.isundefined":2,"unit-scale":7}],4:[function(require,module,exports){
 /*jshint node:true */
 
 'use strict';
 
 var isUndefined = require('lodash.isundefined');
+var unitScale = require('unit-scale');
 
 module.exports = function factory(Decimal) {
   var api = {};
 
   api.scale = function scaleNormalised(x, scale) {
-    scale = scale || [0, 1];
+    scale = scale || unitScale;
 
     var scale0 = new Decimal(scale[0].toString());
 
@@ -106,7 +108,7 @@ module.exports = function factory(Decimal) {
   return api;
 };
 
-},{"lodash.isundefined":2}],5:[function(require,module,exports){
+},{"lodash.isundefined":2,"unit-scale":7}],5:[function(require,module,exports){
 /*jshint node:true */
 
 'use strict';
@@ -127,13 +129,30 @@ module.exports = function factory(Decimal) {
   return api;
 };
 
-},{"lodash.isundefined":2,"normalise":3,"scale-normalised":4}],"linear-converter":[function(require,module,exports){
+},{"lodash.isundefined":2,"normalise":3,"scale-normalised":4}],6:[function(require,module,exports){
+/* jshint node:true */
+
+'use strict';
+
+var unitScale = require('unit-scale');
+
+module.exports = [unitScale, unitScale];
+
+},{"unit-scale":7}],7:[function(require,module,exports){
+/* jshint node:true */
+
+'use strict';
+
+module.exports = [0, 1];
+
+},{}],"linear-converter":[function(require,module,exports){
 /*jshint node:true */
 
 'use strict';
 
 var rescaleFactory = require('rescale');
 var twoOfAKind = require('olsen');
+var unitPreset = require('unit-preset');
 
 /**
  * Returns the linear converter api based on the given adapter
@@ -180,7 +199,7 @@ module.exports = function factory(Decimal) {
   api.composePresets = function composePresets(presetA, presetB) {
     return [
       presetA[0].map(function(x) {
-        return rescale.rescale(x);
+        return rescale.rescale(x, unitPreset[0], unitPreset[1]);
       }),
       presetA[1].map(function(x) {
         return rescale.rescale(x, presetB[0], presetB[1]);
@@ -213,6 +232,16 @@ module.exports = function factory(Decimal) {
     return rescale.rescale(0, preset[0], preset[1]);
   };
 
+  var presetEquivalenceRequisites = [
+    api.getCoefficientA,
+    api.getCoefficientB
+  ];
+
+  var wrappedPresetEquivalenceRequisites = [
+    api.getCoefficientA,
+    api.getCoefficientB
+  ].map(wrapPresetEquivalenceRequisite);
+
   /**
    * Check equivalence of two presets
    *
@@ -222,21 +251,8 @@ module.exports = function factory(Decimal) {
    * @return {Boolean} whether the presets are equivalent or not
    */
   api.equivalentPresets = function equivalentPresets(presetA, presetB) {
-    return presetEquivalenceRequisites().map(wrapPresetEquivalenceRequisite)
-      .every(twoOfAKind(presetA, presetB));
+    return wrappedPresetEquivalenceRequisites.every(twoOfAKind(presetA, presetB));
   };
-
-  /**
-   * Returns an array of api functions that determine equivalence
-   *
-   * @return {Array}
-   */
-  function presetEquivalenceRequisites() {
-    return [
-      api.getCoefficientA,
-      api.getCoefficientB
-    ];
-  }
 
   /**
    * Wraps a preset equivalence requisite to return a stringified version
@@ -254,4 +270,4 @@ module.exports = function factory(Decimal) {
   return api;
 };
 
-},{"olsen":1,"rescale":5}]},{},[]);
+},{"olsen":1,"rescale":5,"unit-preset":6}]},{},[]);
