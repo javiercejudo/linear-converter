@@ -26,6 +26,8 @@ module.exports = function factory(Decimal) {
    * @return {Number} The converted x
    */
   api.convert = function convert(x, preset) {
+    preset = preset || unitPreset;
+
     return rescale.rescale(x, preset[0], preset[1]);
   };
 
@@ -37,7 +39,7 @@ module.exports = function factory(Decimal) {
    * @return {Array} The inverted preset
    */
   api.invertPreset = function invertPreset(preset) {
-    return preset.slice().reverse();
+    return api.composePresets(preset.slice().reverse(), unitPreset);
   };
 
   /**

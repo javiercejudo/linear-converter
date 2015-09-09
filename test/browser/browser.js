@@ -20,11 +20,12 @@
     var equivalent = converter.equivalentPresets;
 
     it('should support convertion', function() {
-      convert(25, temp.celsiusToFahrenheit).val().val().should.be.exactly(77);
+      convert(25).equals(new Decimal('25')).should.be.exactly(true);
+      convert(25, temp.celsiusToFahrenheit).equals(new Decimal('77')).should.be.exactly(true);
     });
 
     it('should support preset invertion', function() {
-      convert(77, invert(temp.celsiusToFahrenheit)).val().val().should.be.exactly(25);
+      convert(77, invert(temp.celsiusToFahrenheit)).equals(new Decimal('25')).should.be.exactly(true);
     });
 
     it('should support preset composition', function() {
@@ -33,7 +34,7 @@
         temp.celsiusToFahrenheit
       );
 
-      convert(293.15, kelvinToFahrenheit).val().val().should.be.exactly(68);
+      convert(293.15, kelvinToFahrenheit).equals(new Decimal('68')).should.be.exactly(true);
     });
 
     it('should support calculating coefficients', function() {
@@ -68,10 +69,10 @@
     var converter = lcFactory(Decimal);
 
     it('should support calculating coefficients with arbitrary precision', function() {
-      converter.getCoefficientA([[0, 0.1], [0.1, 0.3]]).val().eq(new Decimal('2').val())
+      converter.getCoefficientA([[0, 0.1], [0.1, 0.3]]).equals(new Decimal('2'))
         .should.be.exactly(true);
 
-      converter.getCoefficientB([[0.1, 0.3], [0, 0.1]]).val().eq(new Decimal('-0.05').val())
+      converter.getCoefficientB([[0.1, 0.3], [0, 0.1]]).equals(new Decimal('-0.05'))
         .should.be.exactly(true);
     });
   })

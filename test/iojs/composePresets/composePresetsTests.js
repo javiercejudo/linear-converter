@@ -9,9 +9,7 @@ var floatingAdapter = require('bigjs-adapter');
 var lcFactory = require('../../../src/linear-converter');
 
 function scaleVals(scale) {
-  return scale.map(function(x) {
-    return Number(x);
-  })
+  return scale.map(Number);
 }
 
 exports.composeThePresets = function() {
