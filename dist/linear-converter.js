@@ -1,6 +1,6 @@
 /**
  * linear-converter - Copyright 2015 Javier Cejudo <javier@javiercejudo.com> (http://www.javiercejudo.com)
- * @version v4.0.2
+ * @version v5.0.0
  * @link https://github.com/javiercejudo/linear-converter#readme
  * @license MIT
  */
@@ -174,6 +174,8 @@ module.exports = function factory(Decimal) {
    * @return {Number} The converted x
    */
   api.convert = function convert(x, preset) {
+    preset = preset || unitPreset;
+
     return rescale.rescale(x, preset[0], preset[1]);
   };
 
@@ -185,7 +187,7 @@ module.exports = function factory(Decimal) {
    * @return {Array} The inverted preset
    */
   api.invertPreset = function invertPreset(preset) {
-    return preset.slice().reverse();
+    return api.composePresets(preset.slice().reverse(), unitPreset);
   };
 
   /**
