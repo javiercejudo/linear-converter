@@ -53,10 +53,10 @@ module.exports = function factory(Decimal) {
   api.composePresets = function composePresets(presetA, presetB) {
     return [
       presetA[0].map(function(x) {
-        return rescale.rescale(x, unitPreset[0], unitPreset[1]);
+        return api.convert(x);
       }),
       presetA[1].map(function(x) {
-        return rescale.rescale(x, presetB[0], presetB[1]);
+        return api.convert(x, presetB);
       })
     ];
   };
@@ -83,7 +83,7 @@ module.exports = function factory(Decimal) {
    * @return {Number} The coefficient b
    */
   api.getCoefficientB = function getCoefficientB(preset) {
-    return rescale.rescale(0, preset[0], preset[1]);
+    return api.convert(0, preset);
   };
 
   var presetEquivalenceRequisites = [
