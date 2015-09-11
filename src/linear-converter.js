@@ -89,12 +89,11 @@ module.exports = function factory(Decimal) {
   var presetEquivalenceRequisites = [
     api.getCoefficientA,
     api.getCoefficientB
-  ];
-
-  var wrappedPresetEquivalenceRequisites = [
-    api.getCoefficientA,
-    api.getCoefficientB
-  ].map(wrapPresetEquivalenceRequisite);
+  ].map(function wrapper(presetEquivalenceRequisite) {
+    return function(preset) {
+      return presetEquivalenceRequisite(preset).toString();
+    };
+  });
 
   /**
    * Check equivalence of two presets
@@ -105,21 +104,8 @@ module.exports = function factory(Decimal) {
    * @return {Boolean} whether the presets are equivalent or not
    */
   api.equivalentPresets = function equivalentPresets(presetA, presetB) {
-    return wrappedPresetEquivalenceRequisites.every(twoOfAKind(presetA, presetB));
+    return presetEquivalenceRequisites.every(twoOfAKind(presetA, presetB));
   };
-
-  /**
-   * Wraps a preset equivalence requisite to return a stringified version
-   *
-   * @param {Function} presetEquivalenceRequisite [description]
-   *
-   * @return {Function}
-   */
-  function wrapPresetEquivalenceRequisite(presetEquivalenceRequisite) {
-    return function(preset) {
-      return presetEquivalenceRequisite(preset).toString();
-    };
-  }
 
   return api;
 };
