@@ -30,13 +30,13 @@ exports.workWithFloatingPointNumbers = function() {
   var getCoefficientA = lcFactory(Decimal).getCoefficientA;
 
   it('work with floating-point numbers', function() {
-    getCoefficientA([[0, 0.1], [0.1, 0.3]]).equals(new Decimal('1.9999999999999998'))
-      .should.be.exactly(true);
+    getCoefficientA([[0, 0.1], [0.1, 0.3]]).valueOf()
+      .should.be.approximately(2, 2e-15);
 
-    getCoefficientA([[0, 100], [32, 212]]).equals(new Decimal('9').div(new Decimal('5')))
-      .should.be.exactly(true);
+    getCoefficientA([[0, 100], [32, 212]]).valueOf()
+      .should.be.approximately(9/5, 2e-14);
 
-    getCoefficientA([[0, 100], [150, 0]]).equals(new Decimal('-3').div(new Decimal('2')))
-      .should.be.exactly(true);
+    getCoefficientA([[0, 100], [150, 0]]).valueOf()
+      .should.be.exactly(-3/2);
   });
 };

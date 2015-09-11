@@ -60,8 +60,7 @@ module.exports = function factory(Decimal) {
    * @return {Number} The coefficient a
    */
   api.getCoefficientA = function getCoefficientA(preset) {
-    return new Decimal(preset[1][1].toString()).minus(new Decimal(preset[1][0].toString()))
-      .div(new Decimal(preset[0][1].toString()).minus(new Decimal(preset[0][0].toString())));
+    return api.convert(1, preset).minus(api.getCoefficientB(preset));
   };
 
   /**
