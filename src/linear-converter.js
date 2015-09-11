@@ -3,7 +3,6 @@
 'use strict';
 
 var rescaleFactory = require('rescale');
-var twoOfAKind = require('olsen');
 var unitPreset = require('unit-preset');
 
 /**
@@ -47,11 +46,10 @@ module.exports = function factory(Decimal) {
    * @return {Array} The composed preset
    */
   api.composePresets = function composePresets(presetA, presetB) {
-    return presetA.map(function(scale, i) {
-      return scale.map(function(x) {
-        return api.convert(x, (i && presetB) || unitPreset);
-      });
-    });
+    return [
+      [api.convert(presetA[0][0]), api.convert(presetA[0][1])],
+      [api.convert(presetA[1][0], presetB), api.convert(presetA[1][1], presetB)]
+    ];
   };
 
   /**
@@ -71,19 +69,11 @@ module.exports = function factory(Decimal) {
    * the given preset.
    *
    * @param {Array} preset The preset for which to calculate its b coefficient
-   *
    * @return {Number} The coefficient b
    */
   api.getCoefficientB = function getCoefficientB(preset) {
     return api.convert(0, preset);
   };
-
-  var presetEquivalenceRequisites = [api.getCoefficientA, api.getCoefficientB]
-    .map(function wrapper(presetEquivalenceRequisite) {
-      return function(preset) {
-        return presetEquivalenceRequisite(preset).toString();
-      };
-    });
 
   /**
    * Check equivalence of two presets
@@ -93,7 +83,9 @@ module.exports = function factory(Decimal) {
    * @return {Boolean} whether the presets are equivalent or not
    */
   api.equivalentPresets = function equivalentPresets(presetA, presetB) {
-    return presetEquivalenceRequisites.every(twoOfAKind(presetA, presetB));
+    return [api.getCoefficientA, api.getCoefficientB].every(function(coefficient) {
+      return coefficient(presetA).equals(coefficient(presetB));
+    });
   };
 
   return api;
