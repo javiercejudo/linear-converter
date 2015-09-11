@@ -82,7 +82,7 @@ module.exports = function factory(Decimal) {
    * @return {Boolean} whether the presets are equivalent or not
    */
   api.equivalentPresets = function equivalentPresets(presetA, presetB) {
-    return [api.getCoefficientA, api.getCoefficientB].every(function(coefficient) {
+    return [api.getCoefficientB, api.getCoefficientA].every(function(coefficient) {
       return coefficient(presetA).equals(coefficient(presetB));
     });
   };
