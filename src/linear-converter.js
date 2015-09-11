@@ -10,7 +10,6 @@ var unitPreset = require('unit-preset');
  * Returns the linear converter api based on the given adapter
  *
  * @param {Object} Decimal instance of decimal library
- *
  * @return {Object} Linear converter API
  */
 module.exports = function factory(Decimal) {
@@ -22,7 +21,6 @@ module.exports = function factory(Decimal) {
    *
    * @param {Number} x The number to be converted
    * @param {Array} preset The preset that describes the conversion
-   *
    * @return {Number} The converted x
    */
   api.convert = function convert(x, preset) {
@@ -35,7 +33,6 @@ module.exports = function factory(Decimal) {
    * Inverts a preset to change the direction of the conversion
    *
    * @param {Array} preset The preset to invert
-   *
    * @return {Array} The inverted preset
    */
   api.invertPreset = function invertPreset(preset) {
@@ -47,18 +44,14 @@ module.exports = function factory(Decimal) {
    *
    * @param {Array} presetA The first preset to compose
    * @param {Array} presetB The second preset to compose
-   *
    * @return {Array} The composed preset
    */
   api.composePresets = function composePresets(presetA, presetB) {
-    return [
-      presetA[0].map(function(x) {
-        return api.convert(x);
-      }),
-      presetA[1].map(function(x) {
-        return api.convert(x, presetB);
-      })
-    ];
+    return presetA.map(function(scale, i) {
+      return scale.map(function(x) {
+        return api.convert(x, (i && presetB) || unitPreset);
+      });
+    });
   };
 
   /**
@@ -66,7 +59,6 @@ module.exports = function factory(Decimal) {
    * the given preset.
    *
    * @param {Array} preset The preset for which to calculate its a coefficient
-   *
    * @return {Number} The coefficient a
    */
   api.getCoefficientA = function getCoefficientA(preset) {
@@ -86,21 +78,18 @@ module.exports = function factory(Decimal) {
     return api.convert(0, preset);
   };
 
-  var presetEquivalenceRequisites = [
-    api.getCoefficientA,
-    api.getCoefficientB
-  ].map(function wrapper(presetEquivalenceRequisite) {
-    return function(preset) {
-      return presetEquivalenceRequisite(preset).toString();
-    };
-  });
+  var presetEquivalenceRequisites = [api.getCoefficientA, api.getCoefficientB]
+    .map(function wrapper(presetEquivalenceRequisite) {
+      return function(preset) {
+        return presetEquivalenceRequisite(preset).toString();
+      };
+    });
 
   /**
    * Check equivalence of two presets
    *
    * @param {Array} presetA The first preset to check for equivalence
    * @param {Array} presetB The second preset to check for equivalence
-   *
    * @return {Boolean} whether the presets are equivalent or not
    */
   api.equivalentPresets = function equivalentPresets(presetA, presetB) {
