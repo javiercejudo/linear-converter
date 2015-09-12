@@ -35,14 +35,14 @@
     var ex = [];
     ex[0] = {};
     ex[0].desc = '25 Celsius to Fahrenheit';
-    ex[0].value = convert(25, temp.celsiusToFahrenheit);
+    ex[0].value = convert(temp.celsiusToFahrenheit, 25);
 
     // easy inversion of presets
     var invert = converter.invertPreset;
 
     ex[1] = {};
     ex[1].desc = '77 Fahrenheit to Celsius';
-    ex[1].value = convert(77, invert(temp.celsiusToFahrenheit));
+    ex[1].value = convert(invert(temp.celsiusToFahrenheit), 77);
 
     // convert presets any to any using inversion and composition
     var compose = converter.composePresets;
@@ -54,7 +54,7 @@
 
     ex[2] = {};
     ex[2].desc = '293.15 Kelvin to Fahrenheit';
-    ex[2].value = convert(293.15, kelvinToFahrenheit);
+    ex[2].value = convert(kelvinToFahrenheit, 293.15);
 
     // calculate the coefficients for the underlying
     // linear function from a preset

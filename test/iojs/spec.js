@@ -13,7 +13,6 @@ var equivalenceTests = require('./equivalence/equivalenceTests');
 var o_o = describe;
 
 o_o('converting', function() { var o_O = convertTests;
-  o_o('without a preset', better('convert with the unit preset', o_O));
   o_o('with a valid preset', better('convert based on the provided preset', o_O));
 });
 

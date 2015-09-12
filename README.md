@@ -19,6 +19,7 @@ Flexible linear converter
 - [Coefficients](#coefficients)
 - [Preset equivalence](#preset-equivalence)
 - [Arbitrary precision](#arbitrary-precision)
+- [Currying](#currying)
 - [See more](#see-more)
 - [Related projects](#related-projects)
 
@@ -40,19 +41,19 @@ To use it in the browser, include the following on your site:
 
 ## Basic usage
 
-*linear-converter* uses [linear-arbitrary-precision](https://github.com/javiercejudo/linear-arbitrary-precision)
-to support arbitrary precision. See [all available adapters](https://www.npmjs.com/browse/keyword/linear-arbitrary-precision-adapter).
+*linear-converter* uses [arbitrary-precision](https://github.com/javiercejudo/arbitrary-precision)
+to support arbitrary precision. See [all available adapters](https://www.npmjs.com/browse/keyword/arbitrary-precision-adapter).
 
 ```js
-var Decimal = require('linear-arbitrary-precision')(require('floating-adapter'));
+var Decimal = require('arbitrary-precision')(require('floating-adapter'));
 var lc = require('linear-converter')(Decimal);
 
 var temp = require('linear-presets').PRESETS.temperature;
 
-lc.convert(25, temp.celsiusToFahrenheit); // => new Decimal('77')
+lc.convert(temp.celsiusToFahrenheit, 25); // => new Decimal('77')
 
 // also accepts Decimals
-lc.convert(new Decimal('25'), temp.celsiusToFahrenheit);
+lc.convert(temp.celsiusToFahrenheit, new Decimal('25'));
 ```
 
 For a quick interactive intro, see [CodePen example](http://codepen.io/javiercejudo/pen/PwvePd?editors=101).
@@ -68,7 +69,7 @@ Variants:
 ```js
 var fahrenheitToCelsius = lc.invertPreset(temp.celsiusToFahrenheit);
 
-lc.convert(77, fahrenheitToCelsius); // => 25 (as decimal)
+lc.convert(fahrenheitToCelsius, 77); // => 25 (as decimal)
 ```
 
 ## Presets composition
@@ -79,7 +80,7 @@ var kelvinToFahrenheit = lc.composePresets(
   temp.celsiusToFahrenheit
 );
 
-lc.convert(293.15, kelvinToFahrenheit); // => 68 (as decimal)
+lc.convert(kelvinToFahrenheit, 293.15); // => 68 (as decimal)
 ```
 
 ## Custom conversions
@@ -91,8 +92,8 @@ it multiplies by 2. Any linear conversion can be described that way:
 
 ```js
 // f(x) = ax + b
-lc.convert(x, [[0, 1], [b, a+b]]); // => ax + b
-lc.convert(x, [[1/a, -b/a], [b+1, 0]]); // => ax + b
+lc.convert([[0, 1], [b, a+b]], x); // => ax + b
+lc.convert([[1/a, -b/a], [b+1, 0]], x); // => ax + b
 ```
 
 For an arbitrary f(_x_) = _ax + b_, any [[_x<sub>1</sub>_, _x<sub>2</sub>_], [f(_x<sub>1</sub>_), f(_x<sub>2</sub>_)]] is a valid preset.
@@ -101,13 +102,13 @@ More examples:
 
 ```js
 // degrees to radians
-lc.convert(240, [[0, 180], [0, Math.PI]]); // => 4 * Math.PI / 3
+lc.convert([[0, 180], [0, Math.PI]], 240); // => 4 * Math.PI / 3
 
 // f(x) = 3x
-lc.convert(5, [[0, 1/3], [0, 1]]); // => 15
+lc.convert([[0, 1/3], [0, 1]], 5); // => 15
 
 // f(x) = -2x - 46
-lc.convert(-23, [[0, 1], [-46, -48]]); // => 0
+lc.convert([[0, 1], [-46, -48]], -23); // => 0
 ```
 
 ## Coefficients
@@ -141,24 +142,44 @@ lc.equivalentPresets(
 
 ## Arbitrary precision
 
-Arbitrary precision support is provided via [linear-arbitrary-precision](https://github.com/javiercejudo/linear-arbitrary-precision).
-See [all available adapters](https://www.npmjs.com/browse/keyword/linear-arbitrary-precision-adapter).
+Arbitrary precision support is provided via [arbitrary-precision](https://github.com/javiercejudo/arbitrary-precision).
+See [all available adapters](https://www.npmjs.com/browse/keyword/arbitrary-precision-adapter).
 
 ```js
 // without arbitrary precision (very lightweight)
-var Decimal = require('linear-arbitrary-precision')(require('floating-adapter'));
+var Decimal = require('arbitrary-precision')(require('floating-adapter'));
 var lc = require('linear-converter')(Decimal);
 
 lc.getCoefficientA([[0, 0.1], [0.1, 0.3]]); // => 1.9999999999999998
 
 // with arbitrary precision
-var Decimal = require('linear-arbitrary-precision')(require('bigjs-adapter'));
+var Decimal = require('arbitrary-precision')(require('bigjs-adapter'));
 var lc = require('linear-converter')(Decimal);
 
 lc.getCoefficientA([[0, 0.1], [0.1, 0.3]]); // => 2
 ```
 
 See [CodePen example](http://codepen.io/javiercejudo/pen/WvEWdQ?editors=101).
+
+## Currying
+
+The `convert` function is designed to play nicely with currying. Here is
+a full example:
+
+```js
+var Decimal = require('arbitrary-precision')(require('floating-adapter'));
+var lc = require('linear-converter')(Decimal);
+var curry = require('lodash.curry');
+var temp = require('linear-presets').PRESETS.temperature;
+
+var curriedConvert = _.curry(lc.convert);
+
+var celsiusToFahrenheit = curriedConvert(temp.celsiusToFahrenheit);
+var fahrenheitToCelsius = curriedConvert(lc.invertPreset(temp.celsiusToFahrenheit));
+
+celsiusToFahrenheit(25); // => new Decimal('77')
+fahrenheitToCelsius(77); // => new Decimal('25')
+```
 
 ## See more
 

@@ -20,12 +20,11 @@
     var equivalent = converter.equivalentPresets;
 
     it('should support convertion', function() {
-      convert(25).equals(new Decimal('25')).should.be.exactly(true);
-      convert(25, temp.celsiusToFahrenheit).equals(new Decimal('77')).should.be.exactly(true);
+      convert(temp.celsiusToFahrenheit, 25).equals(new Decimal('77')).should.be.exactly(true);
     });
 
     it('should support preset invertion', function() {
-      convert(77, invert(temp.celsiusToFahrenheit)).equals(new Decimal('25')).should.be.exactly(true);
+      convert(invert(temp.celsiusToFahrenheit), 77).equals(new Decimal('25')).should.be.exactly(true);
     });
 
     it('should support preset composition', function() {
@@ -34,7 +33,7 @@
         temp.celsiusToFahrenheit
       );
 
-      convert(293.15, kelvinToFahrenheit).equals(new Decimal('68')).should.be.exactly(true);
+      convert(kelvinToFahrenheit, 293.15).equals(new Decimal('68')).should.be.exactly(true);
     });
 
     it('should support calculating coefficients', function() {

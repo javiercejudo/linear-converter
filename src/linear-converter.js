@@ -18,13 +18,11 @@ module.exports = function factory(Decimal) {
   /**
    * Linearly converts x as described by a preset
    *
-   * @param {Number} x The number to be converted
    * @param {Array} preset The preset that describes the conversion
+   * @param {Number} x The number to be converted
    * @return {Number} The converted x
    */
-  api.convert = function convert(x, preset) {
-    preset = preset || unitPreset;
-
+  api.convert = function convert(preset, x) {
     return rescale.rescale(x, preset[0], preset[1]);
   };
 
@@ -47,8 +45,8 @@ module.exports = function factory(Decimal) {
    */
   api.composePresets = function composePresets(presetA, presetB) {
     return [
-      [api.convert(presetA[0][0]), api.convert(presetA[0][1])],
-      [api.convert(presetA[1][0], presetB), api.convert(presetA[1][1], presetB)]
+      [api.convert(unitPreset, presetA[0][0]), api.convert(unitPreset, presetA[0][1])],
+      [api.convert(presetB, presetA[1][0]), api.convert(presetB, presetA[1][1])]
     ];
   };
 
@@ -60,7 +58,7 @@ module.exports = function factory(Decimal) {
    * @return {Number} The coefficient a
    */
   api.getCoefficientA = function getCoefficientA(preset) {
-    return api.convert(1, preset).minus(api.getCoefficientB(preset));
+    return api.convert(preset, 1).minus(api.getCoefficientB(preset));
   };
 
   /**
@@ -71,7 +69,7 @@ module.exports = function factory(Decimal) {
    * @return {Number} The coefficient b
    */
   api.getCoefficientB = function getCoefficientB(preset) {
-    return api.convert(0, preset);
+    return api.convert(preset, 0);
   };
 
   /**
