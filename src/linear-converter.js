@@ -23,7 +23,7 @@ module.exports = function factory(Decimal) {
    * @return {Number} The converted x
    */
   api.convert = function convert(preset, x) {
-    return rescale.rescale(x, preset[0], preset[1]);
+    return rescale.rescale(preset[0], preset[1], x);
   };
 
   /**
