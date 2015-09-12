@@ -1,6 +1,6 @@
 /**
  * linear-converter - Copyright 2015 Javier Cejudo <javier@javiercejudo.com> (http://www.javiercejudo.com)
- * @version v5.0.1
+ * @version v6.0.0
  * @link https://github.com/javiercejudo/linear-converter#readme
  * @license MIT
  */
@@ -9,73 +9,10 @@ require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof requ
 
 'use strict';
 
-/**
- * Returns a two of a kind check
- *
- * @param {*} a
- * @param {*} b
- *
- * @return {Function} [description]
- */
-module.exports = function olsen(a, b) {
-  /**
-   * Two of a kind check
-   *
-   * @param {Function} function to compare against
-   *
-   * @return {Boolean}
-   */
-  return function check(kind) {
-    return kind(a) === kind(b);
-  };
-};
-
-},{}],2:[function(require,module,exports){
-/**
- * lodash 3.0.1 (Custom Build) <https://lodash.com/>
- * Build: `lodash modern modularize exports="npm" -o ./`
- * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
- * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
- * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
- * Available under MIT license <https://lodash.com/license>
- */
-
-/**
- * Checks if `value` is `undefined`.
- *
- * @static
- * @memberOf _
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is `undefined`, else `false`.
- * @example
- *
- * _.isUndefined(void 0);
- * // => true
- *
- * _.isUndefined(null);
- * // => false
- */
-function isUndefined(value) {
-  return value === undefined;
-}
-
-module.exports = isUndefined;
-
-},{}],3:[function(require,module,exports){
-/*jshint node:true */
-
-'use strict';
-
-var isUndefined = require('lodash.isundefined');
-var unitScale = require('unit-scale');
-
 module.exports = function factory(Decimal) {
   var api = {};
 
-  api.normalise = function normalise(x, scale) {
-    scale = scale || unitScale;
-
+  api.normalise = function normalise(scale, x) {
     var scale0 = new Decimal(scale[0].toString());
 
     return new Decimal(x.toString()).minus(scale0)
@@ -85,20 +22,15 @@ module.exports = function factory(Decimal) {
   return api;
 };
 
-},{"lodash.isundefined":2,"unit-scale":7}],4:[function(require,module,exports){
+},{}],2:[function(require,module,exports){
 /*jshint node:true */
 
 'use strict';
 
-var isUndefined = require('lodash.isundefined');
-var unitScale = require('unit-scale');
-
 module.exports = function factory(Decimal) {
   var api = {};
 
-  api.scale = function scaleNormalised(x, scale) {
-    scale = scale || unitScale;
-
+  api.scale = function scaleNormalised(scale, x) {
     var scale0 = new Decimal(scale[0].toString());
 
     return new Decimal(scale[1].toString()).minus(scale0)
@@ -108,12 +40,11 @@ module.exports = function factory(Decimal) {
   return api;
 };
 
-},{"lodash.isundefined":2,"unit-scale":7}],5:[function(require,module,exports){
+},{}],3:[function(require,module,exports){
 /*jshint node:true */
 
 'use strict';
 
-var isUndefined = require('lodash.isundefined');
 var normaliseFactory = require('normalise');
 var scaleFactory = require('scale-normalised');
 
@@ -122,14 +53,21 @@ module.exports = function factory(Decimal) {
   var scale = scaleFactory(Decimal).scale;
   var api = {};
 
-  api.rescale = function rescale(x, oldScale, newScale) {
-    return scale(normalise(x, oldScale), newScale);
+  api.rescale = function rescale(oldScale, newScale, x) {
+    return scale(newScale, normalise(oldScale, x));
   };
 
   return api;
 };
 
-},{"lodash.isundefined":2,"normalise":3,"scale-normalised":4}],6:[function(require,module,exports){
+},{"normalise":1,"scale-normalised":2}],4:[function(require,module,exports){
+/* jshint node:true */
+
+'use strict';
+
+module.exports = [0, 1];
+
+},{}],5:[function(require,module,exports){
 /* jshint node:true */
 
 'use strict';
@@ -138,27 +76,18 @@ var unitScale = require('unit-scale');
 
 module.exports = [unitScale, unitScale];
 
-},{"unit-scale":7}],7:[function(require,module,exports){
-/* jshint node:true */
-
-'use strict';
-
-module.exports = [0, 1];
-
-},{}],"linear-converter":[function(require,module,exports){
+},{"unit-scale":4}],"linear-converter":[function(require,module,exports){
 /*jshint node:true */
 
 'use strict';
 
 var rescaleFactory = require('rescale');
-var twoOfAKind = require('olsen');
 var unitPreset = require('unit-preset');
 
 /**
  * Returns the linear converter api based on the given adapter
  *
  * @param {Object} Decimal instance of decimal library
- *
  * @return {Object} Linear converter API
  */
 module.exports = function factory(Decimal) {
@@ -168,22 +97,18 @@ module.exports = function factory(Decimal) {
   /**
    * Linearly converts x as described by a preset
    *
-   * @param {Number} x The number to be converted
    * @param {Array} preset The preset that describes the conversion
-   *
+   * @param {Number} x The number to be converted
    * @return {Number} The converted x
    */
-  api.convert = function convert(x, preset) {
-    preset = preset || unitPreset;
-
-    return rescale.rescale(x, preset[0], preset[1]);
+  api.convert = function convert(preset, x) {
+    return rescale.rescale(preset[0], preset[1], x);
   };
 
   /**
    * Inverts a preset to change the direction of the conversion
    *
    * @param {Array} preset The preset to invert
-   *
    * @return {Array} The inverted preset
    */
   api.invertPreset = function invertPreset(preset) {
@@ -195,17 +120,12 @@ module.exports = function factory(Decimal) {
    *
    * @param {Array} presetA The first preset to compose
    * @param {Array} presetB The second preset to compose
-   *
    * @return {Array} The composed preset
    */
   api.composePresets = function composePresets(presetA, presetB) {
     return [
-      presetA[0].map(function(x) {
-        return api.convert(x);
-      }),
-      presetA[1].map(function(x) {
-        return api.convert(x, presetB);
-      })
+      [api.convert(unitPreset, presetA[0][0]), api.convert(unitPreset, presetA[0][1])],
+      [api.convert(presetB, presetA[1][0]), api.convert(presetB, presetA[1][1])]
     ];
   };
 
@@ -214,12 +134,10 @@ module.exports = function factory(Decimal) {
    * the given preset.
    *
    * @param {Array} preset The preset for which to calculate its a coefficient
-   *
    * @return {Number} The coefficient a
    */
   api.getCoefficientA = function getCoefficientA(preset) {
-    return new Decimal(preset[1][1].toString()).minus(new Decimal(preset[1][0].toString()))
-      .div(new Decimal(preset[0][1].toString()).minus(new Decimal(preset[0][0].toString())));
+    return api.convert(preset, 1).minus(api.getCoefficientB(preset));
   };
 
   /**
@@ -227,49 +145,26 @@ module.exports = function factory(Decimal) {
    * the given preset.
    *
    * @param {Array} preset The preset for which to calculate its b coefficient
-   *
    * @return {Number} The coefficient b
    */
   api.getCoefficientB = function getCoefficientB(preset) {
-    return api.convert(0, preset);
+    return api.convert(preset, 0);
   };
-
-  var presetEquivalenceRequisites = [
-    api.getCoefficientA,
-    api.getCoefficientB
-  ];
-
-  var wrappedPresetEquivalenceRequisites = [
-    api.getCoefficientA,
-    api.getCoefficientB
-  ].map(wrapPresetEquivalenceRequisite);
 
   /**
    * Check equivalence of two presets
    *
    * @param {Array} presetA The first preset to check for equivalence
    * @param {Array} presetB The second preset to check for equivalence
-   *
    * @return {Boolean} whether the presets are equivalent or not
    */
   api.equivalentPresets = function equivalentPresets(presetA, presetB) {
-    return wrappedPresetEquivalenceRequisites.every(twoOfAKind(presetA, presetB));
+    return [api.getCoefficientB, api.getCoefficientA].every(function(coefficient) {
+      return coefficient(presetA).equals(coefficient(presetB));
+    });
   };
-
-  /**
-   * Wraps a preset equivalence requisite to return a stringified version
-   *
-   * @param {Function} presetEquivalenceRequisite [description]
-   *
-   * @return {Function}
-   */
-  function wrapPresetEquivalenceRequisite(presetEquivalenceRequisite) {
-    return function(preset) {
-      return presetEquivalenceRequisite(preset).toString();
-    };
-  }
 
   return api;
 };
 
-},{"olsen":1,"rescale":5,"unit-preset":6}]},{},[]);
+},{"rescale":3,"unit-preset":5}]},{},[]);
