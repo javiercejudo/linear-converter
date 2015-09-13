@@ -172,7 +172,7 @@ var lc = require('linear-converter')(Decimal);
 var curry = require('lodash.curry');
 var temp = require('linear-presets').PRESETS.temperature;
 
-var curriedConvert = _.curry(lc.convert);
+var curriedConvert = curry(lc.convert);
 
 var celsiusToFahrenheit = curriedConvert(temp.celsiusToFahrenheit);
 var fahrenheitToCelsius = curriedConvert(lc.invertPreset(temp.celsiusToFahrenheit));
@@ -180,6 +180,8 @@ var fahrenheitToCelsius = curriedConvert(lc.invertPreset(temp.celsiusToFahrenhei
 celsiusToFahrenheit(25); // => new Decimal('77')
 fahrenheitToCelsius(77); // => new Decimal('25')
 ```
+
+See [CodePen example](http://codepen.io/javiercejudo/pen/wKKbLV?editors=101).
 
 ## See more
 
