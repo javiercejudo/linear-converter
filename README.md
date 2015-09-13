@@ -163,14 +163,10 @@ See [CodePen example](http://codepen.io/javiercejudo/pen/WvEWdQ?editors=101).
 
 ## Currying
 
-The `convert` function is designed to play nicely with currying. Here is
-a full example:
+The `convert` function is designed to play nicely with currying:
 
 ```js
-var Decimal = require('arbitrary-precision')(require('floating-adapter'));
-var lc = require('linear-converter')(Decimal);
 var curry = require('lodash.curry');
-var temp = require('linear-presets').PRESETS.temperature;
 
 var curriedConvert = curry(lc.convert);
 
