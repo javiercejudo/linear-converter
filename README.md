@@ -128,7 +128,7 @@ lc.getCoefficientB([[x1, x2], [f(x1), f(x2)]]); // => b
 ## Preset equivalence
 
 ```js
-// f(x) = -3 * (x - 2)
+// f(x) = -3x + 6
 lc.equivalentPresets(
   [[1, 5], [3, -9]],
   [[-1, 100], [9, -294]]
