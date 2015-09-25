@@ -181,7 +181,7 @@ See [CodePen example](http://codepen.io/javiercejudo/pen/wKKbLV?editors=101).
 
 ## See more
 
-- [spec](test/iojs/spec.js)
+- [spec](test/node/spec.js)
 - [all presets](https://github.com/javiercejudo/linear-presets#presets)
 
 ## Related projects

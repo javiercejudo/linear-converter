@@ -1,5 +1,3 @@
-/*jshint node:true */
-
 'use strict';
 
 var rescaleFactory = require('rescale');

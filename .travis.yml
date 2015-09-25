@@ -1,8 +1,8 @@
 language: node_js
 node_js:
-- "iojs"
-- "0.10"
+- "4"
 - "0.12"
+- "0.10"
 env:
   global:
   - SL_BROWSERS=SL_Chrome,SL_Firefox,SL_IE_9,SL_IE_10,SL_IE_11,SL_Safari,SL_Opera,SL_Android,SL_iOS

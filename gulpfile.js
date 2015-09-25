@@ -51,11 +51,15 @@ function browserifyLc(dest) {
 }
 
 gulp.task('clean:coverage', function(cb) {
-  del(['coverage'], cb);
+  del(['coverage']).then(function() {
+    cb();
+  });
 });
 
 gulp.task('clean:dist', function(cb) {
-  del(['dist'], cb);
+  del(['dist']).then(function() {
+    cb();
+  });
 });
 
 gulp.task('instrument', function() {
@@ -81,7 +85,7 @@ gulp.task('browserify-floating-adapter', [], function() {
 });
 
 gulp.task('test', ['clean:coverage', 'instrument'], function() {
-  return gulp.src(['test/iojs/*.js'])
+  return gulp.src(['test/node/*.js'])
     .pipe(mocha())
     .pipe(istanbul.writeReports());
 });
