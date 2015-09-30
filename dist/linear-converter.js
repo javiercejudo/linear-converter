@@ -1,6 +1,6 @@
 /**
  * linear-converter - Copyright 2015 Javier Cejudo <javier@javiercejudo.com> (http://www.javiercejudo.com)
- * @version v6.0.0
+ * @version v6.0.2
  * @link https://github.com/javiercejudo/linear-converter#readme
  * @license MIT
  */
@@ -27,24 +27,6 @@ module.exports = function factory(Decimal) {
 
 'use strict';
 
-module.exports = function factory(Decimal) {
-  var api = {};
-
-  api.scale = function scaleNormalised(scale, x) {
-    var scale0 = new Decimal(scale[0].toString());
-
-    return new Decimal(scale[1].toString()).minus(scale0)
-      .times(new Decimal(x.toString())).plus(scale0);
-  };
-
-  return api;
-};
-
-},{}],3:[function(require,module,exports){
-/*jshint node:true */
-
-'use strict';
-
 var normaliseFactory = require('normalise');
 var scaleFactory = require('scale-normalised');
 
@@ -60,14 +42,25 @@ module.exports = function factory(Decimal) {
   return api;
 };
 
-},{"normalise":1,"scale-normalised":2}],4:[function(require,module,exports){
-/* jshint node:true */
+},{"normalise":1,"scale-normalised":3}],3:[function(require,module,exports){
+/*jshint node:true */
 
 'use strict';
 
-module.exports = [0, 1];
+module.exports = function factory(Decimal) {
+  var api = {};
 
-},{}],5:[function(require,module,exports){
+  api.scale = function scaleNormalised(scale, x) {
+    var scale0 = new Decimal(scale[0].toString());
+
+    return new Decimal(scale[1].toString()).minus(scale0)
+      .times(new Decimal(x.toString())).plus(scale0);
+  };
+
+  return api;
+};
+
+},{}],4:[function(require,module,exports){
 /* jshint node:true */
 
 'use strict';
@@ -76,9 +69,14 @@ var unitScale = require('unit-scale');
 
 module.exports = [unitScale, unitScale];
 
-},{"unit-scale":4}],"linear-converter":[function(require,module,exports){
-/*jshint node:true */
+},{"unit-scale":5}],5:[function(require,module,exports){
+/* jshint node:true */
 
+'use strict';
+
+module.exports = [0, 1];
+
+},{}],"linear-converter":[function(require,module,exports){
 'use strict';
 
 var rescaleFactory = require('rescale');
@@ -167,4 +165,4 @@ module.exports = function factory(Decimal) {
   return api;
 };
 
-},{"rescale":3,"unit-preset":5}]},{},[]);
+},{"rescale":2,"unit-preset":4}]},{},[]);
