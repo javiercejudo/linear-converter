@@ -100,6 +100,11 @@ module.exports = function(config) {
         platform: 'Windows 8.1',
         version: '11'
       },
+      'SL_Edge': {
+        base: 'SauceLabs',
+        browserName: 'microsoftedge',
+        platform: 'Windows 10'
+      },
       'SL_Opera': {
         base: 'SauceLabs',
         browserName: 'opera',

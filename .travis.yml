@@ -5,7 +5,7 @@ node_js:
 - "0.10"
 env:
   global:
-  - SL_BROWSERS=SL_Chrome,SL_Firefox,SL_IE_9,SL_IE_10,SL_IE_11,SL_Safari,SL_Opera,SL_Android,SL_iOS
+  - SL_BROWSERS=SL_Chrome,SL_Firefox,SL_IE_9,SL_IE_10,SL_IE_11,SL_Edge,SL_Safari,SL_Opera,SL_Android,SL_iOS
   - SAUCE_USERNAME=linear-converter
   - secure: hQsvj0JogRKd3AXcqrfaAcjOi8PEN+s65eafJH6Bg+tq++hzEQ6iIk/0hPb+hs9xhSVhi+0t36F6aVeTv2LmVX7NqERRWN/reWkXCNuQoHxUHx5Va26SpS5fGJkYJpjwsEwSXEYE3b07eM6KUMpro8exAIlJYcjFdTBw7e/tH8g=
 matrix:
