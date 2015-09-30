@@ -72,6 +72,10 @@ gulp.task('browserify-arbitrary-precision', [], function() {
   return tmpBrowserify('arbitrary-precision');
 });
 
+gulp.task('browserify-linear-preset-factory', [], function() {
+  return tmpBrowserify('linear-preset-factory');
+});
+
 gulp.task('browserify-linear-presets', [], function() {
   return tmpBrowserify('linear-presets');
 });
@@ -100,6 +104,7 @@ gulp.task('browserify', ['clean:dist'], function() {
 });
 
 var devDeps = [
+  'browserify-linear-preset-factory',
   'browserify-linear-presets',
   'browserify-bigjs-adapter',
   'browserify-floating-adapter',

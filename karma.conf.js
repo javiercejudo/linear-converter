@@ -16,6 +16,7 @@ module.exports = function(config) {
     files: [
       'node_modules/should/should.js',
       'tmp/arbitrary-precision',
+      'tmp/linear-preset-factory',
       'tmp/linear-presets',
       'tmp/bigjs-adapter',
       'tmp/floating-adapter',

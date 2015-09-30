@@ -18,6 +18,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.1.1/es5-sham.js"></script>
   <![endif]-->
   <script src="../../tmp/arbitrary-precision"></script>
+  <script src="../../tmp/linear-preset-factory"></script>
   <script src="../../tmp/linear-presets"></script>
   <script src="../../tmp/floating-adapter"></script>
   <script src="../../tmp/linear-converter.js"></script>
@@ -25,8 +26,9 @@
   <script>
     var arbitraryPrecision = require('arbitrary-precision');
     var floatingAdapter = require('floating-adapter');
+    var presetFactory = require('linear-preset-factory');
     var lcFactory = require('linear-converter');
-    var temp = require('linear-presets').PRESETS.temperature;
+    var temp = presetFactory(require('linear-presets').PRESETS.temperature);
 
     var Decimal = arbitraryPrecision(floatingAdapter);
     var converter = lcFactory(Decimal);
@@ -35,21 +37,21 @@
     var ex = [];
     ex[0] = {};
     ex[0].desc = '25 Celsius to Fahrenheit';
-    ex[0].value = convert(temp.celsiusToFahrenheit, 25);
+    ex[0].value = convert(temp.celsius_fahrenheit, 25);
 
     // easy inversion of presets
     var invert = converter.invertPreset;
 
     ex[1] = {};
     ex[1].desc = '77 Fahrenheit to Celsius';
-    ex[1].value = convert(invert(temp.celsiusToFahrenheit), 77);
+    ex[1].value = convert(invert(temp.celsius_fahrenheit), 77);
 
     // convert presets any to any using inversion and composition
     var compose = converter.composePresets;
 
     var kelvinToFahrenheit = compose(
-      invert(temp.celsiusToKelvin),
-      temp.celsiusToFahrenheit
+      invert(temp.celsius_kelvin),
+      temp.celsius_fahrenheit
     );
 
     ex[2] = {};

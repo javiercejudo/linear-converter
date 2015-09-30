@@ -7,8 +7,9 @@
   var arbitraryPrecision = require('arbitrary-precision');
   var bigjsAdapter = require('bigjs-adapter');
   var floatingAdapter = require('floating-adapter');
+  var presetFactory = require('linear-preset-factory');
   var lcFactory = require('linear-converter');
-  var temp = require('linear-presets').PRESETS.temperature;
+  var temp = presetFactory(require('linear-presets').PRESETS.temperature);
 
   describe('general support', function() {
     var Decimal = arbitraryPrecision(floatingAdapter);
@@ -20,17 +21,17 @@
     var equivalent = converter.equivalentPresets;
 
     it('should support convertion', function() {
-      convert(temp.celsiusToFahrenheit, 25).equals(new Decimal('77')).should.be.exactly(true);
+      convert(temp.celsius_fahrenheit, 25).equals(new Decimal('77')).should.be.exactly(true);
     });
 
     it('should support preset invertion', function() {
-      convert(invert(temp.celsiusToFahrenheit), 77).equals(new Decimal('25')).should.be.exactly(true);
+      convert(invert(temp.celsius_fahrenheit), 77).equals(new Decimal('25')).should.be.exactly(true);
     });
 
     it('should support preset composition', function() {
       var kelvinToFahrenheit = compose(
-        invert(temp.celsiusToKelvin),
-        temp.celsiusToFahrenheit
+        invert(temp.celsius_kelvin),
+        temp.celsius_fahrenheit
       );
 
       convert(kelvinToFahrenheit, 293.15).equals(new Decimal('68')).should.be.exactly(true);
