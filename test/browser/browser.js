@@ -16,19 +16,21 @@
     var converter = lcFactory(Decimal);
 
     var convert = converter.convert;
-    var invert = converter.invertPreset;
-    var compose = converter.composePresets;
-    var equivalent = converter.equivalentPresets;
+    var invert = converter.invertConversion;
+    var compose = converter.composeConversions;
+    var getCoefficientA = converter.getCoefficientA;
+    var getCoefficientB = converter.getCoefficientB;
+    var equivalent = converter.equivalentConversions;
 
-    it('should support convertion', function() {
+    it('should support conversion', function() {
       convert(temp.celsius_fahrenheit, 25).equals(new Decimal('77')).should.be.exactly(true);
     });
 
-    it('should support preset invertion', function() {
+    it('should support conversion invertion', function() {
       convert(invert(temp.celsius_fahrenheit), 77).equals(new Decimal('25')).should.be.exactly(true);
     });
 
-    it('should support preset composition', function() {
+    it('should support conversion composition', function() {
       var kelvinToFahrenheit = compose(
         invert(temp.celsius_kelvin),
         temp.celsius_fahrenheit
@@ -39,14 +41,14 @@
 
     it('should support calculating coefficients', function() {
       // using Should() to make IE9 happy: https://github.com/shouldjs/should.js/wiki/Known-Bugs#ie9
-      $hould(converter.getCoefficientA([[0, 0.1], [0.1, 0.3]]).val().val())
+      $hould(getCoefficientA([[0, 0.1], [0.1, 0.3]]).val().val())
         .be.approximately(2, 1e-15);
 
-      converter.getCoefficientB([[0.1, 0.3], [0, 0.1]]).val().val()
+      getCoefficientB([[0.1, 0.3], [0, 0.1]]).val().val()
         .should.be.approximately(-0.05, 1e-15);
     });
 
-    it('should support checking for preset equivalence', function() {
+    it('should support checking for conversion equivalence', function() {
       equivalent(
         [[1, 5], [3, -9]],
         [[-1, 100], [9, -294]]
@@ -67,12 +69,14 @@
   describe('arbitrary precision support', function() {
     var Decimal = arbitraryPrecision(bigjsAdapter);
     var converter = lcFactory(Decimal);
+    var getCoefficientA = converter.getCoefficientA;
+    var getCoefficientB = converter.getCoefficientB;
 
     it('should support calculating coefficients with arbitrary precision', function() {
-      converter.getCoefficientA([[0, 0.1], [0.1, 0.3]]).equals(new Decimal('2'))
+      getCoefficientA([[0, 0.1], [0.1, 0.3]]).equals(new Decimal('2'))
         .should.be.exactly(true);
 
-      converter.getCoefficientB([[0.1, 0.3], [0, 0.1]]).equals(new Decimal('-0.05'))
+      getCoefficientB([[0.1, 0.3], [0, 0.1]]).equals(new Decimal('-0.05'))
         .should.be.exactly(true);
     });
   });

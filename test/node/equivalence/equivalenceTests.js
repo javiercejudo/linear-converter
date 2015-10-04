@@ -11,7 +11,7 @@ var lcFactory = require('../../../src/linear-converter');
 
 exports.returnTrue = function() {
   var Decimal = arbitraryPrecision(floatingAdapter);
-  var equivalent = lcFactory(Decimal).equivalentPresets;
+  var equivalent = lcFactory(Decimal).equivalentConversions;
 
   it('should return true', function() {
     equivalent(
@@ -39,7 +39,7 @@ exports.returnTrue = function() {
 
 exports.returnFalse = function() {
   var Decimal = arbitraryPrecision(floatingAdapter);
-  var equivalent = lcFactory(Decimal).equivalentPresets;
+  var equivalent = lcFactory(Decimal).equivalentConversions;
 
   it('should return false', function() {
     equivalent(

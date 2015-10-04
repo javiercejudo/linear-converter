@@ -12,11 +12,11 @@ function scaleVals(scale) {
   return scale.map(Number);
 }
 
-exports.composeThePresets = function() {
+exports.composeTheConversions = function() {
   var Decimal = arbitraryPrecision(floatingAdapter);
-  var compose = lcFactory(Decimal).composePresets;
+  var compose = lcFactory(Decimal).composeConversions;
 
-  it('should compose the presets', function() {
+  it('should compose the conversions', function() {
     compose(
       [[0, 10], [10.5, 20.5]],
       [[10, 20], [50, 60]]
