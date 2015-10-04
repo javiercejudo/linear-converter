@@ -48,12 +48,13 @@ to support arbitrary precision. See [all available adapters](https://www.npmjs.c
 var Decimal = require('arbitrary-precision')(require('floating-adapter'));
 var lc = require('linear-converter')(Decimal);
 
-var temp = require('linear-presets').PRESETS.temperature;
+// 0°C and 100°C are 32°F and 212°F
+var celsiusToFahrenheit = [[0, 100], [32, 212]];
 
-lc.convert(temp.celsiusToFahrenheit, 25); // => new Decimal('77')
+lc.convert(celsiusToFahrenheit, 25); // => new Decimal('77')
 
 // also accepts Decimals
-lc.convert(temp.celsiusToFahrenheit, new Decimal('25'));
+lc.convert(celsiusToFahrenheit, new Decimal('25'));
 ```
 
 For a quick interactive intro, see [CodePen example](http://codepen.io/javiercejudo/pen/PwvePd?editors=101).
@@ -67,7 +68,7 @@ Variants:
 ## Preset inversion
 
 ```js
-var fahrenheitToCelsius = lc.invertPreset(temp.celsiusToFahrenheit);
+var fahrenheitToCelsius = lc.invertPreset(celsiusToFahrenheit);
 
 lc.convert(fahrenheitToCelsius, 77); // => 25 (as decimal)
 ```
@@ -75,10 +76,8 @@ lc.convert(fahrenheitToCelsius, 77); // => 25 (as decimal)
 ## Presets composition
 
 ```js
-var kelvinToFahrenheit = lc.composePresets(
-  lc.invertPreset(temp.celsiusToKelvin),
-  temp.celsiusToFahrenheit
-);
+var kelvinToCelsius = [[273.15, 373.15], [0, 100]];
+var kelvinToFahrenheit = lc.composePresets(kelvinToCelsius, celsiusToFahrenheit);
 
 lc.convert(kelvinToFahrenheit, 293.15); // => 68 (as decimal)
 ```
@@ -92,8 +91,8 @@ it multiplies by 2. Any linear conversion can be described that way:
 
 ```js
 // f(x) = ax + b
-lc.convert([[0, 1], [b, a+b]], x); // => ax + b
-lc.convert([[1/a, -b/a], [b+1, 0]], x); // => ax + b
+lc.convert([[0, 1], [b, a+b]], x); // => ax + b (as Decimal)
+lc.convert([[1/a, -b/a], [b+1, 0]], x); // => ax + b (as Decimal)
 ```
 
 For an arbitrary f(_x_) = _ax + b_, any [[_x<sub>1</sub>_, _x<sub>2</sub>_], [f(_x<sub>1</sub>_), f(_x<sub>2</sub>_)]] is a valid preset.
@@ -102,13 +101,13 @@ More examples:
 
 ```js
 // degrees to radians
-lc.convert([[0, 180], [0, Math.PI]], 240); // => 4 * Math.PI / 3
+lc.convert([[0, 180], [0, Math.PI]], 240); // => 4 * Math.PI / 3 (as Decimal)
 
 // f(x) = 3x
-lc.convert([[0, 1/3], [0, 1]], 5); // => 15
+lc.convert([[0, 1/3], [0, 1]], 5); // => 15 (as Decimal)
 
 // f(x) = -2x - 46
-lc.convert([[0, 1], [-46, -48]], -23); // => 0
+lc.convert([[0, 1], [-46, -48]], -23); // => 0 (as Decimal)
 ```
 
 ## Coefficients
@@ -117,12 +116,12 @@ Creating presets from a given function is trivial; to find the function from a g
 
 ```js
 // f(x) = 2x + 1
-lc.getCoefficientA([[0, 1], [1, 3]]); // => 2
-lc.getCoefficientB([[0, 1], [1, 3]]); // => 1
+lc.getCoefficientA([[0, 1], [1, 3]]); // => 2 (as Decimal)
+lc.getCoefficientB([[0, 1], [1, 3]]); // => 1 (as Decimal)
 
 // f(x) = ax + b
-lc.getCoefficientA([[x1, x2], [f(x1), f(x2)]]); // => a
-lc.getCoefficientB([[x1, x2], [f(x1), f(x2)]]); // => b
+lc.getCoefficientA([[x1, x2], [f(x1), f(x2)]]); // => a (as Decimal)
+lc.getCoefficientB([[x1, x2], [f(x1), f(x2)]]); // => b (as Decimal)
 ```
 
 ## Preset equivalence
@@ -150,13 +149,13 @@ See [all available adapters](https://www.npmjs.com/browse/keyword/arbitrary-prec
 var Decimal = require('arbitrary-precision')(require('floating-adapter'));
 var lc = require('linear-converter')(Decimal);
 
-lc.getCoefficientA([[0, 0.1], [0.1, 0.3]]); // => 1.9999999999999998
+lc.getCoefficientA([[0, 0.1], [0.1, 0.3]]); // => 1.9999999999999998 (as Decimal)
 
 // with arbitrary precision
 var Decimal = require('arbitrary-precision')(require('bigjs-adapter'));
 var lc = require('linear-converter')(Decimal);
 
-lc.getCoefficientA([[0, 0.1], [0.1, 0.3]]); // => 2
+lc.getCoefficientA([[0, 0.1], [0.1, 0.3]]); // => 2 (as Decimal)
 ```
 
 See [CodePen example](http://codepen.io/javiercejudo/pen/WvEWdQ?editors=101).
@@ -166,15 +165,13 @@ See [CodePen example](http://codepen.io/javiercejudo/pen/WvEWdQ?editors=101).
 The `convert` function is designed to play nicely with currying:
 
 ```js
-var curry = require('lodash.curry');
+var convert = require('lodash.curry')(lc.convert);
 
-var curriedConvert = curry(lc.convert);
+convert(celsiusToFahrenheit, 25); // => 77 (as Decimal)
 
-var celsiusToFahrenheit = curriedConvert(temp.celsiusToFahrenheit);
-var fahrenheitToCelsius = curriedConvert(lc.invertPreset(temp.celsiusToFahrenheit));
+var cToF = convert(celsiusToFahrenheit);
 
-celsiusToFahrenheit(25); // => new Decimal('77')
-fahrenheitToCelsius(77); // => new Decimal('25')
+cToF(25); // => 77 (as Decimal)
 ```
 
 See [CodePen example](http://codepen.io/javiercejudo/pen/wKKbLV?editors=101).

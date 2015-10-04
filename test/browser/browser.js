@@ -75,5 +75,5 @@
       converter.getCoefficientB([[0.1, 0.3], [0, 0.1]]).equals(new Decimal('-0.05'))
         .should.be.exactly(true);
     });
-  })
+  });
 }(Should));
