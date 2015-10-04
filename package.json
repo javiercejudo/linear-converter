@@ -1,6 +1,6 @@
 {
   "name": "linear-converter",
-  "version": "6.0.3",
+  "version": "6.0.4",
   "description": "Flexible linear converter",
   "main": "src/linear-converter.js",
   "scripts": {
