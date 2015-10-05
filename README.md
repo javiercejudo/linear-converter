@@ -13,11 +13,11 @@ Flexible linear converter
 
 - [Installation](#installation)
 - [Basic usage](#basic-usage)
-- [Preset inversion](#preset-inversion)
-- [Presets composition](#presets-composition)
+- [Conversion inversion](#conversion-inversion)
+- [Conversions composition](#conversions-composition)
 - [Custom conversions](#custom-conversions)
 - [Coefficients](#coefficients)
-- [Preset equivalence](#preset-equivalence)
+- [Conversion equivalence](#conversion-equivalence)
 - [Arbitrary precision](#arbitrary-precision)
 - [Currying](#currying)
 - [See more](#see-more)
@@ -41,8 +41,9 @@ To use it in the browser, include the following on your site:
 
 ## Basic usage
 
-*linear-converter* uses [arbitrary-precision](https://github.com/javiercejudo/arbitrary-precision)
-to support arbitrary precision. See [all available adapters](https://www.npmjs.com/browse/keyword/arbitrary-precision-adapter).
+*linear-converter* uses the [arbitrary-precision](https://github.com/javiercejudo/arbitrary-precision)
+package to support arbitrary precision.
+See [all available adapters](https://www.npmjs.com/browse/keyword/arbitrary-precision-adapter).
 
 ```js
 var Decimal = require('arbitrary-precision')(require('floating-adapter'));
@@ -65,19 +66,19 @@ Variants:
 - [linear-conversion](https://github.com/javiercejudo/linear-conversion): if you prefer the object-oriented paradigm.
 - [linear-converter-cli](https://github.com/javiercejudo/linear-converter-cli): for CLI use.
 
-## Preset inversion
+## Conversion inversion
 
 ```js
-var fahrenheitToCelsius = lc.invertPreset(celsiusToFahrenheit);
+var fahrenheitToCelsius = lc.invertConversion(celsiusToFahrenheit);
 
 lc.convert(fahrenheitToCelsius, 77); // => 25 (as decimal)
 ```
 
-## Presets composition
+## Conversions composition
 
 ```js
 var kelvinToCelsius = [[273.15, 373.15], [0, 100]];
-var kelvinToFahrenheit = lc.composePresets(kelvinToCelsius, celsiusToFahrenheit);
+var kelvinToFahrenheit = lc.composeConversions(kelvinToCelsius, celsiusToFahrenheit);
 
 lc.convert(kelvinToFahrenheit, 293.15); // => 68 (as decimal)
 ```
@@ -95,7 +96,7 @@ lc.convert([[0, 1], [b, a+b]], x); // => ax + b (as Decimal)
 lc.convert([[1/a, -b/a], [b+1, 0]], x); // => ax + b (as Decimal)
 ```
 
-For an arbitrary f(_x_) = _ax + b_, any [[_x<sub>1</sub>_, _x<sub>2</sub>_], [f(_x<sub>1</sub>_), f(_x<sub>2</sub>_)]] is a valid preset.
+For an arbitrary f(_x_) = _ax + b_, any [[_x<sub>1</sub>_, _x<sub>2</sub>_], [f(_x<sub>1</sub>_), f(_x<sub>2</sub>_)]] is a valid conversion.
 
 More examples:
 
@@ -112,7 +113,7 @@ lc.convert([[0, 1], [-46, -48]], -23); // => 0 (as Decimal)
 
 ## Coefficients
 
-Creating presets from a given function is trivial; to find the function from a given preset, two methods are provided: `getCoefficientA` and `getCoefficientB`.
+Creating conversions from a given function is trivial; to find the function from a given conversion, two methods are provided: `getCoefficientA` and `getCoefficientB`.
 
 ```js
 // f(x) = 2x + 1
@@ -124,16 +125,16 @@ lc.getCoefficientA([[x1, x2], [f(x1), f(x2)]]); // => a (as Decimal)
 lc.getCoefficientB([[x1, x2], [f(x1), f(x2)]]); // => b (as Decimal)
 ```
 
-## Preset equivalence
+## Conversion equivalence
 
 ```js
 // f(x) = -3x + 6
-lc.equivalentPresets(
+lc.equivalentConversions(
   [[1, 5], [3, -9]],
   [[-1, 100], [9, -294]]
 ); // => true
 
-lc.equivalentPresets(
+lc.equivalentConversions(
   [[0, 1], [0, 2]], // f(x) = 2x
   [[0, 1], [0, 3]]  // f(x) = 3x
 ); // => false
@@ -141,7 +142,7 @@ lc.equivalentPresets(
 
 ## Arbitrary precision
 
-Arbitrary precision support is provided via [arbitrary-precision](https://github.com/javiercejudo/arbitrary-precision).
+Arbitrary precision support is provided via the [arbitrary-precision](https://github.com/javiercejudo/arbitrary-precision) package.
 See [all available adapters](https://www.npmjs.com/browse/keyword/arbitrary-precision-adapter).
 
 ```js
@@ -179,7 +180,7 @@ See [CodePen example](http://codepen.io/javiercejudo/pen/wKKbLV?editors=101).
 ## See more
 
 - [spec](test/node/spec.js)
-- [all presets](https://github.com/javiercejudo/linear-presets#presets)
+- [all conversion presets](https://github.com/javiercejudo/linear-presets#presets)
 
 ## Related projects
 

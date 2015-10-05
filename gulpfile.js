@@ -15,7 +15,8 @@ var rename = require('gulp-rename');
 var header = require('gulp-header');
 
 var pkg = require('./package.json');
-var banner = ['/**',
+var banner = [
+  '/**',
   ' * <%= pkg.name %> - Copyright ' + new Date().getFullYear() + ' <%= pkg.author %>',
   ' * @version v<%= pkg.version %>',
   ' * @link <%= pkg.homepage %>',
