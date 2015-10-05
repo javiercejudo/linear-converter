@@ -1,6 +1,6 @@
 /**
  * linear-converter - Copyright 2015 Javier Cejudo <javier@javiercejudo.com> (http://www.javiercejudo.com)
- * @version v6.0.4
+ * @version v7.0.0
  * @link https://github.com/javiercejudo/linear-converter#readme
  * @license MIT
  */
@@ -93,72 +93,72 @@ module.exports = function factory(Decimal) {
   var api = {};
 
   /**
-   * Linearly converts x as described by a preset
+   * Linearly converts x as described by a conversion
    *
-   * @param {Array} preset The preset that describes the conversion
+   * @param {Array} conversion The conversion
    * @param {Number} x The number to be converted
    * @return {Number} The converted x
    */
-  api.convert = function convert(preset, x) {
-    return rescale.rescale(preset[0], preset[1], x);
+  api.convert = function convert(conversion, x) {
+    return rescale.rescale(conversion[0], conversion[1], x);
   };
 
   /**
-   * Inverts a preset to change the direction of the conversion
+   * Inverts a conversion
    *
-   * @param {Array} preset The preset to invert
-   * @return {Array} The inverted preset
+   * @param {Array} conversion The conversion to invert
+   * @return {Array} The inverted conversion
    */
-  api.invertPreset = function invertPreset(preset) {
-    return api.composePresets(preset.slice().reverse(), unitPreset);
+  api.invertConversion = function invertConversion(conversion) {
+    return api.composeConversions(conversion.slice().reverse(), unitPreset);
   };
 
   /**
-   * Composes two presets to create a single preset
+   * Composes two conversions to create a single conversion
    *
-   * @param {Array} presetA The first preset to compose
-   * @param {Array} presetB The second preset to compose
-   * @return {Array} The composed preset
+   * @param {Array} conversionA The first conversion to compose
+   * @param {Array} conversionB The second conversion to compose
+   * @return {Array} The composed conversion
    */
-  api.composePresets = function composePresets(presetA, presetB) {
+  api.composeConversions = function composeConversions(conversionA, conversionB) {
     return [
-      [api.convert(unitPreset, presetA[0][0]), api.convert(unitPreset, presetA[0][1])],
-      [api.convert(presetB, presetA[1][0]), api.convert(presetB, presetA[1][1])]
+      [api.convert(unitPreset, conversionA[0][0]), api.convert(unitPreset, conversionA[0][1])],
+      [api.convert(conversionB, conversionA[1][0]), api.convert(conversionB, conversionA[1][1])]
     ];
   };
 
   /**
    * Calculates the a coefficient in the f(x) = ax + b function that describes
-   * the given preset.
+   * the given conversion.
    *
-   * @param {Array} preset The preset for which to calculate its a coefficient
+   * @param {Array} conversion The conversion for which to calculate its a coefficient
    * @return {Number} The coefficient a
    */
-  api.getCoefficientA = function getCoefficientA(preset) {
-    return api.convert(preset, 1).minus(api.getCoefficientB(preset));
+  api.getCoefficientA = function getCoefficientA(conversion) {
+    return api.convert(conversion, 1).minus(api.getCoefficientB(conversion));
   };
 
   /**
    * Calculates the b coefficient in the f(x) = ax + b function that describes
-   * the given preset.
+   * the given conversion.
    *
-   * @param {Array} preset The preset for which to calculate its b coefficient
+   * @param {Array} conversion The conversion for which to calculate its b coefficient
    * @return {Number} The coefficient b
    */
-  api.getCoefficientB = function getCoefficientB(preset) {
-    return api.convert(preset, 0);
+  api.getCoefficientB = function getCoefficientB(conversion) {
+    return api.convert(conversion, 0);
   };
 
   /**
-   * Check equivalence of two presets
+   * Check equivalence of two conversions
    *
-   * @param {Array} presetA The first preset to check for equivalence
-   * @param {Array} presetB The second preset to check for equivalence
-   * @return {Boolean} whether the presets are equivalent or not
+   * @param {Array} conversionA The first conversion to check for equivalence
+   * @param {Array} conversionB The second conversion to check for equivalence
+   * @return {Boolean} whether the conversions are equivalent or not
    */
-  api.equivalentPresets = function equivalentPresets(presetA, presetB) {
+  api.equivalentConversions = function equivalentConversions(conversionA, conversionB) {
     return [api.getCoefficientB, api.getCoefficientA].every(function(coefficient) {
-      return coefficient(presetA).equals(coefficient(presetB));
+      return coefficient(conversionA).equals(coefficient(conversionB));
     });
   };
 
