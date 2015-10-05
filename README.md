@@ -58,6 +58,8 @@ lc.convert(celsiusToFahrenheit, 25); // => new Decimal('77')
 lc.convert(celsiusToFahrenheit, new Decimal('25'));
 ```
 
+Ready-to-use conversions can be found in the [linear-presets](https://github.com/javiercejudo/linear-presets) package.
+
 For a quick interactive intro, see [CodePen example](http://codepen.io/javiercejudo/pen/PwvePd?editors=101).
 
 Variants:
