@@ -62,6 +62,6 @@
   },
   "dependencies": {
     "rescale": "8.0.1",
-    "unit-preset": "1.0.0"
+    "unit-preset": "1.0.1"
   }
 }
