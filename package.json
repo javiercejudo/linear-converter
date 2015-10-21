@@ -29,7 +29,7 @@
   "homepage": "https://github.com/javiercejudo/linear-converter#readme",
   "devDependencies": {
     "arbitrary-precision": "1.1.1",
-    "betterer": "1.0.0",
+    "betterer": "1.0.2",
     "bigjs-adapter": "2.2.0",
     "browserify": "11.2.0",
     "del": "2.0.2",
