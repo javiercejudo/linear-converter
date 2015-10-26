@@ -78,9 +78,8 @@ module.exports = function factory(Decimal) {
    * @return {Boolean} whether the conversions are equivalent or not
    */
   api.equivalentConversions = function equivalentConversions(conversionA, conversionB) {
-    return [api.getCoefficientB, api.getCoefficientA].every(function(coefficient) {
-      return coefficient(conversionA).equals(coefficient(conversionB));
-    });
+    return api.getCoefficientB(conversionA).equals(api.getCoefficientB(conversionB)) &&
+      api.convert(conversionA, 1).equals(api.convert(conversionB, 1));
   };
 
   return api;
