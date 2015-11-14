@@ -33,7 +33,7 @@
     "bigjs-adapter": "^2.2.0",
     "browserify": "^12.0.1",
     "cz-conventional-changelog": "^1.1.4",
-    "del": "^2.0.2",
+    "del": "^2.1.0",
     "disc": "^1.3.2",
     "every-against-first": "^2.0.0",
     "floating-adapter": "^1.2.0",
