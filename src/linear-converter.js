@@ -1,7 +1,7 @@
 'use strict';
 
 var rescaleFactory = require('rescale');
-var unitPreset = require('unit-preset');
+var presetToDecimalFactory = require('linear-preset-to-decimal');
 
 /**
  * Returns the linear converter api based on the given adapter
@@ -10,6 +10,7 @@ var unitPreset = require('unit-preset');
  * @return {Object} Linear converter API
  */
 module.exports = function factory(Decimal) {
+  var presetToDecimal = presetToDecimalFactory(Decimal);
   var rescale = rescaleFactory(Decimal);
   var api = {};
 
@@ -31,7 +32,7 @@ module.exports = function factory(Decimal) {
    * @return {Array} The inverted conversion
    */
   api.invertConversion = function invertConversion(conversion) {
-    return api.composeConversions(conversion.slice().reverse(), unitPreset);
+    return presetToDecimal(conversion.slice().reverse());
   };
 
   /**
@@ -42,10 +43,10 @@ module.exports = function factory(Decimal) {
    * @return {Array} The composed conversion
    */
   api.composeConversions = function composeConversions(conversionA, conversionB) {
-    return [
-      [api.convert(unitPreset, conversionA[0][0]), api.convert(unitPreset, conversionA[0][1])],
+    return presetToDecimal([
+      conversionA[0],
       [api.convert(conversionB, conversionA[1][0]), api.convert(conversionB, conversionA[1][1])]
-    ];
+    ]);
   };
 
   /**

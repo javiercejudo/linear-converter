@@ -63,8 +63,8 @@
     "semantic-release": "^4.3.5"
   },
   "dependencies": {
-    "rescale": "^8.0.1",
-    "unit-preset": "^1.0.1"
+    "linear-preset-to-decimal": "^1.0.0",
+    "rescale": "^8.0.1"
   },
   "config": {
     "commitizen": {
