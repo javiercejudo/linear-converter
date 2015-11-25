@@ -1,6 +1,6 @@
 /**
  * linear-converter - Copyright 2015 Javier Cejudo <javier@javiercejudo.com> (http://www.javiercejudo.com)
- * @version v7.0.2
+ * @version v7.1.0
  * @link https://github.com/javiercejudo/linear-converter#readme
  * @license MIT
  */
@@ -9,20 +9,53 @@ require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof requ
 
 'use strict';
 
+var scaleToDecimalFactory = require('linear-scale-to-decimal');
+
 module.exports = function factory(Decimal) {
+  var scaleToDecimal = scaleToDecimalFactory(Decimal);
+
+  return function presetToDecimal(preset) {
+    return preset.map(scaleToDecimal);
+  };
+};
+
+},{"linear-scale-to-decimal":2}],2:[function(require,module,exports){
+/*jshint node:true */
+
+'use strict';
+
+var toDecimalFactory = require('to-decimal-arbitrary-precision');
+
+module.exports = function factory(Decimal) {
+  var toDecimal = toDecimalFactory(Decimal);
+
+  return function scaleToDecimal(scale) {
+    return scale.map(toDecimal);
+  };
+};
+
+},{"to-decimal-arbitrary-precision":6}],3:[function(require,module,exports){
+/*jshint node:true */
+
+'use strict';
+
+var toDecimalFactory = require('to-decimal-arbitrary-precision');
+
+module.exports = function factory(Decimal) {
+  var toDecimal = toDecimalFactory(Decimal);
   var api = {};
 
   api.normalise = function normalise(scale, x) {
-    var scale0 = new Decimal(scale[0].toString());
+    var scale0 = toDecimal(scale[0]);
 
-    return new Decimal(x.toString()).minus(scale0)
-      .div(new Decimal(scale[1].toString()).minus(scale0));
+    return toDecimal(x).minus(scale0)
+      .div(toDecimal(scale[1]).minus(scale0));
   };
 
   return api;
 };
 
-},{}],2:[function(require,module,exports){
+},{"to-decimal-arbitrary-precision":6}],4:[function(require,module,exports){
 /*jshint node:true */
 
 'use strict';
@@ -42,45 +75,43 @@ module.exports = function factory(Decimal) {
   return api;
 };
 
-},{"normalise":1,"scale-normalised":3}],3:[function(require,module,exports){
+},{"normalise":3,"scale-normalised":5}],5:[function(require,module,exports){
 /*jshint node:true */
 
 'use strict';
 
+var toDecimalFactory = require('to-decimal-arbitrary-precision');
+
 module.exports = function factory(Decimal) {
+  var toDecimal = toDecimalFactory(Decimal);
   var api = {};
 
   api.scale = function scaleNormalised(scale, x) {
-    var scale0 = new Decimal(scale[0].toString());
+    var scale0 = toDecimal(scale[0]);
 
-    return new Decimal(scale[1].toString()).minus(scale0)
-      .times(new Decimal(x.toString())).plus(scale0);
+    return toDecimal(scale[1]).minus(scale0)
+      .times(toDecimal(x.toString())).plus(scale0);
   };
 
   return api;
 };
 
-},{}],4:[function(require,module,exports){
-/* jshint node:true */
+},{"to-decimal-arbitrary-precision":6}],6:[function(require,module,exports){
+/*jshint node:true */
 
 'use strict';
 
-var unitScale = require('unit-scale');
-
-module.exports = [unitScale, unitScale];
-
-},{"unit-scale":5}],5:[function(require,module,exports){
-/* jshint node:true */
-
-'use strict';
-
-module.exports = [0, 1];
+module.exports = function factory(Decimal) {
+  return function toDecimal(n) {
+    return new Decimal(n.toString());
+  };
+};
 
 },{}],"linear-converter":[function(require,module,exports){
 'use strict';
 
 var rescaleFactory = require('rescale');
-var unitPreset = require('unit-preset');
+var presetToDecimalFactory = require('linear-preset-to-decimal');
 
 /**
  * Returns the linear converter api based on the given adapter
@@ -89,6 +120,7 @@ var unitPreset = require('unit-preset');
  * @return {Object} Linear converter API
  */
 module.exports = function factory(Decimal) {
+  var presetToDecimal = presetToDecimalFactory(Decimal);
   var rescale = rescaleFactory(Decimal);
   var api = {};
 
@@ -110,7 +142,7 @@ module.exports = function factory(Decimal) {
    * @return {Array} The inverted conversion
    */
   api.invertConversion = function invertConversion(conversion) {
-    return api.composeConversions(conversion.slice().reverse(), unitPreset);
+    return presetToDecimal(conversion.slice().reverse());
   };
 
   /**
@@ -121,10 +153,10 @@ module.exports = function factory(Decimal) {
    * @return {Array} The composed conversion
    */
   api.composeConversions = function composeConversions(conversionA, conversionB) {
-    return [
-      [api.convert(unitPreset, conversionA[0][0]), api.convert(unitPreset, conversionA[0][1])],
+    return presetToDecimal([
+      conversionA[0],
       [api.convert(conversionB, conversionA[1][0]), api.convert(conversionB, conversionA[1][1])]
-    ];
+    ]);
   };
 
   /**
@@ -157,12 +189,11 @@ module.exports = function factory(Decimal) {
    * @return {Boolean} whether the conversions are equivalent or not
    */
   api.equivalentConversions = function equivalentConversions(conversionA, conversionB) {
-    return [api.getCoefficientB, api.getCoefficientA].every(function(coefficient) {
-      return coefficient(conversionA).equals(coefficient(conversionB));
-    });
+    return api.getCoefficientB(conversionA).equals(api.getCoefficientB(conversionB)) &&
+      api.convert(conversionA, 1).equals(api.convert(conversionB, 1));
   };
 
   return api;
 };
 
-},{"rescale":2,"unit-preset":4}]},{},[]);
+},{"linear-preset-to-decimal":1,"rescale":4}]},{},[]);
