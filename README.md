@@ -87,7 +87,7 @@ lc.convert(kelvinToFahrenheit, 293.15); // => 68 (as decimal)
 
 ## Custom conversions
 
-Custom conversions are easily achieved by passing an array with 2 scales, each
+Custom conversions are achieved by passing an array with 2 scales, each
 of those an array with 2 values. For example, **[[0, 1], [0, 2]]** means that 0 and
 1 in the first scale map to 0 and 2 in the second scale respectively; in short,
 it multiplies by 2. Any linear conversion can be described that way:
@@ -114,8 +114,6 @@ lc.convert([[0, 1], [-46, -48]], -23); // => 0 (as Decimal)
 ```
 
 ## Coefficients
-
-Creating conversions from a given function is trivial; to find the function from a given conversion, two methods are provided: `getCoefficientA` and `getCoefficientB`.
 
 ```js
 // f(x) = 2x + 1
@@ -164,8 +162,6 @@ lc.getCoefficientA([[0, 0.1], [0.1, 0.3]]); // => 2 (as Decimal)
 See [CodePen example](http://codepen.io/javiercejudo/pen/WvEWdQ?editors=101).
 
 ## Currying
-
-The `convert` function is designed to play nicely with currying:
 
 ```js
 var convert = require('lodash.curry')(lc.convert);
