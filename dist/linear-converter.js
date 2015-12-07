@@ -1,6 +1,6 @@
 /**
  * linear-converter - Copyright 2015 Javier Cejudo <javier@javiercejudo.com> (http://www.javiercejudo.com)
- * @version v7.1.0
+ * @version v7.2.0
  * @link https://github.com/javiercejudo/linear-converter#readme
  * @license MIT
  */
@@ -112,6 +112,7 @@ module.exports = function factory(Decimal) {
 
 var rescaleFactory = require('rescale');
 var presetToDecimalFactory = require('linear-preset-to-decimal');
+var scaleToDecimalFactory = require('linear-scale-to-decimal');
 
 /**
  * Returns the linear converter api based on the given adapter
@@ -121,6 +122,7 @@ var presetToDecimalFactory = require('linear-preset-to-decimal');
  */
 module.exports = function factory(Decimal) {
   var presetToDecimal = presetToDecimalFactory(Decimal);
+  var scaleToDecimal = scaleToDecimalFactory(Decimal);
   var rescale = rescaleFactory(Decimal);
   var api = {};
 
@@ -153,10 +155,10 @@ module.exports = function factory(Decimal) {
    * @return {Array} The composed conversion
    */
   api.composeConversions = function composeConversions(conversionA, conversionB) {
-    return presetToDecimal([
-      conversionA[0],
+    return [
+      scaleToDecimal(conversionA[0]),
       [api.convert(conversionB, conversionA[1][0]), api.convert(conversionB, conversionA[1][1])]
-    ]);
+    ];
   };
 
   /**
@@ -196,4 +198,4 @@ module.exports = function factory(Decimal) {
   return api;
 };
 
-},{"linear-preset-to-decimal":1,"rescale":4}]},{},[]);
+},{"linear-preset-to-decimal":1,"linear-scale-to-decimal":2,"rescale":4}]},{},[]);
