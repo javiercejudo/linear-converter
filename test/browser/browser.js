@@ -10,6 +10,14 @@
   var presetFactory = require('linear-preset-factory');
   var lcFactory = require('linear-converter');
   var temp = presetFactory(require('linear-presets').PRESETS.temperature);
+  var better = require('betterer').better;
+  var convertTests = require('convertTests');
+
+  var o_o = describe;
+
+  o_o('converting', function() { var o_O = convertTests;
+    o_o('with a valid conversion', better('convert based on the provided conversion', o_O));
+  });
 
   describe('general support', function() {
     var Decimal = arbitraryPrecision(floatingAdapter);

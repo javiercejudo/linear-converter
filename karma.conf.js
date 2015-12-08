@@ -15,6 +15,8 @@ module.exports = function(config) {
     // list of files / patterns to load in the browser
     files: [
       'node_modules/should/should.js',
+      'tmp/betterer',
+      'tmp/convertTests',
       'tmp/arbitrary-precision',
       'tmp/linear-preset-factory',
       'tmp/linear-presets',

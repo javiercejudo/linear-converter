@@ -69,6 +69,20 @@ gulp.task('instrument', function() {
     .pipe(istanbul.hookRequire());
 });
 
+gulp.task('browserify-betterer', [], function() {
+  return tmpBrowserify('betterer');
+});
+
+gulp.task('browserify-convert-tests', [], function() {
+  var pkgPath = './test/node/convert/convertTests.js';
+  var b = browserify().require(pkgPath, {expose: 'convertTests'});
+
+  return b.bundle()
+    .pipe(source('convertTests'))
+    .pipe(buffer())
+    .pipe(gulp.dest('./tmp/'));
+});
+
 gulp.task('browserify-arbitrary-precision', [], function() {
   return tmpBrowserify('arbitrary-precision');
 });
@@ -105,6 +119,8 @@ gulp.task('browserify', ['clean:dist'], function() {
 });
 
 var devDeps = [
+  'browserify-betterer',
+  'browserify-convert-tests',
   'browserify-linear-preset-factory',
   'browserify-linear-presets',
   'browserify-bigjs-adapter',
