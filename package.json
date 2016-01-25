@@ -55,7 +55,7 @@
     "linear-preset-factory": "^1.0.2",
     "linear-presets": "^3.0.0",
     "mocha": "^2.3.3",
-    "phantomjs": "^1.9.18",
+    "phantomjs": "^2.1.2",
     "should": "^8.1.1",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0"
