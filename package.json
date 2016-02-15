@@ -63,6 +63,6 @@
   "dependencies": {
     "linear-preset-to-decimal": "^1.2.0",
     "linear-scale-to-decimal": "^1.2.0",
-    "rescale": "^8.0.1"
+    "rescale": "^10.0.0"
   }
 }
