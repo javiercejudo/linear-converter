@@ -41,10 +41,10 @@
 
     it('should support calculating coefficients', function() {
       // using Should() to make IE9 happy: https://github.com/shouldjs/should.js/wiki/Known-Bugs#ie9
-      $hould(getCoefficientA([[0, 0.1], [0.1, 0.3]]).val().val())
+      $hould(getCoefficientA([[0, 0.1], [0.1, 0.3]]).valueOf())
         .be.approximately(2, 1e-15);
 
-      getCoefficientB([[0.1, 0.3], [0, 0.1]]).val().val()
+      getCoefficientB([[0.1, 0.3], [0, 0.1]]).valueOf()
         .should.be.approximately(-0.05, 1e-15);
     });
 
