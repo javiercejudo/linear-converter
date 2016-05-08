@@ -1,6 +1,6 @@
 /**
- * linear-converter - Copyright 2015 Javier Cejudo <javier@javiercejudo.com> (http://www.javiercejudo.com)
- * @version v7.2.0
+ * linear-converter - Copyright 2016 Javier Cejudo <javier@javiercejudo.com> (http://www.javiercejudo.com)
+ * @version v7.3.0
  * @link https://github.com/javiercejudo/linear-converter#readme
  * @license MIT
  */
@@ -43,16 +43,15 @@ var toDecimalFactory = require('to-decimal-arbitrary-precision');
 
 module.exports = function factory(Decimal) {
   var toDecimal = toDecimalFactory(Decimal);
-  var api = {};
 
-  api.normalise = function normalise(scale, x) {
-    var scale0 = toDecimal(scale[0]);
+  return Object.freeze({
+    normalise: function normalise(scale, x) {
+      var scale0 = toDecimal(scale[0]);
 
-    return toDecimal(x).minus(scale0)
-      .div(toDecimal(scale[1]).minus(scale0));
-  };
-
-  return api;
+      return toDecimal(x).minus(scale0)
+        .div(toDecimal(scale[1]).minus(scale0));
+    }
+  });
 };
 
 },{"to-decimal-arbitrary-precision":6}],4:[function(require,module,exports){
@@ -66,13 +65,12 @@ var scaleFactory = require('scale-normalised');
 module.exports = function factory(Decimal) {
   var normalise = normaliseFactory(Decimal).normalise;
   var scale = scaleFactory(Decimal).scale;
-  var api = {};
 
-  api.rescale = function rescale(oldScale, newScale, x) {
-    return scale(newScale, normalise(oldScale, x));
-  };
-
-  return api;
+  return Object.freeze({
+    rescale: function rescale(oldScale, newScale, x) {
+      return scale(newScale, normalise(oldScale, x));
+    }
+  });
 };
 
 },{"normalise":3,"scale-normalised":5}],5:[function(require,module,exports){
@@ -84,16 +82,15 @@ var toDecimalFactory = require('to-decimal-arbitrary-precision');
 
 module.exports = function factory(Decimal) {
   var toDecimal = toDecimalFactory(Decimal);
-  var api = {};
 
-  api.scale = function scaleNormalised(scale, x) {
-    var scale0 = toDecimal(scale[0]);
+  return Object.freeze({
+    scale: function scaleNormalised(scale, x) {
+      var scale0 = toDecimal(scale[0]);
 
-    return toDecimal(scale[1]).minus(scale0)
-      .times(toDecimal(x.toString())).plus(scale0);
-  };
-
-  return api;
+      return toDecimal(scale[1]).minus(scale0)
+        .times(toDecimal(x.toString())).plus(scale0);
+    }
+  });
 };
 
 },{"to-decimal-arbitrary-precision":6}],6:[function(require,module,exports){
