@@ -38,7 +38,7 @@
     "floating-adapter": "^1.2.0",
     "gulp": "^3.9.0",
     "gulp-coveralls": "^0.1.4",
-    "gulp-header": "^1.7.1",
+    "gulp-header": "^1.8.3",
     "gulp-istanbul": "^0.10.2",
     "gulp-mocha": "^2.1.3",
     "gulp-rename": "^1.2.2",
