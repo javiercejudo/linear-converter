@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/javiercejudo/linear-converter.png?label=ready&title=Ready)](https://waffle.io/javiercejudo/linear-converter)
 # linear-converter
 
 [![Build Status](https://travis-ci.org/javiercejudo/linear-converter.svg?branch=master)](https://travis-ci.org/javiercejudo/linear-converter)
